@@ -1,0 +1,37 @@
+---
+:source:
+  :path: test
+  :file: test_ColorTest.c
+:successes:
+- :test: test_module_generator_needs_to_be_implemented
+  :line: 13
+  :message: ''
+:failures: []
+:ignores: []
+:counts:
+  :total: 1
+  :passed: 1
+  :failed: 0
+  :ignored: 0
+:stdout:
+- This is a test
+- This is red.
+- This is blue.
+- This is green.
+- This color combination has the number of 0
+- This color combination has the number of 1
+- This color combination has the number of 2
+- This color combination has the number of 3
+- This color combination has the number of 4
+- This color combination has the number of 5
+- This color combination has the number of 6
+- This color combination has the number of 7
+- This color combination has the number of 8
+- This color combination has the number of 9
+- "\e[31mThis text is RED!\e[0m"
+- "\e[32mThis text is GREEN!\e[0m"
+- "\e[33mThis text is YELLOW!\e[0m"
+- "\e[34mThis text is BLUE!\e[0m"
+- "\e[35mThis text is MAGENTA!\e[0m"
+- "\e[36mThis text is CYAN!\e[0m"
+- ''
