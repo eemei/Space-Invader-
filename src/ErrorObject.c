@@ -2,7 +2,7 @@
 #include "CException.h"
 #include <malloc.h>
 
-void throwErrorObject (char *message,ErrorCode errCode){
+void throwErrorObject (char *message, ErrorCode errCode){
   ErrorObject *errorObj = malloc(sizeof(ErrorObject));
 
   errorObj->errorMsg = message;
