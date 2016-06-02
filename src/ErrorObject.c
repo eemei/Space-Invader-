@@ -1,5 +1,5 @@
 #include "ErrorObject.h"
-#include "CException.h"
+#include "CExceptionConfig.h"
 #include <malloc.h>
 
 void throwErrorObject (char *message, ErrorCode errCode){

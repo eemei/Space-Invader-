@@ -6,11 +6,26 @@
 - :test: test_module_generator_needs_to_be_implemented
   :line: 8
   :message: ''
+- :test: test_illuAlien1_has_equal_symbol_with_respective_position
+  :line: 22
+  :message: ''
+- :test: test_illuAlien2_has_equal_symbol_with_respective_position
+  :line: 35
+  :message: ''
+- :test: test_illuPlanet_has_equal_symbol_with_respective_position
+  :line: 50
+  :message: ''
+- :test: test_illuShip_has_equal_symbol_with_respective_position
+  :line: 64
+  :message: ''
+- :test: test_illuShelter_has_equal_symbol_with_respective_position
+  :line: 75
+  :message: ''
 :failures: []
 :ignores: []
 :counts:
-  :total: 1
-  :passed: 1
+  :total: 6
+  :passed: 6
   :failed: 0
   :ignored: 0
 :stdout:
