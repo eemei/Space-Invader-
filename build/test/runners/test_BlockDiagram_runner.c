@@ -34,12 +34,7 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_module_generator_needs_to_be_implemented(void);
-extern void test_illuAlien1_has_equal_symbol_with_respective_position(void);
-extern void test_illuAlien2_has_equal_symbol_with_respective_position(void);
-extern void test_illuPlanet_has_equal_symbol_with_respective_position(void);
-extern void test_illuShip_has_equal_symbol_with_respective_position(void);
-extern void test_illuShelter_has_equal_symbol_with_respective_position(void);
+extern void test_image_transfer_all_image_to_console(void);
 
 
 //=======Test Reset Option=====
@@ -55,12 +50,7 @@ void resetTest(void)
 int main(void)
 {
   UnityBegin("test_BlockDiagram.c");
-  RUN_TEST(test_module_generator_needs_to_be_implemented, 8);
-  RUN_TEST(test_illuAlien1_has_equal_symbol_with_respective_position, 22);
-  RUN_TEST(test_illuAlien2_has_equal_symbol_with_respective_position, 35);
-  RUN_TEST(test_illuPlanet_has_equal_symbol_with_respective_position, 50);
-  RUN_TEST(test_illuShip_has_equal_symbol_with_respective_position, 64);
-  RUN_TEST(test_illuShelter_has_equal_symbol_with_respective_position, 75);
+  RUN_TEST(test_image_transfer_all_image_to_console, 25);
 
   return (UnityEnd());
 }
