@@ -2,8 +2,9 @@
 #define ErrorObject_H
 
 typedef enum{
-  ERR_CANNOT_CONTAIN_TWO_DECIMAL_POINT_IN_A_FLOATING,  //
-  ERR_BEHIND_EXPONENTIAL_MUST_BE_A_DIGIT_1             //
+  ERR_ICON_NO_MATCH,
+  ERR_POSITION_NO_MATCH,
+  ERR_ICON_NO_FULLY_DISPLAY          
 }ErrorCode;
 
 typedef struct{

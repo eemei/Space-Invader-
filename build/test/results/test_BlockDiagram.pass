@@ -14,76 +14,24 @@
   :failed: 0
   :ignored: 0
 :stdout:
-- "    ++    "
-- "   ++++   "
-- "  ++++++  "
-- " ++++++++ "
-- "+++@++@+++"
-- "++++++++++"
-- "   +  +   "
-- "  +    +  "
-- "   +  +   "
-- !binary |-
-  ICArICAgICArICAA
-- !binary |-
-  KyAgKyAgICsgICsA
-- !binary |-
-  KyArKysrKysrICsA
-- !binary |-
-  KysrQCsrK0ArKysA
-- !binary |-
-  ICsrKysrKysrKyAA
-- !binary |-
-  ICArICAgICArICAA
-- !binary |-
-  KyAgICAgICAgICsA
-- "  ++++++++  "
-- "++++++++++++"
-- "++@@++++@@++"
-- "++++++++++++"
-- "    +  +    "
-- "   + ++ +   "
-- "  +      +  "
-- !binary |-
-  ICArICAgICArICAA
-- !binary |-
-  ICAgKyAgICsgICAA
-- !binary |-
-  ICArKysrKysrICAA
-- !binary |-
-  ICsrQCsrK0ArKyAA
-- !binary |-
-  KysrKysrKysrKysA
-- !binary |-
-  KyArKysrKysrICsA
-- !binary |-
-  KyArICAgICArICsA
-- !binary |-
-  ICAgKysgKysgICAA
-- !binary |-
-  ICAgKysrKysrKysrKyAgIAA=
-- !binary |-
-  ICArKysrKysrKysrKysgIAA=
-- !binary |-
-  ICsrICsrICsrICsrICsrIAA=
-- !binary |-
-  KysrKysrKysrKysrKysrKwA=
-- !binary |-
-  ICArKysgICsrICArKysgIAA=
-- !binary |-
-  ICAgKyAgICAgICAgKyAgIAA=
-- !binary |-
-  ICAgICArICAgICAA
-- !binary |-
-  ICAgICsrKyAgICAA
-- !binary |-
-  ICsrKysrKysrKyAA
-- !binary |-
-  KysrKysrKysrKysA
-- "  +++++++++++++++++  "
-- " +++++++++++++++++++ "
-- "+++++++++++++++++++++"
-- "++++++         ++++++"
-- "+++++           +++++"
-- "+++++           +++++"
+- "   ^   "
+- "   @   "
+- "  * *  "
+- "   ^^   "
+- "   @@   "
+- "  *  *  "
+- "   ^^^   "
+- "   @@@   "
+- "  * * *  "
+- "   |*|   "
+- "   @@@   "
+- "  *   *  "
+- "   --   "
+- "  ====  "
+- "   --   "
+- "    |    "
+- "   [+]   "
+- "   -----  "
+- "   |[+]|  "
+- "   -----  "
 - ''
