@@ -49,7 +49,7 @@ void resetTest(void)
 //=======MAIN=====
 int main(void)
 {
-  UnityBegin("test_BlockDiagram.c");
+  UnityBegin("test_ErrorObject.c");
   RUN_TEST(test_module_generator_needs_to_be_implemented, 8);
 
   return (UnityEnd());
