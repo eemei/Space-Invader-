@@ -22,6 +22,13 @@ void tearDown(void){}
   // displayShelter();
 // }
 
-void test_image_transfer_all_image_to_console(void){
+/*void test_image_transfer_all_image_to_console(void){
   transferImageToConsole ();
+}*/
+
+void test_image_with_coordinate(void){
+  
+
+  
+ // draw ((char *)ship, y, x, co_x, co_y);
 }
