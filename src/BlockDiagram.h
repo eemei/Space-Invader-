@@ -9,5 +9,6 @@ void displayPlanet();
 void displayShip();
 void displayShelter();
 void transferImageToConsole ();
-void draw (char *image, int width, int length, int coor_X, int coor_Y);
+// void draw (char *image, int width, int length, int coor_X, int coor_Y);
+void draw (char *image, int width, int length);
 #endif // BlockDiagram_H

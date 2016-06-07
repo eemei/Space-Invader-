@@ -3,4 +3,8 @@
 git config --global user.name "Chu Jaan Horng"
 git config --global user.email "jjaanhorng@gmail.com"
 
+
+git config --global user.name "ee mei"
+git config --global user.email "lieweemei911@hotmail.com"
+
 git config --global --list

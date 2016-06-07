@@ -122,7 +122,8 @@ void transferImageToConsole (){
   displayShip ();
 }; 
 
-void draw (char *image, int width, int length, int coor_X, int coor_Y) {
+// void draw (char *image, int width, int length, int coor_X, int coor_Y) {
+void draw (char *image, int width, int length) {
   int i , j;
   
   for (i = 0; i < length; i++){
