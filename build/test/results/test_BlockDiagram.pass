@@ -3,50 +3,38 @@
   :path: test
   :file: test_BlockDiagram.c
 :successes:
-- :test: test_module_generator_needs_to_be_implemented
-  :line: 8
-  :message: ''
-- :test: test_illuAlien1_has_equal_symbol_with_respective_position
-  :line: 22
-  :message: ''
-- :test: test_illuAlien2_has_equal_symbol_with_respective_position
-  :line: 35
-  :message: ''
-- :test: test_illuPlanet_has_equal_symbol_with_respective_position
-  :line: 50
-  :message: ''
-- :test: test_illuShip_has_equal_symbol_with_respective_position
-  :line: 64
-  :message: ''
-- :test: test_illuShelter_has_equal_symbol_with_respective_position
-  :line: 75
+- :test: test_image_transfer_all_image_to_console
+  :line: 25
   :message: ''
 :failures: []
 :ignores: []
 :counts:
-  :total: 6
-  :passed: 6
+  :total: 1
+  :passed: 1
   :failed: 0
   :ignored: 0
 :stdout:
-- "   ^   "
-- "   @   "
-- "  * *  "
-- "   ^^   "
-- "   @@   "
-- "  *  *  "
-- "   ^^^   "
-- "   @@@   "
-- "  * * *  "
-- "   |*|   "
-- "   @@@   "
-- "  *   *  "
-- "   --   "
-- "  ====  "
-- "   --   "
-- "    |    "
-- "   [+]   "
-- "   -----  "
-- "   |[+]|  "
-- "   -----  "
+- " ^ "
+- " @ "
+- "* *"
+- " ^^ "
+- " @@ "
+- "*  *"
+- !binary |-
+  IF5eXiAA
+- !binary |-
+  IEBAQCAA
+- !binary |-
+  KiAqICoA
+- " |*| "
+- " @@@ "
+- "*   *"
+- " -- "
+- "===="
+- " -- "
+- "-----"
+- "|[+]|"
+- "-----"
+- " | "
+- "[+]"
 - ''

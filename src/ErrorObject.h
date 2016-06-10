@@ -2,6 +2,7 @@
 #define ErrorObject_H
 
 typedef enum{
+  ERR_ICON_IS_NULL,
   ERR_ICON_NO_MATCH,
   ERR_POSITION_NO_MATCH,
   ERR_ICON_NO_FULLY_DISPLAY          
