@@ -34,7 +34,6 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_module_generator_needs_to_be_implemented(void);
 
 
 //=======Test Reset Option=====
@@ -50,7 +49,6 @@ void resetTest(void)
 int main(void)
 {
   UnityBegin("test_ErrorObject.c");
-  RUN_TEST(test_module_generator_needs_to_be_implemented, 8);
 
   return (UnityEnd());
 }

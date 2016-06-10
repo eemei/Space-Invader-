@@ -4,14 +4,11 @@
   :file: test_ErrorObject.c
 :successes: []
 :failures: []
-:ignores:
-- :test: test_module_generator_needs_to_be_implemented
-  :line: 9
-  :message: Implement me!
+:ignores: []
 :counts:
-  :total: 1
+  :total: 0
   :passed: 0
   :failed: 0
-  :ignored: 1
+  :ignored: 0
 :stdout:
 - ''
