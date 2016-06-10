@@ -34,7 +34,7 @@ char* GlobalOrderError;
 //=======External Functions This Runner Calls=====
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_image_transfer_all_image_to_console(void);
+extern void test_image_with_coordinate(void);
 
 
 //=======Test Reset Option=====
@@ -50,7 +50,7 @@ void resetTest(void)
 int main(void)
 {
   UnityBegin("test_BlockDiagram.c");
-  RUN_TEST(test_image_transfer_all_image_to_console, 25);
+  RUN_TEST(test_image_with_coordinate, 29);
 
   return (UnityEnd());
 }

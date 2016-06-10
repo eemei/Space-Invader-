@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "BlockDiagram.h"
 
-
+char buffer[100][100];
 
 const char alien1[][3] = {{" ^ "},
                           {" @ "},
@@ -120,4 +120,16 @@ void transferImageToConsole (){
   displayPlanet ();
   displayShelter ();
   displayShip ();
-};                
+}; 
+
+void draw (char *image, int width, int length, int coor_X, int coor_Y) {
+  int i , j;
+  
+  for (i = 0; i < length; i++){
+    for (j = 0; j < width; j++){
+      buffer[i][j] = *(image++); 
+    }
+  }
+  
+}
+            

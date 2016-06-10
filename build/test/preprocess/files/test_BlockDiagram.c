@@ -8,8 +8,14 @@ void setUp(void){}
 
 void tearDown(void){}
 
-void test_image_transfer_all_image_to_console(void){
+void test_image_with_coordinate(void){
 
-  transferImageToConsole ();
+
+
+
+
+
+
+
 
 }

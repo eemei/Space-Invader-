@@ -3,8 +3,8 @@
   :path: test
   :file: test_BlockDiagram.c
 :successes:
-- :test: test_image_transfer_all_image_to_console
-  :line: 25
+- :test: test_image_with_coordinate
+  :line: 29
   :message: ''
 :failures: []
 :ignores: []
@@ -14,27 +14,4 @@
   :failed: 0
   :ignored: 0
 :stdout:
-- " ^ "
-- " @ "
-- "* *"
-- " ^^ "
-- " @@ "
-- "*  *"
-- !binary |-
-  IF5eXiAA
-- !binary |-
-  IEBAQCAA
-- !binary |-
-  KiAqICoA
-- " |*| "
-- " @@@ "
-- "*   *"
-- " -- "
-- "===="
-- " -- "
-- "-----"
-- "|[+]|"
-- "-----"
-- " | "
-- "[+]"
 - ''
