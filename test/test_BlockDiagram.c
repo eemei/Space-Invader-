@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "unity.h"
 #include "BlockDiagram.h"
 
@@ -26,9 +28,23 @@ void tearDown(void){}
   transferImageToConsole ();
 }*/
 
-void test_image_with_coordinate(void){
-  
-
-  
- // draw ((char *)ship, y, x, co_x, co_y);
+void test_bufferFiller_with_symbol_plus_into_buffer(void){
+  bufferFiller(10, 10, 0x2b);
 }
+
+void test_bufferFiller_with_symbol_asterisk_into_buffer(void){
+  bufferFiller(10, 10, 0x2a);
+}
+
+void test_image_with_coordinate(void){
+	char ship[][5] = {{"-----"},
+                    {"|[+]|"},
+                    {"-----"}};
+
+	draw((char *)ship, 5, 3, 5, 6);
+	
+}
+
+
+
+

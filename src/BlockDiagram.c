@@ -3,6 +3,7 @@
 #include "BlockDiagram.h"
 
 char buffer[100][100];
+// char buffer1[1][1];
 
 const char alien1[][3] = {{" ^ "},
                           {" @ "},
@@ -33,6 +34,11 @@ const char shelter[][5] = {{"-----"},
 
 
                             
+/* 
+  {{" ^ "},
+   {" @ "},
+   {"* *"}};
+ */
 char displayAlien1(){
   int i, j;
 
@@ -46,6 +52,11 @@ char displayAlien1(){
   return alien1[i][j];
 }
 
+/* 
+  {{" ^^ "},
+   {" @@ "},
+   {"*  *"}};
+ */
 void displayAlien2(){
   int i, j;
 
@@ -57,6 +68,11 @@ void displayAlien2(){
   }
 }
 
+/* 
+  {{" ^^^ "},
+   {" @@@ "},
+   {"* * *"}};
+ */
 void displayAlien3(){
   int i, j;
 
@@ -68,6 +84,11 @@ void displayAlien3(){
   }
 }
 
+/* 
+  {{" |*| "},
+   {" @@@ "},
+   {"*   *"}};
+ */
 void displayAlien4(){
   int i, j;
 
@@ -79,6 +100,11 @@ void displayAlien4(){
   }
 }
 
+/* 
+  {{" -- "},
+   {"===="},
+   {" -- "}}; 
+ */
 void displayPlanet(){
   int i, j;
 
@@ -90,6 +116,10 @@ void displayPlanet(){
   }
 }
 
+/* 
+  {{" | "},
+   {"[+]"}};
+ */
 void displayShip(){
   int i, j;
 
@@ -101,6 +131,11 @@ void displayShip(){
   }
 }
 
+/* 
+  {{"-----"},
+   {"|[+]|"},
+   {"-----"}};
+ */
 void displayShelter(){
   int i, j;
 
@@ -112,7 +147,7 @@ void displayShelter(){
   }
 }
 
-void transferImageToConsole (){
+/* void transferImageToConsole (){
   displayAlien1 ();
   displayAlien2 ();                               
   displayAlien3 ();
@@ -120,17 +155,30 @@ void transferImageToConsole (){
   displayPlanet ();
   displayShelter ();
   displayShip ();
-}; 
+};  */
 
-// void draw (char *image, int width, int length, int coor_X, int coor_Y) {
-void draw (char *image, int width, int length) {
+void bufferFiller(int row, int col, char symbol){
+  int a, b;
+  
+  for (a=0; a<row; a++){
+    for (b=0; b<col; b++){
+      buffer[a][b] = symbol;
+      printf("%c", buffer[a][b]);
+    }
+    printf("\n");
+  }
+  
+}
+
+void draw (char *image, int width, int length, int coorX, int coorY) {
+// void draw (char *image, int width, int length) {
   int i , j;
   
   for (i = 0; i < length; i++){
     for (j = 0; j < width; j++){
-      buffer[i][j] = *(image++); 
+      buffer[coorX+i][coorY+j] = *(image++); 
+      printf("%c", buffer[coorX+i][coorY+j]);
     }
+    printf("\n");
   }
-  
 }
-            
