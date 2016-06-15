@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "BlockDiagram.h"
 
-char buffer[10][10];
+char buffer[50][50];
 // char buffer1[1][1];
 
 const char alien1[][3] = {{" ^ "},
@@ -170,51 +170,49 @@ void bufferFiller(int row, int col, char symbol){
   
 }
 
-void draw (char *image, int width, int length, int coorX, int coorY) {
-// void draw (char *image, int width, int length) {
-  int i , j, fixed_y, fixed_x;
-  if ((length+coorY)>10|| (width+coorX)>10){
-    if ((length+coorY)>10){
-      fixed_y = 11 - coorY;
-      printf("y= %d\n", fixed_y);
-    }
-    else {
-      fixed_y = length;
-      printf("*y =%d\n", fixed_y);
-    }
-    if ((width+coorX)>10){
-      fixed_x = 11 - coorX;
-      printf("x= %d\n", fixed_x);
-      for (i = 0; i < fixed_y; i++){
-        for (j = 0; j < fixed_x; j++){
-          buffer[coorX+i][coorY+j] = *(image++); 
-            printf("%c", buffer[coorX+i][coorY+j]);
-        }
-    printf("\n");
-      }
-    }
-    else {
-      fixed_x = width;
-      printf("*x = %d\n", fixed_x);
-      printf("$$$$$\n");
-      printf("%d  %d\n", fixed_x, fixed_y);
-      for (i = 0; i < fixed_y; i++){
-        for (j = 0; j < fixed_x; j++){
-          buffer[coorX+i][coorY+j] = *(image++); 
-            printf("%c", buffer[coorX+i][coorY+j]);
-        }
-    printf("\n");
-      }
-    }
+/*
+  x = coorX;
+  widthIcon = width;
+*/
+int jumper(int bufferRange, int coor, int widthIcon){
+  int jump, newWidth;
+  if ((widthIcon + coor) > bufferRange){
+    newWidth = bufferRange - coor;
+    jump = widthIcon - newWidth;    
   }
-  else {
-  
-    for (i = 0; i < length; i++){
-      for (j = 0; j < width; j++){
-        buffer[coorX+i][coorY+j] = *(image++); 
-        printf("%c", buffer[coorX+i][coorY+j]);
-      }
-      printf("\n");
-    }
-  }
+  else
+    jump = 0;
+  return jump;
 }
+
+void draw (char *image, int width, int length, int coorX, int coorY) {
+  int i, j, a, b, jumpNum, temp;
+
+  jumpNum = jumper(50, coorX, width);
+  printf("jumping number = %d\n", jumpNum);
+  
+  for (i = 0; i < length; i++){
+    for (j = 0; j < width; j++){
+      temp = coorX + j;
+      if (temp<50){
+        buffer[coorY+i][coorX+j] = *(image++); 
+      }
+      else{
+        image = image + jumpNum;
+        buffer[coorY+i][coorX+j] = *image;
+      }
+      printf("%c", buffer[coorY+i][coorX+j]);
+    }
+    printf("\n");
+  }
+  
+  for (a=0; a<50; a++){
+    for (b=0; b<50; b++){
+      printf("%c", buffer[a][b]);
+    }
+    printf("\n");
+  }
+  
+  printf("\n\n");
+}
+

@@ -10,6 +10,7 @@ void displayShip();
 void displayShelter();
 void transferImageToConsole();
 void bufferFiller(int row, int col, char symbol);
+int jumper(int bufferRange, int coor, int widthIcon);
 void draw (char *image, int width, int length, int coorX, int coorY);
 // void draw (char *image, int width, int length);
 #endif // BlockDiagram_H
