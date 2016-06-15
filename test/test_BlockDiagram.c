@@ -44,7 +44,7 @@ void test_image_with_coordinate_inside_the_range(void){
 	bufferFiller(50, 50, 0x2b);
   
   // draw((char *)shelter, 5, 3, 5, 6);
-  draw((char *)shelter, 5, 3, 46, 0);
+  draw((char *)shelter, 5, 3, 48, 0);
 }
 
 // void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
