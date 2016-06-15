@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "BlockDiagram.h"
 
-char buffer[100][100];
+char buffer[50][50];
 // char buffer1[1][1];
 
 const char alien1[][3] = {{" ^ "},
@@ -172,13 +172,43 @@ void bufferFiller(int row, int col, char symbol){
 
 void draw (char *image, int width, int length, int coorX, int coorY) {
 // void draw (char *image, int width, int length) {
-  int i , j;
+  int i, j, a, b, displayIconX, displayIconY, totalX, totalY, widthPrime, lengthPrime;
   
-  for (i = 0; i < length; i++){
-    for (j = 0; j < width; j++){
-      buffer[coorX+i][coorY+j] = *(image++); 
-      printf("%c", buffer[coorX+i][coorY+j]);
+  bufferFiller(50, 50, 0x2b);
+  
+  totalX = coorX + width;
+  totalY = coorY + length;
+  
+  if ((totalX > 50)){
+    widthPrime = totalX - 50;
+    displayIconX = width - widthPrime;
+    lengthPrime = totalY - 50;
+    displayIconY = length - lengthPrime;
+    for (i = 0; i< displayIconX; i++){
+      for (j = 0; j< displayIconY; j++){
+        buffer[coorY+j][coorX+j] = *(image++);
+        printf("%c", buffer[coorY+i][coorX+j]);
+      }
+      printf("\n");
+    }
+  }
+  else{
+    for (i = 0; i < length; i++){
+      for (j = 0; j < width; j++){
+        buffer[coorY+i][coorX+j] = *(image++); 
+        printf("%c", buffer[coorY+i][coorX+j]);
+      }
+      printf("\n");
+    }
+  }
+  
+  for (a=0; a<50; a++){
+    for (b=0; b<50; b++){
+      printf("%c", buffer[a][b]);
     }
     printf("\n");
   }
+  
+  printf("\n\n");
 }
+

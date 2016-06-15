@@ -36,15 +36,22 @@ void test_bufferFiller_with_symbol_asterisk_into_buffer(void){
   bufferFiller(10, 10, 0x2a);
 }
 
-void test_image_with_coordinate(void){
+void test_image_with_coordinate_inside_the_range(void){
+	char shelter[][5] = {{"-----"},
+                       {"|[+]|"},
+                       {"-----"}};
+
+	draw((char *)shelter, 5, 3, 5, 6);
+	
+}
+
+void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
 	char ship[][5] = {{"-----"},
                     {"|[+]|"},
                     {"-----"}};
 
-	draw((char *)ship, 5, 3, 5, 6);
-	
+	draw((char *)ship, 5, 3, 46, 6);
 }
-
 
 
 
