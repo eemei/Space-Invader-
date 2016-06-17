@@ -172,13 +172,13 @@ void bufferFiller(int row, int col, char symbol){
 
 /*
   x = coorX;
-  widthIcon = width;
+  range = width or length;
 */
-int jumper(int bufferRange, int coor, int widthIcon){
-  int jump, newWidth;
-  if ((widthIcon + coor) > bufferRange){
-    newWidth = bufferRange - coor;
-    jump = widthIcon - newWidth;    
+int jumper(int bufferRange, int coor, int range){
+  int jump, newRange;
+  if ((range + coor) > bufferRange){
+    newRange = bufferRange - coor;
+    jump = range - newRange;    
   }
   else
     jump = 0;
@@ -186,19 +186,40 @@ int jumper(int bufferRange, int coor, int widthIcon){
 }
 
 void draw (char *image, int width, int length, int coorX, int coorY) {
-  int i, j, a, b, jumpNum, temp;
+  int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
 
-  jumpNum = jumper(50, coorX, width);
-  printf("jumping number = %d\n", jumpNum);
+  jumpNumX = jumper(50, coorX, width);
+  jumpNumY = jumper(50, coorY, length);
+  printf("jumping number X = %d\n", jumpNumX);
+  printf("jumping number Y = %d\n", jumpNumY);
+  
+/*   if ((length+coorY)>50){
+    length = 50 - coorY;
+    printf("y=%d\n", length);
+  }
+  else {
+    length = length;
+    printf("yQ=%d\n", length);
+  }
+   if ((width+coorX)>50){
+    width = 50 - coorX;
+    printf("x=%d\n", width);
+  }
+  else {
+    width = width;
+    printf("Qx=%d\n", width);
+  } */
+  
   
   for (i = 0; i < length; i++){
     for (j = 0; j < width; j++){
-      temp = coorX + j;
-      if (temp<50){
+      tempX = coorX + j;
+      tempY = coorY + i;
+      if ((tempX<50) || (tempY<50)){
         buffer[coorY+i][coorX+j] = *(image++); 
       }
       else{
-        image = image + jumpNum;
+        image = image + jumpNumX;
         buffer[coorY+i][coorX+j] = *image;
       }
       printf("%c", buffer[coorY+i][coorX+j]);
