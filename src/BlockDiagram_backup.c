@@ -189,33 +189,42 @@ void draw (char *image, int width, int length, int coorX, int coorY) {
   int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
 
   jumpNumX = jumper(50, coorX, width);
-  // jumpNumY = jumper(50, coorY, length);
+  jumpNumY = jumper(50, coorY, length);
   printf("jumping number X = %d\n", jumpNumX);
-  // printf("jumping number Y = %d\n", jumpNumY);
+  printf("jumping number Y = %d\n", jumpNumY);
   
-  // if ((length+coorY)>50){
-    // length = 50 - coorY;
-    // printf("y=%d\n", length);
-  // }
-  // else {
-    // length = length;
-    // printf("yQ=%d\n", length);
-  // }
-  if ((width+coorX)>50){
+/*   if ((length+coorY)>50){
+    length = 50 - coorY;
+    printf("y=%d\n", length);
+  }
+  else {
+    length = length;
+    printf("yQ=%d\n", length);
+  }
+   if ((width+coorX)>50){
     width = 50 - coorX;
-    printf("new width = %d\n", width);
+    printf("x=%d\n", width);
   }
   else {
     width = width;
-    printf("original width = %d\n", width);
-  }
+    printf("Qx=%d\n", width);
+  } */
+  
   
   for (i = 0; i < length; i++){
     for (j = 0; j < width; j++){
-      buffer[coorY+i][coorX+j] = *(image++); 
+      tempX = coorX + j;
+      tempY = coorY + i;
+      if ((tempX<50) || (tempY<50)){
+      // if (tempX<50){
+        buffer[coorY+i][coorX+j] = *(image++); 
+      }
+      else{
+        image = image + jumpNumX;
+        buffer[coorY+i][coorX+j] = *image;
+      }
       printf("%c", buffer[coorY+i][coorX+j]);
     }
-    image = image + jumpNumX;
     printf("\n");
   }
   
