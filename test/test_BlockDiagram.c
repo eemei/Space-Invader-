@@ -24,10 +24,6 @@ void tearDown(void){}
   // displayShelter();
 // }
 
-/*void test_image_transfer_all_image_to_console(void){
-  transferImageToConsole ();
-}*/
-
 void test_bufferFiller_with_symbol_plus_into_buffer(void){
   bufferFiller(10, 10, 0x2b);
 }
@@ -41,9 +37,10 @@ void test_image_with_coordinate_inside_the_range(void){
                        {"|[+]|"},
                        {"-----"}};
 
-	bufferFiller(50, 50, 0x2b);
+	bufferFiller(50, 50, 0x2e);
   
   draw((char *)shelter, 5, 3, 5, 6);
+  transferImageToConsole();
 }
 
 void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
@@ -51,7 +48,8 @@ void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
                     {"|[+]|"},
                     {"-----"}};
 
-	draw((char *)ship, 5, 3, 46, 6);
+	draw((char *)ship, 5, 3, 48, 6);
+  transferImageToConsole();
 }
 
 /* void testing(void){

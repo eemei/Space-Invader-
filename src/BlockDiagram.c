@@ -147,16 +147,6 @@ void displayShelter(){
   }
 }
 
-/* void transferImageToConsole (){
-  displayAlien1 ();
-  displayAlien2 ();                               
-  displayAlien3 ();
-  displayAlien4 ();
-  displayPlanet ();
-  displayShelter ();
-  displayShip ();
-};  */
-
 void bufferFiller(int row, int col, char symbol){
   int a, b;
   
@@ -192,15 +182,7 @@ void draw (char *image, int width, int length, int coorX, int coorY) {
   // jumpNumY = jumper(50, coorY, length);
   printf("jumping number X = %d\n", jumpNumX);
   // printf("jumping number Y = %d\n", jumpNumY);
-  
-  // if ((length+coorY)>50){
-    // length = 50 - coorY;
-    // printf("y=%d\n", length);
-  // }
-  // else {
-    // length = length;
-    // printf("yQ=%d\n", length);
-  // }
+
   if ((width+coorX)>50){
     width = 50 - coorX;
     printf("new width = %d\n", width);
@@ -218,6 +200,10 @@ void draw (char *image, int width, int length, int coorX, int coorY) {
     image = image + jumpNumX;
     printf("\n");
   }
+}
+
+void transferImageToConsole(){
+  int a, b;
   
   for (a=0; a<50; a++){
     for (b=0; b<50; b++){
@@ -225,7 +211,5 @@ void draw (char *image, int width, int length, int coorX, int coorY) {
     }
     printf("\n");
   }
-  
-  printf("\n\n");
 }
 
