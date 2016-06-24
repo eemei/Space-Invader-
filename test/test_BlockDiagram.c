@@ -24,10 +24,6 @@ void tearDown(void){}
   // displayShelter();
 // }
 
-/*void test_image_transfer_all_image_to_console(void){
-  transferImageToConsole ();
-}*/
-
 void test_bufferFiller_with_symbol_plus_into_buffer(void){
   bufferFiller(10, 10, 0x2b);
 }
@@ -41,19 +37,55 @@ void test_image_with_coordinate_inside_the_range(void){
                        {"|[+]|"},
                        {"-----"}};
 
-	bufferFiller(50, 50, 0x2b);
+	bufferFiller(50, 50, 0x2e);
   
-  // draw((char *)shelter, 5, 3, 5, 6);
-  draw((char *)shelter, 5, 3, 48, 0);
+  draw((char *)shelter, 5, 3, 5, 6);
+  transferImageToConsole();
 }
 
-// void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
-	// char ship[][5] = {{"-----"},
-                    // {"|[+]|"},
-                    // {"-----"}};
+void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
+	char ship[][5] = {{"-----"},
+                    {"|[+]|"},
+                    {"-----"}};
 
-	// draw((char *)ship, 5, 3, 46, 6);
-// }
+	draw((char *)ship, 5, 3, 48, 6);
+  transferImageToConsole();
+}
+
+/* void testing(void){
+  int i, j, a, b ,c ,d;
+  char *ptr;
+  char space[10][10];
+  char example[][5] = {{"-----"},
+                       {"|[+]|"},
+                       {"-----"}};
+                       
+  ptr = (char *)example;
+  
+  for (a=0; a<10; a++){
+    for (b=0; b<10; b++){
+      space[a][b] = 0x2e;
+      printf("%c", space[a][b]);
+    }
+    printf("\n");
+  }
+  
+  for (i=0; i<3; i++){
+    for (j=0; j<1; j++){ //
+      space[i][j+9] = *(ptr++); //
+      printf("%c", space[i][j+9]); //
+    }
+      ptr = ptr + 4; // 
+    printf("\n");
+  }
+  
+  for (c=0; c<10; c++){
+    for (d=0; d<10; d++){
+      printf("%c", space[c][d]);
+    }
+    printf("\n");
+  }
+} */
 
 
 
