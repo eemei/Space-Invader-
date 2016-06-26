@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <conio.h>
 #include "Key.h"
 
 // System dependent key codes
@@ -30,8 +31,8 @@ int ch;
 
 
 
-// attempt  to trap arrow keys
-// tested with Code::Blocks 8.02
+//  kbhit()
+//  If a key has been pressed then it returns a non zero value otherwise returns zero.
 
 
 void arrow()
@@ -39,6 +40,7 @@ void arrow()
   
     int ch;
     //EscKey();
+    
     printf("Press arrow keys, escape key + enter to exit:\n");
     while (( ch = get_code()) != KEY_ESC )
     {
@@ -52,6 +54,7 @@ void arrow()
             break;
         case ARROW_LEFT:
             printf("LEFT\n");
+            
             break;
         case ARROW_RIGHT:
             printf("RIGHT\n");
@@ -63,11 +66,24 @@ void arrow()
     //return 0;
 }
 
-static int get_code()
-{
-    int ch = getch();
+static int get_code(){
+  //while (!kbhit()){
+ //   Printf("please Press arrow keys, escape key + enter to exit:\n ")
+    //do cool processing here in this loop, which has to continue happening till user presses a key
+//}
 
-    if (ch == 0 || ch == 224)
+  int ik;
+  ik = kbhit();
+  printf ("%d\n", ik);
+  //Now the user has pressed a key
+  //To know which key we do following
+  int ch; 
+  ch = getch();
+  //now we have the user input in the variable ch
+  //we can decide further course of action based upon value in ch
+  //like as follows
+
+  if (ch == 0 || ch == 224)
         ch = 256 + getch();
 
     return ch;
