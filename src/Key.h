@@ -6,6 +6,7 @@
 #define KEY_LEFT 75
 #define KEY_RIGHT 77
 
-void EscKey();
-
+static int get_code();
+void arrow();
+//int EscKey();
 #endif // Key_H
