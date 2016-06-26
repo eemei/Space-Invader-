@@ -32,6 +32,20 @@ void test_bufferFiller_with_symbol_asterisk_into_buffer(void){
   bufferFiller(10, 10, 0x2a);
 }
 
+void test_jumper_return_two_given_buffer_size_ten_coordinate_eight_and_width_four(void){
+  char bufferTest[10][10];
+  int returnJump1;
+  returnJump1 = jumper(10, 8, 4);
+  TEST_ASSERT_EQUAL(2, returnJump1);
+}
+
+void test_jumper_return_zero_given_buffer_size_ten_coordinate_four_and_width_four(void){
+  char bufferTest[10][10];
+  int returnJump2;
+  returnJump2 = jumper(10, 4, 4);
+  TEST_ASSERT_EQUAL(0, returnJump2);
+}
+
 void test_image_with_coordinate_inside_the_range(void){
 	char shelter[][5] = {{"-----"},
                        {"|[+]|"},
@@ -51,41 +65,6 @@ void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
 	draw((char *)ship, 5, 3, 48, 6);
   transferImageToConsole();
 }
-
-/* void testing(void){
-  int i, j, a, b ,c ,d;
-  char *ptr;
-  char space[10][10];
-  char example[][5] = {{"-----"},
-                       {"|[+]|"},
-                       {"-----"}};
-                       
-  ptr = (char *)example;
-  
-  for (a=0; a<10; a++){
-    for (b=0; b<10; b++){
-      space[a][b] = 0x2e;
-      printf("%c", space[a][b]);
-    }
-    printf("\n");
-  }
-  
-  for (i=0; i<3; i++){
-    for (j=0; j<1; j++){ //
-      space[i][j+9] = *(ptr++); //
-      printf("%c", space[i][j+9]); //
-    }
-      ptr = ptr + 4; // 
-    printf("\n");
-  }
-  
-  for (c=0; c<10; c++){
-    for (d=0; d<10; d++){
-      printf("%c", space[c][d]);
-    }
-    printf("\n");
-  }
-} */
 
 
 

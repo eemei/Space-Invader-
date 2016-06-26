@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "BlockDiagram.h"
 
+
 char buffer[50][50];
 // char buffer1[1][1];
 
@@ -212,4 +213,3 @@ void transferImageToConsole(){
     printf("\n");
   }
 }
-
