@@ -87,6 +87,7 @@ int continuPress() {
   int ch;
   int x = 42;
   int y =40;
+  int filler;
  while ((ch = getch()) != ESC){
     printf("%d", ch);
     if (ch == 0 || ch == 224){
@@ -96,6 +97,8 @@ int continuPress() {
         x = x + 1;
         y = y;
         gotoXY(x,y);
+        filler = y +1;
+        bufferFillerwithSpace(filler, x, 32);
         printf("x~~= %d\n",x);
         }
   }
