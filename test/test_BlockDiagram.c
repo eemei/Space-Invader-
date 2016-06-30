@@ -13,17 +13,6 @@ void tearDown(void){}
 *   Shelter
 */
 
-// void test_module_generator_needs_to_be_implemented(void)
-// {
-	// displayAlien1();
-  // displayAlien2();
-  // displayAlien3();
-  // displayAlien4();
-  // displayPlanet();
-  // displayShip();
-  // displayShelter();
-// }
-
 void test_bufferFiller_with_symbol_plus_into_buffer(void){
   bufferFiller(10, 10, 0x2b);
 }
