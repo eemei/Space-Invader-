@@ -16,6 +16,13 @@ void bufferFiller(int row, int col, char symbol){
   }
 }
 
+void bufferFillerwithSpace(int row, int col, char symbol){
+
+      buffer[row][col] = symbol;
+      printf("%c", buffer[row][col]);
+
+}
+
 /*
   coor = coorX or coorY;
   range = width or length;

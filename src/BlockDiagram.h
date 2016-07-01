@@ -13,4 +13,6 @@ int jumper(int bufferRange, int coor, int range);
 void draw (char *image, int width, int length, int coorX, int coorY);
 void transferImageToConsole();
 
+void bufferFillerwithSpace(int row, int col, char symbol);
+
 #endif // BlockDiagram_H
