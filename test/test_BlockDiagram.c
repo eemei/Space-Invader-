@@ -56,5 +56,3 @@ void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
 }
 
 
-
-

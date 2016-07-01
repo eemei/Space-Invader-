@@ -8,7 +8,6 @@
 #define FIRE      32
 
 int escKey();
-int keyHit();
 int fireBullet();
 
 #endif // Key_H
