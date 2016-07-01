@@ -6,8 +6,14 @@
 #define KEY_RIGHT 77
 #define KEY_DOWN  80
 #define FIRE      32
+#define ESC       27
 
 int escKey();
 int fireBullet();
+
+int arrow();
+int gotoXY(int x, int y);
+
+int continuPress() ;
 
 #endif // Key_H
