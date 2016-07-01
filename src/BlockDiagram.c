@@ -2,151 +2,7 @@
 #include <stdio.h>
 #include "BlockDiagram.h"
 
-
 char buffer[50][50];
-// char buffer1[1][1];
-
-const char alien1[][3] = {{" ^ "},
-                          {" @ "},
-                          {"* *"}};
-
-const char alien2[][4] =  {{" ^^ "},
-                           {" @@ "},
-                           {"*  *"}};
-
-const char alien3[][6] = {{" ^^^ "},
-                          {" @@@ "},
-                          {"* * *"}};
-
-const char alien4[][5] = {{" |*| "},
-                          {" @@@ "},
-                          {"*   *"}};
-                           
-const char planet[][4] = {{" -- "},
-                          {"===="},
-                          {" -- "}};     
-
-const char ship[][3] = {{" | "},
-                        {"[+]"}};
-                         
-const char shelter[][5] = {{"-----"},
-                           {"|[+]|"},
-                           {"-----"}};
-
-
-                            
-/* 
-  {{" ^ "},
-   {" @ "},
-   {"* *"}};
- */
-char displayAlien1(){
-  int i, j;
-
-  for(i=0; i<3; i++){ 
-    for(j=0; j<3; j++){
-      printf("%c", alien1[i][j]);
-    }
-    printf("\n");
-  }
-  
-  return alien1[i][j];
-}
-
-/* 
-  {{" ^^ "},
-   {" @@ "},
-   {"*  *"}};
- */
-void displayAlien2(){
-  int i, j;
-
-  for(i=0; i<3; i++){
-    for(j=0; j<4; j++){
-      printf("%c", alien2[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/* 
-  {{" ^^^ "},
-   {" @@@ "},
-   {"* * *"}};
- */
-void displayAlien3(){
-  int i, j;
-
-  for(i=0; i<3; i++){
-    for(j=0; j<6; j++){
-      printf("%c", alien3[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/* 
-  {{" |*| "},
-   {" @@@ "},
-   {"*   *"}};
- */
-void displayAlien4(){
-  int i, j;
-
-  for(i=0; i<3; i++){
-    for(j=0; j<5; j++){
-      printf("%c", alien4[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/* 
-  {{" -- "},
-   {"===="},
-   {" -- "}}; 
- */
-void displayPlanet(){
-  int i, j;
-
-  for(i=0; i<3; i++){
-    for(j=0; j<4; j++){
-      printf("%c", planet[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/* 
-  {{" | "},
-   {"[+]"}};
- */
-void displayShip(){
-  int i, j;
-
-  for(i=0; i<2; i++){
-    for(j=0; j<3; j++){
-      printf("%c", ship[i][j]);
-    }
-    printf("\n");
-  }
-}
-
-/* 
-  {{"-----"},
-   {"|[+]|"},
-   {"-----"}};
- */
-void displayShelter(){
-  int i, j;
-
-  for(i=0; i<3; i++){
-    for(j=0; j<5; j++){
-      printf("%c", shelter[i][j]);
-    }
-    printf("\n");
-  }
-}
 
 void bufferFiller(int row, int col, char symbol){
   int a, b;
@@ -158,7 +14,6 @@ void bufferFiller(int row, int col, char symbol){
     }
     printf("\n");
   }
-  
 }
 
 /*
@@ -176,7 +31,28 @@ int jumper(int bufferRange, int coor, int range){
   return jump;
 }
 
-void draw (char *image, int width, int length, int coorX, int coorY) {
+/**
+ *
+ *        --------------------    __
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |- Y / length
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |     |
+ *        |                  |    __
+ *        --------------------
+ *        |__________________|
+ *                 |
+ *              X / width 
+ *
+ **/
+void draw(char *image, int width, int length, int coorX, int coorY) {
   int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
 
   jumpNumX = jumper(50, coorX, width);
@@ -201,6 +77,7 @@ void draw (char *image, int width, int length, int coorX, int coorY) {
     image = image + jumpNumX;
     printf("\n");
   }
+  printf("\n");
 }
 
 void transferImageToConsole(){

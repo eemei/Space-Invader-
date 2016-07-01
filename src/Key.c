@@ -23,15 +23,7 @@ int fireBullet(){
   if (kbPressed){
     fire = getch();
     printf("%d\n", fire);
+    return fire;
   } 
-  
-  if (fire == FIRE){
-    printf("Fire!\n");
-    return 1;
-  }
-  else{
-    printf("Not pressed!\n");
-    return 0;
-  }
 }
 
