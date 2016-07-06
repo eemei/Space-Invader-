@@ -19,11 +19,32 @@ void tearDown(void){}
   TEST_IGNORE_MESSAGE("FIRE!");
 } */
 
-void test_press_arrow_key_to_move_ship_left_or_right(void){
-/*   int hit;
-  hit = arrow();
-  TEST_ASSERT_EQUAL (75,hit); */
-// arrow();
+void test_press_arrow_key_to_move_ship_left(void){
+  
+  continuPress();
 
-  continuPress() ;
+ // int moveLeft;
+  //moveLeft = moveShipLeftRifht();
+
+  //TEST_ASSERT_EQUAL(75, moveLeft);
   }
+
+/* void test_press_arrow_key_to_move_ship_right(void){
+
+  int moveRight;
+  moveRight = moveShipLeftRifht();
+
+  TEST_ASSERT_EQUAL(77, moveRight);
+  }
+   */
+/* void test_gotoXY_function_at_the_range_x_equal_negative_value(void){
+  int coordinaateX = -5;
+  int coordinateY = 9;
+  
+  gotoXY(coordinaateX, coordinateY);
+  TEST_ASSERT_EQUAL (0, gotoXY(coordinaateX, coordinateY));
+}
+
+void test_gotoXY_function_at_the_range_x_more_than_50_value(void){
+  int coordinaateX, coordinateY;
+} */
