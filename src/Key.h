@@ -11,9 +11,9 @@
 int escKey();
 int fireBullet();
 
-int arrow();
+int moveShipLeftRifht();
 int gotoXY(int x, int y);
 
-int continuPress() ;
+int continuPress();
 
 #endif // Key_H
