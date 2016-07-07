@@ -62,20 +62,23 @@ int moveShipLeftRifht() {
 
 // used to place things anywhere in the window
 int gotoXY(int x, int y) {  
-
+int filler;
+filler= y+1;
 char ship[][3] = {{" T "},
                   {"[+]"}};
                   
 
-  if (x <=  0)
+  if (x <=  0)          // minimum range
     x = 0;
   
-  else if (x >= 47)
+  else if (x >= 47)   // maximum range
     x = 47;
 
-  else 
-  x = x; 
-  printf("x inside gotoXY func~~ = %d\n", x); 
+  else               // in the range 
+  x = x;   
+  
+  bufferFillerwithSpace(filler, x-1, 32);
+  bufferFillerwithSpace(filler, x+3, 32);
   draw ((char *)ship, 3, 2, x, y);
   transferImageToConsole();
   return x;
@@ -85,7 +88,7 @@ int continuPress(){
   int ch;
   int x = 42;
   int y = 40;
-  int filler;
+  
  while ((ch = getch()) != ESC){
     printf("%d", ch);
     if (ch == 0 || ch == 224){
@@ -95,8 +98,6 @@ int continuPress(){
           x = x + 1;
           y = y;
           gotoXY(x,y);
-          filler = y + 1;
-          bufferFillerwithSpace(filler, x, 64);
           printf("\nx~~= %d\n",x);
         }
           else {
@@ -104,9 +105,6 @@ int continuPress(){
             x = x - 1;
             y = y;
             gotoXY(x,y);
-            filler = y + 1;
-            bufferFillerwithSpace(filler, x-1, 66);
-            bufferFillerwithSpace(filler, x+2, 64);
             printf("\nx~~= %d\n",x);
           }
         }
