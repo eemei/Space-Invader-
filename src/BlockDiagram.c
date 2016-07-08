@@ -16,7 +16,7 @@ void bufferFiller(int row, int col, char symbol){
   }
 }
 
-void bufferFillerwithSpace(int row, int col, char symbol){
+void bufferFillerWithSpace(int row, int col, char symbol){
 
       buffer[row][col] = symbol;
       printf("%c", buffer[row][col]);
