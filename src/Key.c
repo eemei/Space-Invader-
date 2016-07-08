@@ -30,9 +30,10 @@ int fireBullet(){
 
 int moveShipLeftRight() {
   int coor_X = 5, coor_Y = 5;     // initialise value for ship at coordinate coor_X & coor_Y
-  int ch = _getch ();
+  while(!kbhit());
+  int ch = getch ();
   if (ch == 0 || ch == 224){
-    switch (ch= _getch ())
+    switch (ch= getch ())
     {
       case KEY_LEFT:
         printf("left\n");
@@ -95,7 +96,6 @@ int continuPress(){
           coor_X = coor_X + 1;
           coor_Y = coor_Y;
           gotoXY(coor_X,coor_Y);
-          printf("\nx~~= %d\n",coor_X);
           return ch;
         }
           else {
@@ -103,7 +103,6 @@ int continuPress(){
             coor_X = coor_X - 1;
             coor_Y = coor_Y;
             gotoXY(coor_X,coor_Y);
-            printf("\nx~~= %d\n",coor_X);
             return ch;
           }
         }
@@ -112,4 +111,7 @@ int continuPress(){
   printf("ESC %d\n", ch);
   return 0;
 }
+
+
+
 
