@@ -29,31 +29,26 @@ int fireBullet(){
 }
 
 int moveShipLeftRifht() {
-  int x = 5, y = 5;     // initial value for ship at coordinate x & y
-  int filler;
+  int coor_X = 5, coor_Y = 5;     // initialise value for ship at coordinate coor_X & coor_Y
   int ch = _getch ();
   if (ch == 0 || ch == 224){
     switch (ch= _getch ())
     {
       case KEY_LEFT:
         printf("left\n");
-        x = x - 1;
-        y = y;
-        gotoXY(x,y);
-        filler = y + 1;
-        bufferFillerwithSpace(filler, x, 32);
-        printf("now value coordX when pressed left = %d\n",x);
+        coor_X = coor_X - 1;
+        coor_Y = coor_Y;
+        gotoXY(coor_X,coor_Y);
+        printf("now value coordX when pressed left = %d\n",coor_X);
         return ch;
       break;
       
       case KEY_RIGHT:
         printf("right\n");
-        x = x + 1;
-        y = 0;
-        gotoXY(x,y);
-        filler = y + 1;
-        bufferFillerwithSpace(filler, x, 32);
-        printf("now value coordX when pressed right = %d\n",x);
+        coor_X = coor_X + 1;
+        coor_Y = coor_Y;
+        gotoXY(coor_X,coor_Y);
+        printf("now value coordX when pressed right = %d\n",coor_X);
         return ch;
         break;
     }
@@ -61,33 +56,33 @@ int moveShipLeftRifht() {
 }
 
 // used to place things anywhere in the window
-int gotoXY(int x, int y) {  
+int gotoXY(int coor_X, int coor_Y) {  
 int filler;
-filler= y+1;
+filler= coor_Y+1;
 char ship[][3] = {{" T "},
                   {"[+]"}};
                   
 
-  if (x <=  0)          // minimum range
-    x = 0;
+  if (coor_X <=  0)        // minimum range
+    coor_X = 0;
   
-  else if (x >= 47)   // maximum range
-    x = 47;
+  else if (coor_X >= 47)   // maximum range
+    coor_X = 47;
 
-  else               // in the range 
-  x = x;   
+  else                    // in the range 
+  coor_X = coor_X;   
   
-  bufferFillerwithSpace(filler, x-1, 32);
-  bufferFillerwithSpace(filler, x+3, 32);
-  draw ((char *)ship, 3, 2, x, y);
+  bufferFillerWithSpace(filler, coor_X-1, 32);
+  bufferFillerWithSpace(filler, coor_X+3, 32);
+  draw ((char *)ship, 3, 2, coor_X, coor_Y);
   transferImageToConsole();
-  return x;
+  return coor_X;
 }
 
 int continuPress(){
   int ch;
-  int x = 42;
-  int y = 40;
+  int coor_X = 42;
+  int coor_Y = 40;
   
  while ((ch = getch()) != ESC){
     printf("%d", ch);
@@ -95,17 +90,17 @@ int continuPress(){
       ch = getch();
         if( ch == KEY_RIGHT){
           printf("right\n");
-          x = x + 1;
-          y = y;
-          gotoXY(x,y);
-          printf("\nx~~= %d\n",x);
+          coor_X = coor_X + 1;
+          coor_Y = coor_Y;
+          gotoXY(coor_X,coor_Y);
+          printf("\nx~~= %d\n",coor_X);
         }
           else {
             printf("left\n");
-            x = x - 1;
-            y = y;
-            gotoXY(x,y);
-            printf("\nx~~= %d\n",x);
+            coor_X = coor_X - 1;
+            coor_Y = coor_Y;
+            gotoXY(coor_X,coor_Y);
+            printf("\nx~~= %d\n",coor_X);
           }
         }
  }
