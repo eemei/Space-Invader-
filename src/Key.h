@@ -11,7 +11,7 @@
 int escKey();
 int fireBullet();
 
-int moveShipLeftRifht();
+int moveShipLeftRight();
 int gotoXY(int x, int y);
 
 int continuPress();

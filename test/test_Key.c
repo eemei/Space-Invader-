@@ -19,36 +19,37 @@ void test_fireBullet_return_1_when_spacebar_is_pressed(void){
   TEST_IGNORE_MESSAGE("FIRE!");
 } 
 
-void test_press_arrow_key_to_move_ship_left(void){
+/*void test_press_arrow_key_to_move_ship_left(void){
   
   //continuPress();
 
  int moveLeft;
- moveLeft = moveShipLeftRifht();
+ moveLeft = moveShipLeftRight();
 
  TEST_ASSERT_EQUAL(75, moveLeft);
   }
-
+*/
 void test_press_arrow_key_to_move_ship_right(void){
 
   int moveRight;
-  moveRight = moveShipLeftRifht();
+  moveRight = moveShipLeftRight();
 
-  TEST_ASSERT_EQUAL(77, moveRight);
+  TEST_ASSERT_EQUAL(6, moveRight);
+ // TEST_ASSERT_EQUAL(7, moveRight);
   }
 
  void test_gotoXY_function_at_the_range_when_x_equal_negative_value(void){
-  int coordinaateX = -5;
+  int coordinateX = -5;
   int coordinateY = 9;
   
-  gotoXY(coordinaateX, coordinateY);
-  TEST_ASSERT_EQUAL (0, gotoXY(coordinaateX, coordinateY));
+  gotoXY(coordinateX, coordinateY);
+  TEST_ASSERT_EQUAL (0, gotoXY(coordinateX, coordinateY));
 }
 
 void test_gotoXY_function_at_the_range_when_x_more_than_50_value(void){
-  int coordinaateX = 55;
+  int coordinateX = 55;
   int coordinateY = 40;
   
-  gotoXY(coordinaateX, coordinateY);
-  TEST_ASSERT_EQUAL (47, gotoXY(coordinaateX, coordinateY));
+  gotoXY(coordinateX, coordinateY);
+  TEST_ASSERT_EQUAL (47, gotoXY(coordinateX, coordinateY));
 } 
