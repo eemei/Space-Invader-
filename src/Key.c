@@ -41,6 +41,7 @@ int moveShipLeftRifht() {
         gotoXY(coor_X,coor_Y);
         printf("now value coordX when pressed left = %d\n",coor_X);
         return ch;
+        //return coor_X;
       break;
       
       case KEY_RIGHT:
@@ -50,6 +51,7 @@ int moveShipLeftRifht() {
         gotoXY(coor_X,coor_Y);
         printf("now value coordX when pressed right = %d\n",coor_X);
         return ch;
+        //return coor_X;
         break;
     }
   }
