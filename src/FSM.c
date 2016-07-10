@@ -1,9 +1,9 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "FSM.h"
-#include "Key.h"
-#include "BlockDiagram.h"
 
-void movementShipFSM(movementShipState *this){
-  int ch;
+void movementShipFSM(movementShip *this){
+  volatile int ch;
   switch (this->state) {
     case START:
       this->coordinateX = 24;
@@ -11,24 +11,44 @@ void movementShipFSM(movementShipState *this){
       this->state = RELEASE;
       break;
     case RELEASE:
-      if (this->kbPressed = kbhit()) {
+      // if (this->kbPressed = kbhit()) {
+      if (getKbPressed(this->kbPressed) == BUTTON_PRESSED) {
         ch = getch();
         if (ch == 0 || ch == 224 ) {
-          this->whichDirection = getch();
+          ch = getch();
+          this->direction = ch;
         }
+        this->state = PRESSED;
       }
-      this->state = PRESSED;
+      else {
+        this->state = RELEASE;
+      }
       break;
     case PRESSED:
-      if (this->whichDirection == KEY_LEFT){
+      if (getKbCodeLeft(this->direction) == KEY_LEFT){
         this->coordinateX = this->coordinateX - 1;
         this->coordinateY = this->coordinateY;
       }
-      else if (this->whichDirection == KEY_RIGHT){
+      else if (getKbCodeRight(this->direction) == KEY_RIGHT){
         this->coordinateX = this->coordinateX + 1;
+        this->coordinateY = this->coordinateY;
+      }
+      else{
+        this->coordinateX = this->coordinateX;
         this->coordinateY = this->coordinateY;
       }
       this->state = RELEASE;
       break;
+    default: this->state = START;
   }
+}
+
+movementShip *initiateState(){
+  movementShip *this = malloc(sizeof(movementShip));
+  this->state = START;
+  this->direction = 0;;
+  this->coordinateX = 0;
+  this->coordinateY = 0;
+  this->kbPressed = 0;
+  return this;
 }

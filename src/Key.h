@@ -10,10 +10,8 @@
 
 int escKey();
 int fireBullet();
-
 int moveShipLeftRight();
 int gotoXY(int x, int y);
-
 int continuPress();
 
 #endif // Key_H
