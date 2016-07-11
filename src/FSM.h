@@ -35,11 +35,13 @@ typedef struct {
   int kbPressed;
 }movementShip;
 
+
 movementShip *initiateMovementState();
 keyboardPressed *initiateKeyboardState();
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-
+void moveShip(char *image, int x, int y);
+int moveShipRelative(char *image, int deltaX, int deltaY);
 #endif // FSM_H
 
 

@@ -89,5 +89,12 @@ void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   TEST_ASSERT_EQUAL(RELEASE, pThis->state);
 }
 
- 
+ void test_shift_with_delta_x_positive_two_deta_y_negative_three(void){
+  const char ship[][3] = {{" T "},
+                          {"[+]"}};
+                          
+
+  moveShip((char *)ship, 4, 2);                       
+  moveShipRelative ((char *)ship, 2, -3);
+}
  
