@@ -13,6 +13,7 @@ movementShip *initiateMovementState(){
   movementShip *this = malloc(sizeof(movementShip));
   this->state = START;
   this->keyboard = initiateKeyboardState();
+  this->image = NULL;
   this->coordinateX = 0;
   this->coordinateY = 0;
   this->kbPressed = 0;
@@ -38,9 +39,32 @@ void keyboardFSM(keyboardPressed *thisKey){
   }
 }
 
+int moveShipRelative(char *diagram, int deltaX, int deltaY){
+  int newCoorX, newCoorY;
+  movementShip *pCoord;
+  printf("new = %d\n", pCoord->coordinateY); // strange bug
+  pCoord->image = diagram;
+  newCoorX = pCoord->coordinateX + deltaX;
+  newCoorY = pCoord->coordinateY + deltaY;
+  if (newCoorX > 47){
+    newCoorX = 47;
+  }
+  else if (newCoorX <= 0){
+    newCoorX = 0;
+  } 
+  else if (newCoorY >= 47){
+    newCoorY = 47;
+  }
+  else{
+    newCoorX = newCoorX;
+    newCoorY = newCoorY;
+    pCoord->coordinateX = newCoorX;
+    pCoord->coordinateY = newCoorY;
+  }
+}
+
 void movementShipFSM(movementShip *thisMove){
   volatile int ch;
-  keyboardPressed *thisKey;
   switch (thisMove->state) {
     case START:
       thisMove->coordinateX = 24;
@@ -62,14 +86,17 @@ void movementShipFSM(movementShip *thisMove){
       break;
     case PRESSED:
       if (getKbCodeLeft(thisMove->keyboard->direction) == KEY_LEFT){
+        // moveShipRelative(thisMove->image, -1, 0);
         thisMove->coordinateX = thisMove->coordinateX - 1;
         thisMove->coordinateY = thisMove->coordinateY;
       }
       else if (getKbCodeRight(thisMove->keyboard->direction) == KEY_RIGHT){
+        // moveShipRelative(thisMove->image, 1, 0);
         thisMove->coordinateX = thisMove->coordinateX + 1;
         thisMove->coordinateY = thisMove->coordinateY;
       }
       else{
+        // moveShipRelative(thisMove->image, 0, 0);
         thisMove->coordinateX = thisMove->coordinateX;
         thisMove->coordinateY = thisMove->coordinateY;
       }
@@ -78,44 +105,4 @@ void movementShipFSM(movementShip *thisMove){
     default: thisMove->state = START;
   }
 }
-
-void moveShip(char *image, int x, int y){
-  movementShip *coord = malloc(sizeof(movementShip));
-  coord->coordinateX = x;
-  coord->coordinateY = y;
-  printf ("x = %d, y = %d\n", coord->coordinateX, coord->coordinateY);
-}
-
-int moveShipRelative(char *image, int deltaX, int deltaY){
-  int newCoorX, newCoorY;
-  movementShip *coord;
-  printf ("coorX = %d, coorY = %d\n", coord->coordinateX, coord->coordinateY);
-  newCoorX = coord->coordinateX + deltaX;
-  newCoorY = coord->coordinateY + deltaY;
-  
-  if (newCoorX > 47){
-    newCoorX = 47;
-    moveShip(image, newCoorX, newCoorY);
-  }
-  
-   else if (newCoorX <= 0){
-   newCoorX = 0;
-   moveShip(image, newCoorX, newCoorY);}
-  
-  else if (newCoorY >= 47){
-   newCoorY = 47;
-   moveShip(image, newCoorX, newCoorY);
-  }
-  
-  else if (newCoorY <= 0){
-   newCoorY = 0;
-   moveShip(image, newCoorX, newCoorY);
-   }
-  
-  else{
-    newCoorX = newCoorX;
-    newCoorY = newCoorY;
-    moveShip(image, newCoorX, newCoorY);
-  }
-  
-} 
+ 
