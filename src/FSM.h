@@ -17,16 +17,28 @@ typedef enum {
   PRESSED
 }StateMachine;
 
+typedef enum{
+  BUTTONNOHIT,
+  BUTTONHIT
+}keyboardButton;
+
+typedef struct {
+  keyboardButton buttonState;
+  int direction;
+}keyboardPressed;
+
 typedef struct {
   StateMachine state;
-  int direction;
+  keyboardPressed *keyboard;
   int coordinateX;
   int coordinateY;
   int kbPressed;
 }movementShip;
 
-void movementShipFSM(movementShip *this);
-movementShip *initiateState();
+movementShip *initiateMovementState();
+keyboardPressed *initiateKeyboardState();
+void keyboardFSM(keyboardPressed *thisKey);
+void movementShipFSM(movementShip *thisMove);
 
 #endif // FSM_H
 

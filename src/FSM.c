@@ -2,53 +2,79 @@
 #include <stdio.h>
 #include "FSM.h"
 
-void movementShipFSM(movementShip *this){
-  volatile int ch;
-  switch (this->state) {
-    case START:
-      this->coordinateX = 24;
-      this->coordinateY = 47;
-      this->state = RELEASE;
-      break;
-    case RELEASE:
-      // if (this->kbPressed = kbhit()) {
-      if (getKbPressed(this->kbPressed) == BUTTON_PRESSED) {
-        ch = getch();
-        if (ch == 0 || ch == 224 ) {
-          ch = getch();
-          this->direction = ch;
-        }
-        this->state = PRESSED;
-      }
-      else {
-        this->state = RELEASE;
-      }
-      break;
-    case PRESSED:
-      if (getKbCodeLeft(this->direction) == KEY_LEFT){
-        this->coordinateX = this->coordinateX - 1;
-        this->coordinateY = this->coordinateY;
-      }
-      else if (getKbCodeRight(this->direction) == KEY_RIGHT){
-        this->coordinateX = this->coordinateX + 1;
-        this->coordinateY = this->coordinateY;
-      }
-      else{
-        this->coordinateX = this->coordinateX;
-        this->coordinateY = this->coordinateY;
-      }
-      this->state = RELEASE;
-      break;
-    default: this->state = START;
-  }
+keyboardPressed *initiateKeyboardState(){
+  keyboardPressed *thisKey = malloc(sizeof(keyboardPressed));
+  thisKey->buttonState = BUTTONNOHIT;
+  thisKey->direction = 0;
+  return thisKey;
 }
 
-movementShip *initiateState(){
+movementShip *initiateMovementState(){
   movementShip *this = malloc(sizeof(movementShip));
   this->state = START;
-  this->direction = 0;;
+  this->keyboard = initiateKeyboardState();
   this->coordinateX = 0;
   this->coordinateY = 0;
   this->kbPressed = 0;
   return this;
+}
+
+void keyboardFSM(keyboardPressed *thisKey){
+  int ch;
+  
+  switch(thisKey->buttonState){
+    case BUTTONNOHIT:
+      thisKey->direction = thisKey->direction;
+      thisKey->buttonState = BUTTONHIT;
+      break;
+    case BUTTONHIT:
+      ch = getch();
+      if (ch == 0 || ch == 224 ) {
+        ch = getch();
+        thisKey->direction = ch;
+      }
+      break;
+    default: thisKey->buttonState = BUTTONNOHIT;
+  }
+}
+
+void movementShipFSM(movementShip *thisMove){
+  volatile int ch;
+  keyboardPressed *thisKey;
+  switch (thisMove->state) {
+    case START:
+      thisMove->coordinateX = 24;
+      thisMove->coordinateY = 47;
+      thisMove->state = RELEASE;
+      break;
+    case RELEASE:
+      // if (thisMove->kbPressed = kbhit()) {
+      if (getKbPressed(thisMove->kbPressed) == BUTTON_PRESSED) {
+        thisMove->keyboard->buttonState = BUTTONHIT;
+        keyboardFSM(thisMove->keyboard);
+        thisMove->state = PRESSED;
+      }
+      else {
+        thisMove->keyboard->buttonState = BUTTONNOHIT;
+        keyboardFSM(thisMove->keyboard);
+        thisMove->state = RELEASE;
+      }
+      break;
+    case PRESSED:
+      if (getKbCodeLeft(thisMove->keyboard->direction) == KEY_LEFT){
+        thisMove->coordinateX = thisMove->coordinateX - 1;
+        thisMove->coordinateY = thisMove->coordinateY;
+      }
+      else if (getKbCodeRight(thisMove->keyboard->direction) == KEY_RIGHT){
+        thisMove->coordinateX = thisMove->coordinateX + 1;
+        thisMove->coordinateY = thisMove->coordinateY;
+      }
+      else{
+        thisMove->coordinateX = thisMove->coordinateX;
+        thisMove->coordinateY = thisMove->coordinateY;
+      }
+      thisMove->state = RELEASE;
+      break;
+    default: thisMove->state = START;
+  }
 }
