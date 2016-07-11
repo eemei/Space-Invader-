@@ -78,3 +78,44 @@ void movementShipFSM(movementShip *thisMove){
     default: thisMove->state = START;
   }
 }
+
+void moveShip(char *image, int x, int y){
+  movementShip *coord = malloc(sizeof(movementShip));
+  coord->coordinateX = x;
+  coord->coordinateY = y;
+  printf ("x = %d, y = %d\n", coord->coordinateX, coord->coordinateY);
+}
+
+int moveShipRelative(char *image, int deltaX, int deltaY){
+  int newCoorX, newCoorY;
+  movementShip *coord;
+  printf ("coorX = %d, coorY = %d\n", coord->coordinateX, coord->coordinateY);
+  newCoorX = coord->coordinateX + deltaX;
+  newCoorY = coord->coordinateY + deltaY;
+  
+  if (newCoorX > 47){
+    newCoorX = 47;
+    moveShip(image, newCoorX, newCoorY);
+  }
+  
+   else if (newCoorX <= 0){
+   newCoorX = 0;
+   moveShip(image, newCoorX, newCoorY);}
+  
+  else if (newCoorY >= 47){
+   newCoorY = 47;
+   moveShip(image, newCoorX, newCoorY);
+  }
+  
+  else if (newCoorY <= 0){
+   newCoorY = 0;
+   moveShip(image, newCoorX, newCoorY);
+   }
+  
+  else{
+    newCoorX = newCoorX;
+    newCoorY = newCoorY;
+    moveShip(image, newCoorX, newCoorY);
+  }
+  
+} 
