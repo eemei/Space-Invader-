@@ -30,18 +30,17 @@ typedef struct {
 typedef struct {
   StateMachine state;
   keyboardPressed *keyboard;
+  char *image;
   int coordinateX;
   int coordinateY;
   int kbPressed;
 }movementShip;
 
-
 movementShip *initiateMovementState();
 keyboardPressed *initiateKeyboardState();
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-void moveShip(char *image, int x, int y);
-int moveShipRelative(char *image, int deltaX, int deltaY);
+int moveShipRelative(char *diagram, int deltaX, int deltaY);
 #endif // FSM_H
 
 
