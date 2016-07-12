@@ -39,10 +39,11 @@ void keyboardFSM(keyboardPressed *thisKey){
   }
 }
 
-int moveShipRelative(char *diagram, int deltaX, int deltaY){
+int moveShipRelative(movementShip *pCoord, char *diagram, int deltaX, int deltaY){
   int newCoorX, newCoorY;
-  movementShip *pCoord;
-  printf("new = %d\n", pCoord->coordinateY); // strange bug
+  
+  //printf("new x= %d\n", pCoord->coordinateX); // strange bug
+  //printf("new y= %d\n", pCoord->coordinateY);
   pCoord->image = diagram;
   newCoorX = pCoord->coordinateX + deltaX;
   newCoorY = pCoord->coordinateY + deltaY;
@@ -58,9 +59,9 @@ int moveShipRelative(char *diagram, int deltaX, int deltaY){
   else{
     newCoorX = newCoorX;
     newCoorY = newCoorY;
+  }
     pCoord->coordinateX = newCoorX;
     pCoord->coordinateY = newCoorY;
-  }
 }
 
 void movementShipFSM(movementShip *thisMove){
