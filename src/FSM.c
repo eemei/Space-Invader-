@@ -42,8 +42,6 @@ void keyboardFSM(keyboardPressed *thisKey){
 int moveShipRelative(movementShip *pCoord, char *diagram, int deltaX, int deltaY){
   int newCoorX, newCoorY;
   
-  //printf("new x= %d\n", pCoord->coordinateX); // strange bug
-  //printf("new y= %d\n", pCoord->coordinateY);
   pCoord->image = diagram;
   newCoorX = pCoord->coordinateX + deltaX;
   newCoorY = pCoord->coordinateY + deltaY;
@@ -87,19 +85,13 @@ void movementShipFSM(movementShip *thisMove){
       break;
     case PRESSED:
       if (getKbCodeLeft(thisMove->keyboard->direction) == KEY_LEFT){
-        // moveShipRelative(thisMove->image, -1, 0);
-        thisMove->coordinateX = thisMove->coordinateX - 1;
-        thisMove->coordinateY = thisMove->coordinateY;
+        moveShipRelative(thisMove, thisMove->image, -1, 0);
       }
       else if (getKbCodeRight(thisMove->keyboard->direction) == KEY_RIGHT){
-        // moveShipRelative(thisMove->image, 1, 0);
-        thisMove->coordinateX = thisMove->coordinateX + 1;
-        thisMove->coordinateY = thisMove->coordinateY;
+        moveShipRelative(thisMove, thisMove->image, 1, 0);
       }
       else{
-        // moveShipRelative(thisMove->image, 0, 0);
-        thisMove->coordinateX = thisMove->coordinateX;
-        thisMove->coordinateY = thisMove->coordinateY;
+        moveShipRelative(thisMove, thisMove->image, 0, 0);
       }
       thisMove->state = RELEASE;
       break;

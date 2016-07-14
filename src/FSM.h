@@ -40,7 +40,6 @@ movementShip *initiateMovementState();
 keyboardPressed *initiateKeyboardState();
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-// int moveShipRelative(char *diagram, int deltaX, int deltaY, movementShip *pCoord);
 int moveShipRelative(movementShip *pCoord, char *diagram, int deltaX, int deltaY);
 #endif // FSM_H
 
