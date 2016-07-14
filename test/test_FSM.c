@@ -94,11 +94,13 @@ void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   const char ship[][3] = {{" T "},
                           {"[+]"}};
 
-  pThis->coordinateX = 24;
-  pThis->coordinateY = 47;                      
-  moveShipRelative ((char *)ship, 2, -3);
+ // moveShipRelative ((char *)ship, 2, -3);
+  pThis->coordinateX = 0;
+  pThis->coordinateY = 52;                      
+  // moveShipRelative((char *)ship, 2, -3, pThis);
+  moveShipRelative(pThis, (char *)ship, 2, -3);
   
-  TEST_ASSERT_EQUAL(26, pThis->coordinateX);
-  TEST_ASSERT_EQUAL(44, pThis->coordinateY);
+  TEST_ASSERT_EQUAL(2, pThis->coordinateX);
+  TEST_ASSERT_EQUAL(47, pThis->coordinateY);
 }
  
