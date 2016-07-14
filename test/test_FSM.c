@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "unity.h"
 #include "FSM.h"
+#include "BlockDiagram.h"
 #include "mock_Action.h"
 
 void setUp(void){}
@@ -89,18 +90,19 @@ void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   TEST_ASSERT_EQUAL(RELEASE, pThis->state);
 }
 
- void test_shift_with_delta_x_positive_two_and_delta_y_negative_three(void){
+ void test_move_with_delta_x_positive_two_and_delta_y_negative_three(void){
   movementShip *pThis = initiateMovementState();
   const char ship[][3] = {{" T "},
                           {"[+]"}};
 
- // moveShipRelative ((char *)ship, 2, -3);
-  pThis->coordinateX = 0;
-  pThis->coordinateY = 52;                      
-  // moveShipRelative((char *)ship, 2, -3, pThis);
+  pThis->coordinateX = 24;
+  pThis->coordinateY = 48;
+  draw((char *)ship, 3, 2, pThis->coordinateX, pThis->coordinateY);
+  transferImageToConsole();
   moveShipRelative(pThis, (char *)ship, 2, -3);
+  draw((char *)ship, 3, 2, pThis->coordinateX, pThis->coordinateY);
+  transferImageToConsole();
   
-  TEST_ASSERT_EQUAL(2, pThis->coordinateX);
-  TEST_ASSERT_EQUAL(47, pThis->coordinateY);
+  TEST_ASSERT_EQUAL(26, pThis->coordinateX);
+  TEST_ASSERT_EQUAL(45, pThis->coordinateY);
 }
- 

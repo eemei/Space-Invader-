@@ -61,9 +61,7 @@ void draw(char *image, int width, int length, int coorX, int coorY) {
   int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
 
   jumpNumX = jumper(50, coorX, width);
-  // jumpNumY = jumper(50, coorY, length);
   printf("jumping number X = %d\n", jumpNumX);
-  // printf("jumping number Y = %d\n", jumpNumY);
 
   if ((width+coorX)>50){
     width = 50 - coorX;
