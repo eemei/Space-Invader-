@@ -56,21 +56,21 @@ void draw(char *image, int width, int length, int coorX, int coorY) {
   int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
 
   jumpNumX = jumper(50, coorX, width);
-  printf("jumping number X = %d\n", jumpNumX);
+  // printf("jumping number X = %d\n", jumpNumX);
 
   if ((width+coorX)>50){
     width = 50 - coorX;
-    printf("new width = %d\n", width);
+    // printf("new width = %d\n", width);
   }
   else {
     width = width;
-    printf("original width = %d\n", width);
+    // printf("original width = %d\n", width);
   }
   
   for (i = 0; i < length; i++){
     for (j = 0; j < width; j++){
       buffer[coorY+i][coorX+j] = *(image++); 
-      printf("%c", buffer[coorY+i][coorX+j]);
+      // printf("%c", buffer[coorY+i][coorX+j]);
     }
     image = image + jumpNumX;
     printf("\n");
@@ -89,14 +89,14 @@ void transferImageToConsole(){
   }
 }
 
-void maskOutImage(int x, int y, int height, int width){
+void maskOutImage(int coorX, int coorY, int width, int height){
     int a = 0, b = 0;
-    char symbol = 65;
+    char symbol = 32;
     
-  for (a=x; a<(x+width); a++){
-    for (b=y; b<(y+height); b++){
+  for (a=coorY; a<(coorY+height); a++){
+    for (b=coorX; b<(coorX+width); b++){
       buffer[a][b] = symbol;
-      printf("%c", buffer[a][b]);
+      // printf("%c", buffer[a][b]);
     }
     printf("\n");
   }

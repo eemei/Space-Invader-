@@ -9,9 +9,8 @@ void displayPlanet();
 void displayShip();
 void displayShelter();
 void bufferFiller(int row, int col, char symbol);
-void bufferFillerWithSpace(int row, int col, char symbol);
 int jumper(int bufferRange, int coor, int range);
 void draw (char *image, int width, int length, int coorX, int coorY);
 void transferImageToConsole();
-void maskOutImage(int x, int y, int height, int width);
+void maskOutImage(int coorX, int coorY, int width, int height);
 #endif // BlockDiagram_H
