@@ -7,12 +7,6 @@ void setUp(void){}
 
 void tearDown(void){}
 
-/**To display out all the icon has been created:
-*   Alien1, 2, 3, 4
-*   Planet
-*   Shelter
-*/
-
 void test_bufferFiller_with_symbol_plus_into_buffer(void){
   bufferFiller(10, 10, 0x2b);
 }
@@ -56,7 +50,7 @@ void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
 }
 
 void test_mask_out_image(void){
-  maskOutImage(6, 5, 5, 3);
+  maskOutImage(5, 6, 5, 3);
   transferImageToConsole();
 }
 
