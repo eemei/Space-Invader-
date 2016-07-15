@@ -15,7 +15,7 @@ typedef enum {
   START,
   RELEASE,
   PRESSED
-}StateMachine;
+}moveStateMachine;
 
 typedef enum{
   BUTTONNOHIT,
@@ -27,12 +27,24 @@ typedef struct {
   int direction;
 }keyboardPressed;
 
-typedef struct {
-  StateMachine state;
-  keyboardPressed *keyboard;
-  char *image;
+typedef struct Image Image;
+struct Image{
+  char *picture;
+  int height;
+  int width;
+};
+
+typedef struct SpaceShip SpaceShip;
+struct SpaceShip{
+  Image *image;
   int coordinateX;
   int coordinateY;
+};
+
+typedef struct {
+  moveStateMachine state;
+  keyboardPressed *keyboard;
+  SpaceShip *ship;
   int kbPressed;
 }movementShip;
 
@@ -40,7 +52,8 @@ movementShip *initiateMovementState();
 keyboardPressed *initiateKeyboardState();
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-int moveShipRelative(movementShip *pCoord, char *diagram, int deltaX, int deltaY);
+char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY);
+
 #endif // FSM_H
 
 
