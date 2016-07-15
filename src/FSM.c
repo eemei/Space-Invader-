@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "FSM.h"
+#include "BlockDiagram.h"
 
 keyboardPressed *initiateKeyboardState(){
   keyboardPressed *thisKey = malloc(sizeof(keyboardPressed));
@@ -9,15 +10,29 @@ keyboardPressed *initiateKeyboardState(){
   return thisKey;
 }
 
+Image *initiateImage(){
+  Image *pImage = malloc(sizeof(Image));
+  pImage->picture = NULL;
+  pImage->height = 0;
+  pImage->width = 0;
+  return pImage;
+}
+
+SpaceShip *initiateSpaceShip(){
+  SpaceShip *pShip = malloc(sizeof(SpaceShip));
+  pShip->image = initiateImage();
+  pShip->coordinateX = 0;
+  pShip->coordinateY = 0;
+  return pShip;
+}
+
 movementShip *initiateMovementState(){
-  movementShip *this = malloc(sizeof(movementShip));
-  this->state = START;
-  this->keyboard = initiateKeyboardState();
-  this->image = NULL;
-  this->coordinateX = 0;
-  this->coordinateY = 0;
-  this->kbPressed = 0;
-  return this;
+  movementShip *pThis = malloc(sizeof(movementShip));
+  pThis->state = START;
+  pThis->keyboard = initiateKeyboardState();
+  pThis->ship = initiateSpaceShip();
+  pThis->kbPressed = 0;
+  return pThis;
 }
 
 void keyboardFSM(keyboardPressed *thisKey){
@@ -39,39 +54,37 @@ void keyboardFSM(keyboardPressed *thisKey){
   }
 }
 
-int moveShipRelative(movementShip *pCoord, char *diagram, int deltaX, int deltaY){
+char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY){
   int newCoorX, newCoorY;
   
-  pCoord->image = diagram;
-  newCoorX = pCoord->coordinateX + deltaX;
-  newCoorY = pCoord->coordinateY + deltaY;
+  newCoorX = pShip->coordinateX + deltaX;
+  newCoorY = pShip->coordinateY + deltaY;
+  
   if (newCoorX > 47){
     newCoorX = 47;
   }
   else if (newCoorX <= 0){
     newCoorX = 0;
-  } 
-  else if (newCoorY >= 47){
-    newCoorY = 47;
   }
   else{
     newCoorX = newCoorX;
     newCoorY = newCoorY;
   }
-    pCoord->coordinateX = newCoorX;
-    pCoord->coordinateY = newCoorY;
+  
+  pShip->coordinateX = newCoorX;
+  pShip->coordinateY = newCoorY;
+  draw(pShip->image->picture, pShip->image->width, pShip->image->height, pShip->coordinateX, pShip->coordinateY);
 }
 
 void movementShipFSM(movementShip *thisMove){
   volatile int ch;
   switch (thisMove->state) {
     case START:
-      thisMove->coordinateX = 24;
-      thisMove->coordinateY = 47;
+      thisMove->ship->coordinateX = 24;
+      thisMove->ship->coordinateY = 47;
       thisMove->state = RELEASE;
       break;
     case RELEASE:
-      // if (thisMove->kbPressed = kbhit()) {
       if (getKbPressed(thisMove->kbPressed) == BUTTON_PRESSED) {
         thisMove->keyboard->buttonState = BUTTONHIT;
         keyboardFSM(thisMove->keyboard);
@@ -85,13 +98,13 @@ void movementShipFSM(movementShip *thisMove){
       break;
     case PRESSED:
       if (getKbCodeLeft(thisMove->keyboard->direction) == KEY_LEFT){
-        moveShipRelative(thisMove, thisMove->image, -1, 0);
+        relativeMoveImage(thisMove->ship, -1, 0);
       }
       else if (getKbCodeRight(thisMove->keyboard->direction) == KEY_RIGHT){
-        moveShipRelative(thisMove, thisMove->image, 1, 0);
+        relativeMoveImage(thisMove->ship, 1, 0);
       }
       else{
-        moveShipRelative(thisMove, thisMove->image, 0, 0);
+        relativeMoveImage(thisMove->ship, 0, 0);
       }
       thisMove->state = RELEASE;
       break;
