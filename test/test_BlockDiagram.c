@@ -55,4 +55,8 @@ void test_image_with_coordinate_at_the_edge_and_show_half_of_the_image(void){
   transferImageToConsole();
 }
 
+void test_mask_out_image(void){
+  maskOutImage(6, 5, 5, 3);
+  transferImageToConsole();
+}
 

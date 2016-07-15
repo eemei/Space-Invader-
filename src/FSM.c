@@ -56,7 +56,7 @@ void keyboardFSM(keyboardPressed *thisKey){
 
 char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY){
   int newCoorX, newCoorY;
-  
+  // maskOutImage(pShip->coordinateX , pShip->coordinateY, pShip->image->height, pShip->image->width);
   newCoorX = pShip->coordinateX + deltaX;
   newCoorY = pShip->coordinateY + deltaY;
   
