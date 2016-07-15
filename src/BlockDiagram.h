@@ -13,5 +13,5 @@ void bufferFillerWithSpace(int row, int col, char symbol);
 int jumper(int bufferRange, int coor, int range);
 void draw (char *image, int width, int length, int coorX, int coorY);
 void transferImageToConsole();
-
+void maskOutImage(int x, int y, int height, int width);
 #endif // BlockDiagram_H

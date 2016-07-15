@@ -16,11 +16,6 @@ void bufferFiller(int row, int col, char symbol){
   }
 }
 
-void bufferFillerWithSpace(int row, int col, char symbol){
-  buffer[row][col] = symbol;
-  printf("%c", buffer[row][col]);
-}
-
 /*
   coor = coorX or coorY;
   range = width or length;
@@ -93,3 +88,16 @@ void transferImageToConsole(){
     printf("\n");
   }
 }
+
+void maskOutImage(int x, int y, int height, int width){
+    int a = 0, b = 0;
+    char symbol = 65;
+    
+  for (a=x; a<(x+width); a++){
+    for (b=y; b<(y+height); b++){
+      buffer[a][b] = symbol;
+      printf("%c", buffer[a][b]);
+    }
+    printf("\n");
+  }
+} 
