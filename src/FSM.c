@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "FSM.h"
 #include "BlockDiagram.h"
 
@@ -40,6 +41,7 @@ movementShip *initiateMovementState(){
   pThis->moveShipState = START;
   pThis->keyboard = initiateKeyboardState();
   pThis->ship = initiateSpaceShip();
+  pThis->bullet = initiateAmmo();
   pThis->kbPressed = 0;
   return pThis;
 }
@@ -66,6 +68,16 @@ char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY){
   pShip->coordinateY = newCoorY;
   draw(pShip->image->picture, pShip->image->width, pShip->image->height, pShip->coordinateX, pShip->coordinateY);
 }
+
+
+// int getTIME (){
+  // time_t time1;
+  
+  // time1 = time(NULL);
+  // printf("time = %6.3f\n ", time1);
+  
+  // return time1;
+// }
 
 void keyboardFSM(keyboardPressed *thisKey){
   int ch;
@@ -121,4 +133,54 @@ void movementShipFSM(movementShip *thisMove){
     default: thisMove->moveShipState = START;
   }
 }
- 
+
+void movementAmmoFSM(movementShip *thisState){
+  volatile int ch;
+  switch (thisState->moveAmmoState) {
+    case STARTBullet:
+      thisState->bullet->coorX = thisState->ship->coordinateX;
+      thisState->bullet->coorY = thisState->ship->coordinateY;
+      thisState->bullet->timeInterval = 0.25;
+      thisState->bullet->recordedTime = 0;
+      thisState->moveAmmoState = RELEASEBullet;
+    break;
+    case RELEASEBullet:
+      if (getKbPressed(thisState->kbPressed) == BUTTON_PRESSED) {
+        thisState->keyboard->buttonState = BUTTONHIT;
+        keyboardFSM(thisState->keyboard);
+        thisState->moveAmmoState = PRESSEDBullet;
+      }
+      else {
+        thisState->keyboard->buttonState = BUTTONNOHIT;
+        keyboardFSM(thisState->keyboard);
+        thisState->moveShipState = RELEASEBullet;
+      }
+      break;
+    case PRESSEDBullet:
+      if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACE){
+        thisState->bullet->recordedTime = getTIME();
+      }
+      else{
+        thisState->bullet->recordedTime = 0;
+      }
+      thisState->moveAmmoState = RELEASEBullet;
+      break;
+    case MOVEBULLETONESTEP:
+      if (getTIME() - (thisState->bullet->recordedTime) == thisState->bullet->timeInterval){
+        thisState->bullet->recordedTime = getTIME();
+        thisState->bullet->coorY = thisState->bullet->coorY -1;
+        thisState->bullet->coorX = thisState->bullet->coorX;
+        //relativeMoveImage(thisState->bullet, 0, -1);
+        
+        thisState->moveAmmoState = MOVEBULLETONESTEP;
+      }
+      else {
+        //relativeMoveImage(thisState->bullet, 0, 0);
+        thisState->bullet->coorY = thisState->bullet->coorY;
+        thisState->bullet->coorX = thisState->bullet->coorX;
+        thisState->moveAmmoState = MOVEBULLETONESTEP;
+      }
+      break;
+      default: thisState->moveShipState = STARTBullet;
+  }
+}
