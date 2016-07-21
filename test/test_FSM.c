@@ -109,13 +109,6 @@ void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   TEST_ASSERT_EQUAL(RELEASE, pThis->moveShipState);
 }
 
-// void test_time_interval_for_move_one_step_ammo(void){
-  // movementShip *pThis = initiateMovementState();
-  // int i = getTIME ();
-  
- // // TEST_ASSERT_EQUAL_(0,i);
-// }
-
 void test_ammo_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(void){
   movementShip *pThis = initiateMovementState();
   pThis->ship->coordinateX = 24;
@@ -149,18 +142,29 @@ void test_keyboard_press_space_should_return_the_direction_thirty_two(void){
   getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_PRESSED);
   movementAmmoFSM(pThis);
 
-  TEST_ASSERT_EQUAL(KEY_SPACE, pThis->keyboard->escCode);
+  TEST_ASSERT_EQUAL(KEY_SPACEBAR, pThis->keyboard->escCode);
   TEST_ASSERT_EQUAL(BUTTONHIT, pThis->keyboard->buttonState);
   TEST_ASSERT_EQUAL(PRESSEDBullet, pThis->moveAmmoState);
 }
 
 void test_move_bullet_one_step(void){
+  char bullet[] = {"|"};
+  
   movementShip *pThis = initiateMovementState();
+  pThis->bullet->image->picture = (char *)bullet;
+  pThis->bullet->image->height = 1;
+  pThis->bullet->image->width = 1;
+  pThis->bullet->coorX = 25;
+  pThis->bullet->coorY = 46;
+  pThis->bullet->recordedTime = 0;
+  pThis->bullet->timeInterval = 250;
   pThis->moveAmmoState = MOVEBULLETONESTEP; 
+  
+  getTIME_ExpectAndReturn(250);
+  getTIME_ExpectAndReturn(100);
+  
   movementAmmoFSM(pThis);
   
-  //getTIME_ExpectAndReturn(0.25);
- // pThis->bullet->recordedTime = 0.00;
-  
-  //TEST_ASSERT_EQUAL( pThis->moveAmmoState,MOVEBULLETONESTEP);
-}
+  TEST_ASSERT_EQUAL(pThis->moveAmmoState, MOVEBULLETONESTEP);
+  TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
+  }

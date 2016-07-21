@@ -10,7 +10,7 @@
 #define KEY_UP    72
 #define KEY_RIGHT 77
 #define KEY_DOWN  80
-#define KEY_SPACE 32
+#define KEY_SPACEBAR 32
 
 
 typedef enum {
@@ -47,10 +47,10 @@ struct Image{
 
 typedef struct Ammo Ammo;
 struct Ammo{
-  char *whichAmmo;
+  Image *image;
   int coorX;
   int coorY;
-  int timeInterval;
+  double timeInterval;
   double recordedTime;
 };
 
@@ -75,12 +75,13 @@ Image *initiateImage();
 Ammo *initiateAmmo();
 SpaceShip *initiateSpaceShip();
 movementShip *initiateMovementState();
-char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY);
+char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage);
+char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet);
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-// void moveAmmo(Ammo *moveAmmo);
 //int getTIME ();
 void movementAmmoFSM(movementShip *thisState);
+
 #endif // FSM_H
 
 

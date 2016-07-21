@@ -7,5 +7,6 @@ int getKbPressed(int pressed);
 int getKbCodeLeft(int code);
 int getKbCodeRight(int code);
 int getKbCodeSpace(int code);
-int getTIME();
+double getTIME();
+double getTimeInterval(int timeInterval);
 #endif // Action_H

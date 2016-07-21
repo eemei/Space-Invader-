@@ -21,10 +21,11 @@ Image *initiateImage(){
 
 Ammo *initiateAmmo(){
   Ammo *pAmmo = malloc(sizeof(Ammo));
-  pAmmo->whichAmmo = NULL;
+  pAmmo->image = initiateImage();
   pAmmo->coorX = 0;
   pAmmo->coorY = 0;
   pAmmo->timeInterval = 0;
+  pAmmo->recordedTime = 0;
   return pAmmo;
 }
 
@@ -46,11 +47,11 @@ movementShip *initiateMovementState(){
   return pThis;
 }
 
-char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY){
+char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage){
   int newCoorX, newCoorY;
   
-  newCoorX = pShip->coordinateX + deltaX;
-  newCoorY = pShip->coordinateY + deltaY;
+  newCoorX = pShip->coordinateX + deltaXImage;
+  newCoorY = pShip->coordinateY + deltaYImage;
   
   if (newCoorX > 47){
     newCoorX = 47;
@@ -67,6 +68,27 @@ char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY){
   pShip->coordinateX = newCoorX;
   pShip->coordinateY = newCoorY;
   draw(pShip->image->picture, pShip->image->width, pShip->image->height, pShip->coordinateX, pShip->coordinateY);
+}
+
+char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
+  int newCoorX, newCoorY;
+  
+  newCoorX = pBullet->coorX + deltaXBullet;
+  newCoorY = pBullet->coorY + deltaYBullet;
+  
+  if (newCoorY <= 0){
+    newCoorY = 0;
+  }
+  else{
+    newCoorX = newCoorX;
+    newCoorY = newCoorY;
+  }
+  /*hit enemy explosion*/
+  
+  maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+  pBullet->coorX = newCoorX;
+  pBullet->coorY = newCoorY;
+  draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
 
@@ -140,10 +162,10 @@ void movementAmmoFSM(movementShip *thisState){
     case STARTBullet:
       thisState->bullet->coorX = thisState->ship->coordinateX;
       thisState->bullet->coorY = thisState->ship->coordinateY;
-      thisState->bullet->timeInterval = 0.25;
+      thisState->bullet->timeInterval = 250;
       thisState->bullet->recordedTime = 0;
       thisState->moveAmmoState = RELEASEBullet;
-    break;
+      break;
     case RELEASEBullet:
       if (getKbPressed(thisState->kbPressed) == BUTTON_PRESSED) {
         thisState->keyboard->buttonState = BUTTONHIT;
@@ -157,30 +179,30 @@ void movementAmmoFSM(movementShip *thisState){
       }
       break;
     case PRESSEDBullet:
-      if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACE){
+      if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACEBAR){
         thisState->bullet->recordedTime = getTIME();
+        thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       else{
         thisState->bullet->recordedTime = 0;
+        thisState->moveAmmoState = RELEASEBullet;
       }
-      thisState->moveAmmoState = RELEASEBullet;
       break;
     case MOVEBULLETONESTEP:
       if (getTIME() - (thisState->bullet->recordedTime) == thisState->bullet->timeInterval){
         thisState->bullet->recordedTime = getTIME();
-        thisState->bullet->coorY = thisState->bullet->coorY -1;
-        thisState->bullet->coorX = thisState->bullet->coorX;
-        //relativeMoveImage(thisState->bullet, 0, -1);
-        
+        // thisState->bullet->coorY = thisState->bullet->coorY - 1;
+        // thisState->bullet->coorX = thisState->bullet->coorX;
+        relativeMoveBullet(thisState->bullet, 0, -1);
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       else {
-        //relativeMoveImage(thisState->bullet, 0, 0);
-        thisState->bullet->coorY = thisState->bullet->coorY;
-        thisState->bullet->coorX = thisState->bullet->coorX;
+        // thisState->bullet->coorY = thisState->bullet->coorY;
+        // thisState->bullet->coorX = thisState->bullet->coorX;
+        relativeMoveBullet(thisState->bullet, 0, 0);
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       break;
-      default: thisState->moveShipState = STARTBullet;
+    default: thisState->moveShipState = STARTBullet;
   }
 }
