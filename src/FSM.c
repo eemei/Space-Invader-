@@ -91,15 +91,16 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
+ 
+uint32_t getSystemTime(){
+  SYSTEMTIME st;
+  
+  GetSystemTime(&st);
+  printf("time :%d/%d/%d  %d:%d:%d %d\n",st.wDay,st.wMonth,st.wYear, st.wHour, st.wMinute, st.wSecond , st.wMilliseconds);
+ 
+  return (st.wSecond * 1000) + st.wMilliseconds;
+}
 
-// int getTIME (){
-  // time_t time1;
-  
-  // time1 = time(NULL);
-  // printf("time = %6.3f\n ", time1);
-  
-  // return time1;
-// }
 
 void keyboardFSM(keyboardPressed *thisKey){
   int ch;
@@ -162,7 +163,7 @@ void movementAmmoFSM(movementShip *thisState){
     case STARTBullet:
       thisState->bullet->coorX = thisState->ship->coordinateX;
       thisState->bullet->coorY = thisState->ship->coordinateY;
-      thisState->bullet->timeInterval = 250;
+      thisState->bullet->timeInterval = 250; // 250ms 
       thisState->bullet->recordedTime = 0;
       thisState->moveAmmoState = RELEASEBullet;
       break;
@@ -180,7 +181,7 @@ void movementAmmoFSM(movementShip *thisState){
       break;
     case PRESSEDBullet:
       if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACEBAR){
-        thisState->bullet->recordedTime = getTIME();
+        thisState->bullet->recordedTime = getSystemTime();
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       else{
@@ -189,16 +190,12 @@ void movementAmmoFSM(movementShip *thisState){
       }
       break;
     case MOVEBULLETONESTEP:
-      if (getTIME() - (thisState->bullet->recordedTime) == thisState->bullet->timeInterval){
-        thisState->bullet->recordedTime = getTIME();
-        // thisState->bullet->coorY = thisState->bullet->coorY - 1;
-        // thisState->bullet->coorX = thisState->bullet->coorX;
+      if (getSystemTime() - (thisState->bullet->recordedTime) >= thisState->bullet->timeInterval){
+        thisState->bullet->recordedTime = getSystemTime();
         relativeMoveBullet(thisState->bullet, 0, -1);
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       else {
-        // thisState->bullet->coorY = thisState->bullet->coorY;
-        // thisState->bullet->coorX = thisState->bullet->coorX;
         relativeMoveBullet(thisState->bullet, 0, 0);
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }

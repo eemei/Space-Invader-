@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <windows.h>
 #include "unity.h"
 #include "FSM.h"
 #include "BlockDiagram.h"
@@ -147,7 +149,31 @@ void test_keyboard_press_space_should_return_the_direction_thirty_two(void){
   TEST_ASSERT_EQUAL(PRESSEDBullet, pThis->moveAmmoState);
 }
 
-void test_move_bullet_one_step(void){
+// void test_move_bullet_one_step_with_mock_the_time(void){
+  // char bullet[] = {"|"};
+  
+  // movementShip *pThis = initiateMovementState();
+  // pThis->bullet->image->picture = (char *)bullet;
+  // pThis->bullet->image->height = 1;
+  // pThis->bullet->image->width = 1;
+  // pThis->bullet->coorX = 25;
+  // pThis->bullet->coorY = 46;
+  // pThis->bullet->recordedTime = 0;
+  // pThis->bullet->timeInterval = 250;
+  // pThis->moveAmmoState = MOVEBULLETONESTEP; 
+  
+  // getTIME_ExpectAndReturn(250);
+  // getTIME_ExpectAndReturn(100);
+  
+  // movementAmmoFSM(pThis);
+  
+  // TEST_ASSERT_EQUAL(pThis->moveAmmoState, MOVEBULLETONESTEP);
+  // TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
+  // TEST_ASSERT_EQUAL(25, pThis->bullet->coorX); 
+//}
+
+  
+void test_move_bullet_with_delta_x_zero_and_delta_y_negative_one(void){
   char bullet[] = {"|"};
   
   movementShip *pThis = initiateMovementState();
@@ -156,15 +182,38 @@ void test_move_bullet_one_step(void){
   pThis->bullet->image->width = 1;
   pThis->bullet->coorX = 25;
   pThis->bullet->coorY = 46;
+
+  relativeMoveBullet(pThis->bullet, 0, -1);
+  transferImageToConsole();
+
+  TEST_ASSERT_EQUAL(25, pThis->bullet->coorX);
+  TEST_ASSERT_EQUAL(45, pThis->bullet->coorY);
+}
+
+void test_get_current_time(void){
+
+  uint32_t start, end;
+  char get_char[256];
+  uint32_t diffms;
+
+  start = getSystemTime();
+  gets (get_char);                  /* act as a interrupt to proceed next station*/
+  end = getSystemTime();
+  diffms = end - start;
+  printf ("diffms = %i\n ", diffms);
+}
+
+void test_get_system_time_together_with_FSM_without_mock(void){
+  movementShip *pThis = initiateMovementState();
+  
+  pThis->bullet->coorX = 25;
+  pThis->bullet->coorY = 46;
   pThis->bullet->recordedTime = 0;
   pThis->bullet->timeInterval = 250;
   pThis->moveAmmoState = MOVEBULLETONESTEP; 
-  
-  getTIME_ExpectAndReturn(250);
-  getTIME_ExpectAndReturn(100);
-  
   movementAmmoFSM(pThis);
   
   TEST_ASSERT_EQUAL(pThis->moveAmmoState, MOVEBULLETONESTEP);
   TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
-  }
+  TEST_ASSERT_EQUAL(25, pThis->bullet->coorX); 
+}
