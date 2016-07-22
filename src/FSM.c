@@ -94,10 +94,11 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
  
 uint32_t getSystemTime(){
   SYSTEMTIME st;
+  
   GetSystemTime(&st);
-  printf("%d/%d/%d  %d:%d:%d %d\n",st.wDay,st.wMonth,st.wYear, st.wHour, st.wMinute, st.wSecond , st.wMilliseconds);
-  // return (st.wSecond * 1000) + st.wMilliseconds;
-  return st.wMilliseconds;
+  printf("time :%d/%d/%d  %d:%d:%d %d\n",st.wDay,st.wMonth,st.wYear, st.wHour, st.wMinute, st.wSecond , st.wMilliseconds);
+ 
+  return (st.wSecond * 1000) + st.wMilliseconds;
 }
 
 
@@ -180,7 +181,7 @@ void movementAmmoFSM(movementShip *thisState){
       break;
     case PRESSEDBullet:
       if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACEBAR){
-        thisState->bullet->recordedTime = getTIME();
+        thisState->bullet->recordedTime = getSystemTime();
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
       else{
@@ -189,8 +190,8 @@ void movementAmmoFSM(movementShip *thisState){
       }
       break;
     case MOVEBULLETONESTEP:
-      if (getTIME() - (thisState->bullet->recordedTime) == thisState->bullet->timeInterval){
-        thisState->bullet->recordedTime = getTIME();
+      if (getSystemTime() - (thisState->bullet->recordedTime) >= thisState->bullet->timeInterval){
+        thisState->bullet->recordedTime = getSystemTime();
         relativeMoveBullet(thisState->bullet, 0, -1);
         thisState->moveAmmoState = MOVEBULLETONESTEP;
       }
