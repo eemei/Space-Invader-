@@ -1,6 +1,6 @@
 #ifndef SpaceInvaders_H
 #define SpaceInvaders_H
 
-void spaceInvader();
+//void spaceInvader();
 
 #endif // SpaceInvaders_H

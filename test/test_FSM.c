@@ -108,3 +108,63 @@ void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   TEST_ASSERT_EQUAL(47, pThis->ship->coordinateY);
   TEST_ASSERT_EQUAL(RELEASE, pThis->moveShipState);
 }
+
+void test_ammo_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(void){
+  movementShip *pThis = initiateMovementState();
+  pThis->ship->coordinateX = 24;
+  pThis->ship->coordinateY = 47;
+  pThis->moveAmmoState = STARTBullet;
+  movementAmmoFSM(pThis);
+  
+  TEST_ASSERT_EQUAL(24, pThis->bullet->coorX);
+  TEST_ASSERT_EQUAL(47, pThis->bullet->coorY);
+  TEST_ASSERT_EQUAL(RELEASEBullet, pThis->moveAmmoState);
+}
+
+void test_keyboard_no_press_should_return_the_direction_zero_in_ammo_state(void){
+  movementShip *pThis = initiateMovementState();
+  
+  pThis->moveAmmoState = RELEASEBullet;
+  pThis->keyboard->buttonState = BUTTONNOHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_RELEASED);
+  movementAmmoFSM(pThis);
+  
+  TEST_ASSERT_EQUAL(BUTTON_RELEASED, pThis->keyboard->escCode);
+  TEST_ASSERT_EQUAL(BUTTONHIT, pThis->keyboard->buttonState);
+  TEST_ASSERT_EQUAL(RELEASEBullet, pThis->moveAmmoState);
+}
+
+void test_keyboard_press_space_should_return_the_direction_thirty_two(void){
+  movementShip *pThis = initiateMovementState();
+  
+  pThis->moveAmmoState = RELEASEBullet;
+  pThis->keyboard->buttonState = BUTTONHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_PRESSED);
+  movementAmmoFSM(pThis);
+
+  TEST_ASSERT_EQUAL(KEY_SPACEBAR, pThis->keyboard->escCode);
+  TEST_ASSERT_EQUAL(BUTTONHIT, pThis->keyboard->buttonState);
+  TEST_ASSERT_EQUAL(PRESSEDBullet, pThis->moveAmmoState);
+}
+
+void test_move_bullet_one_step(void){
+  char bullet[] = {"|"};
+  
+  movementShip *pThis = initiateMovementState();
+  pThis->bullet->image->picture = (char *)bullet;
+  pThis->bullet->image->height = 1;
+  pThis->bullet->image->width = 1;
+  pThis->bullet->coorX = 25;
+  pThis->bullet->coorY = 46;
+  pThis->bullet->recordedTime = 0;
+  pThis->bullet->timeInterval = 250;
+  pThis->moveAmmoState = MOVEBULLETONESTEP; 
+  
+  getTIME_ExpectAndReturn(250);
+  getTIME_ExpectAndReturn(100);
+  
+  movementAmmoFSM(pThis);
+  
+  TEST_ASSERT_EQUAL(pThis->moveAmmoState, MOVEBULLETONESTEP);
+  TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
+  }

@@ -1,6 +1,6 @@
 #ifndef FSM_H
 #define FSM_H
-
+#include <time.h>
 #include "Action.h"
 
 #define BUTTON_PRESSED   1
@@ -10,6 +10,8 @@
 #define KEY_UP    72
 #define KEY_RIGHT 77
 #define KEY_DOWN  80
+#define KEY_SPACEBAR 32
+
 
 typedef enum {
   START,
@@ -17,10 +19,18 @@ typedef enum {
   PRESSED
 }moveShip;
 
+typedef enum {
+  STARTBullet,
+  RELEASEBullet,
+  PRESSEDBullet,
+  MOVEBULLETONESTEP
+}moveAmmo;
+
 typedef enum{
   BUTTONNOHIT,
   BUTTONHIT
 }keyboardButton;
+
 
 typedef struct keyboardPressed keyboardPressed;
 struct keyboardPressed{
@@ -37,10 +47,11 @@ struct Image{
 
 typedef struct Ammo Ammo;
 struct Ammo{
-  char *whichAmmo;
+  Image *image;
   int coorX;
   int coorY;
-  int timeInterval;
+  double timeInterval;
+  double recordedTime;
 };
 
 typedef struct SpaceShip SpaceShip;
@@ -52,8 +63,10 @@ struct SpaceShip{
 
 typedef struct {
   moveShip moveShipState;
+  moveAmmo moveAmmoState;
   keyboardPressed *keyboard;
   SpaceShip *ship;
+  Ammo *bullet;
   int kbPressed;
 }movementShip;
 
@@ -62,9 +75,12 @@ Image *initiateImage();
 Ammo *initiateAmmo();
 SpaceShip *initiateSpaceShip();
 movementShip *initiateMovementState();
-char relativeMoveImage(SpaceShip *pShip, int deltaX, int deltaY);
+char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage);
+char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet);
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
+//int getTIME ();
+void movementAmmoFSM(movementShip *thisState);
 
 #endif // FSM_H
 
