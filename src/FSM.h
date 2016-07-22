@@ -1,6 +1,8 @@
 #ifndef FSM_H
 #define FSM_H
 #include <time.h>
+#include <windows.h>
+#include <stdint.h>
 #include "Action.h"
 
 #define BUTTON_PRESSED   1
@@ -79,7 +81,7 @@ char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage);
 char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet);
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
-//int getTIME ();
+uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
 
 #endif // FSM_H
