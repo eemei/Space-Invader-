@@ -22,9 +22,9 @@ typedef enum {
 }moveShip;
 
 typedef enum {
-  STARTBullet,
-  RELEASEBullet,
-  PRESSEDBullet,
+  STARTBULLET,
+  RELEASEBULLET,
+  PRESSEDBULLET,
   MOVEBULLETONESTEP
 }moveAmmo;
 

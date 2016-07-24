@@ -157,49 +157,49 @@ void movementShipFSM(movementShip *thisMove){
   }
 }
 
-void movementAmmoFSM(movementShip *thisState){
+void movementAmmoFSM(movementShip *thisAmmo){
   volatile int ch;
-  switch (thisState->moveAmmoState) {
-    case STARTBullet:
-      thisState->bullet->coorX = thisState->ship->coordinateX;
-      thisState->bullet->coorY = thisState->ship->coordinateY;
-      thisState->bullet->timeInterval = 250; // 250ms 
-      thisState->bullet->recordedTime = 0;
-      thisState->moveAmmoState = RELEASEBullet;
+  switch (thisAmmo->moveAmmoState) {
+    case STARTBULLET:
+      thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX;
+      thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY;
+      thisAmmo->bullet->timeInterval = 250; // 250ms 
+      thisAmmo->bullet->recordedTime = 0;
+      thisAmmo->moveAmmoState = RELEASEBULLET;
       break;
-    case RELEASEBullet:
-      if (getKbPressed(thisState->kbPressed) == BUTTON_PRESSED) {
-        thisState->keyboard->buttonState = BUTTONHIT;
-        keyboardFSM(thisState->keyboard);
-        thisState->moveAmmoState = PRESSEDBullet;
+    case RELEASEBULLET:
+      if (getKbPressed(thisAmmo->kbPressed) == BUTTON_PRESSED) {
+        thisAmmo->keyboard->buttonState = BUTTONHIT;
+        keyboardFSM(thisAmmo->keyboard);
+        thisAmmo->moveAmmoState = PRESSEDBULLET;
       }
       else {
-        thisState->keyboard->buttonState = BUTTONNOHIT;
-        keyboardFSM(thisState->keyboard);
-        thisState->moveShipState = RELEASEBullet;
+        thisAmmo->keyboard->buttonState = BUTTONNOHIT;
+        keyboardFSM(thisAmmo->keyboard);
+        thisAmmo->moveShipState = RELEASEBULLET;
       }
       break;
-    case PRESSEDBullet:
-      if (getKbCodeSpace(thisState->keyboard->escCode) == KEY_SPACEBAR){
-        thisState->bullet->recordedTime = getSystemTime();
-        thisState->moveAmmoState = MOVEBULLETONESTEP;
+    case PRESSEDBULLET:
+      if (getKbCodeSpace(thisAmmo->keyboard->escCode) == KEY_SPACEBAR){
+        thisAmmo->bullet->recordedTime = getSystemTime();
+        thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
       else{
-        thisState->bullet->recordedTime = 0;
-        thisState->moveAmmoState = RELEASEBullet;
+        thisAmmo->bullet->recordedTime = 0;
+        thisAmmo->moveAmmoState = RELEASEBULLET;
       }
       break;
     case MOVEBULLETONESTEP:
-      if (getSystemTime() - (thisState->bullet->recordedTime) >= thisState->bullet->timeInterval){
-        thisState->bullet->recordedTime = getSystemTime();
-        relativeMoveBullet(thisState->bullet, 0, -1);
-        thisState->moveAmmoState = MOVEBULLETONESTEP;
+      if (getSystemTime() - (thisAmmo->bullet->recordedTime) >= thisAmmo->bullet->timeInterval){
+        thisAmmo->bullet->recordedTime = getSystemTime();
+        relativeMoveBullet(thisAmmo->bullet, 0, -1);
+        thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
       else {
-        relativeMoveBullet(thisState->bullet, 0, 0);
-        thisState->moveAmmoState = MOVEBULLETONESTEP;
+        relativeMoveBullet(thisAmmo->bullet, 0, 0);
+        thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
       break;
-    default: thisState->moveShipState = STARTBullet;
+    default: thisAmmo->moveShipState = STARTBULLET;
   }
 }

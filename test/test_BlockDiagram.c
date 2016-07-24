@@ -30,13 +30,12 @@ void test_jumper_return_zero_given_buffer_size_ten_coordinate_four_and_width_fou
 }
 
 void test_image_with_coordinate_inside_the_range(void){
-	char shelter[][5] = {{"-----"},
-                       {"|[+]|"},
-                       {"-----"}};
+	char ship[][3] = {{" T "},
+                    {"[+]"}};
 
 	bufferFiller(50, 50, 0x2e);
   
-  draw((char *)shelter, 5, 3, 5, 6);
+  draw((char *)ship, 3, 2, 5, 6);
   transferImageToConsole();
 }
 
