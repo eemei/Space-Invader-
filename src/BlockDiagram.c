@@ -70,8 +70,13 @@ void draw(char *image, int width, int length, int coorX, int coorY) {
   
   for (i = 0; i < length; i++){
     for (j = 0; j < width; j++){
-      buffer[coorY+i][coorX+j] = *(image++); 
-      // printf("%c", buffer[coorY+i][coorX+j]);
+      if (*image == 32){
+        image++;        
+      }
+      else{
+        buffer[coorY+i][coorX+j] = *(image++);                 
+      }
+      printf("%c", buffer[coorY+i][coorX+j]);
     }
     image = image + jumpNumX;
     printf("\n");
