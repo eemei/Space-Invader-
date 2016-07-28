@@ -4,12 +4,10 @@
 #include <malloc.h>
 
 typedef struct listElement listElement;
-  struct listElement{
+struct listElement{
   int coorX;
   int coorY;
-  char *image;
-  int height;
-  int width;
+  int indexNum;
   listElement *next;
 };
 
@@ -17,10 +15,14 @@ typedef struct linkList linkList;
 struct linkList {
   listElement *head;
   listElement *tail;
+  int length;
 };
 
 linkList *createdLinkList();
 listElement *createdlistElement(int coordinateX, int coordinateY);
 void addList(listElement *newElement, linkList *newlinkElement);
-// void deleteList(listElement *element, linkList *link, int x, int y);
+void deleteFirstNode(listElement *firstElement, linkList *link);
+void deleteOneNode(listElement *element, linkList *link);
+void deleteLastNode(listElement *lastElement, linkList *link);
+
 #endif // linkList_H
