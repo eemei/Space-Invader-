@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include "BlockDiagram.h"
+#include <time.h>
+
 
 char buffer[50][50];
 
@@ -107,3 +108,38 @@ void maskOutImage(int coorX, int coorY, int width, int height){
     printf("\n");
   }
 } 
+
+double waitStage(double sec){
+  clock_t start,end;
+  double execution;
+
+  start=clock();
+  clock_t wait = sec*CLOCKS_PER_SEC;
+  
+  while(clock () < wait){}
+
+  end=clock();
+  
+  execution = (double)(end-start)/CLOCKS_PER_SEC;
+  printf("the program take %lf second\n",execution);
+  return execution;
+}
+
+/* has the same value every time you execute it, 
+ - since the value of sec never changes. 
+ - So in your second program, 
+ - the loop will wait on the first iteration 
+ - until one second past program start, 
+ - and on the subsequent iterations will never wait again,
+ - because more than one second will have passed 
+ - since program start and clock() < wait will never again be true.
+*/
+void exploreSequence(char *image1, char *image2, char *image3, int width, int length, int coorX, int coorY){
+  draw(image1, width, length, coorX, coorY);
+  waitStage(0.15);
+  draw(image2, width+1, length, coorX, coorY);
+  waitStage(0.30);
+  draw (image3, width+2, length, coorX, coorY);
+  waitStage(0.45);
+}
+
