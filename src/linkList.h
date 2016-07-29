@@ -5,6 +5,9 @@
 
 typedef struct listElement listElement;
 struct listElement{
+  char *diagram;
+  int width;
+  int height;
   int coorX;
   int coorY;
   int indexNum;
@@ -19,7 +22,7 @@ struct linkList {
 };
 
 linkList *createdLinkList();
-listElement *createdlistElement(int coordinateX, int coordinateY);
+listElement *createdlistElement(char *image, int width, int height, int coordinateX, int coordinateY);
 void addList(listElement *newElement, linkList *newlinkElement);
 void deleteFirstNode(listElement *firstElement, linkList *link);
 void deleteOneNode(listElement *element, linkList *link);

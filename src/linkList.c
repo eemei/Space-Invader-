@@ -8,8 +8,11 @@ linkList *createdLinkList(){
   return plinkList;
 }
 
-listElement *createdlistElement(int coordinateX, int coordinateY){
+listElement *createdlistElement(char *image, int width, int height, int coordinateX, int coordinateY){
   listElement *plistElement = malloc(sizeof(listElement));
+  plistElement->diagram = image;
+  plistElement->width = width;
+  plistElement->height = height;
   plistElement->coorX = coordinateX;
   plistElement->coorY = coordinateY;
   plistElement->indexNum = 0;
@@ -47,11 +50,15 @@ void deleteFirstNode(listElement *firstElement, linkList *link){
       link->tail = NULL;
     }
     else{
+      link->head->diagram = link->head->next->diagram;
+      link->head->width = link->head->next->width;
+      link->head->height = link->head->next->height;
       link->head->coorX = link->head->next->coorX;
       link->head->coorY = link->head->next->coorY;
       link->head->indexNum = link->head->next->indexNum;
-      link->head->next = link->head->next->next;
-      firstElement = NULL;
+      link->head = link->head->next;
+
+      free(firstElement);
     }
   }
 }
@@ -65,21 +72,24 @@ void deleteOneNode(listElement *element, linkList *link){
     printf("No node needs to be freed");
   }
   else{
-    while(tempNode != element) {
+    while(tempNode->next != element) {
       tempNode = tempNode->next;
     }   
     
-    if(link->head->next == NULL) {
-      printf("\n Given node is not present in Linked List");
+    if(tempNode->next == NULL) {
+      printf("\n Given node is not present in the Linked List");
       return;
     }
     
-    tempNode->coorX = tempNode->next->coorX;
-    tempNode->coorY = tempNode->next->coorY;
-    tempNode->indexNum = tempNode->next->indexNum;
-    tempNode = tempNode->next;
+    tempNode->next->diagram = tempNode->next->next->diagram;
+    tempNode->next->width = tempNode->next->next->width;
+    tempNode->next->height = tempNode->next->next->height;
+    tempNode->next->coorX = tempNode->next->next->coorX;
+    tempNode->next->coorY = tempNode->next->next->coorY;
+    tempNode->next->indexNum = tempNode->next->next->indexNum;
+    tempNode->next = tempNode->next->next;
     
-    element = NULL;
+    free(element);
   }
 }
 
@@ -101,11 +111,15 @@ void deleteLastNode(listElement *lastElement, linkList *link){
       return;
     }
     
+    link->tail->diagram = tempNode->diagram;
+    link->tail->width = tempNode->width;
+    link->tail->height = tempNode->height;
     link->tail->coorX = tempNode->coorX;
     link->tail->coorY = tempNode->coorY;
     link->tail->indexNum = tempNode->indexNum;
+    link->tail = tempNode;
     
-    lastElement = NULL;
+    free(lastElement);
   }
 }
 
