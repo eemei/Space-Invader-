@@ -134,7 +134,7 @@ double waitStage(double sec){
  - because more than one second will have passed 
  - since program start and clock() < wait will never again be true.
 */
-void exploreSequence(char *image1, char *image2, char *image3, int width, int length, int coorX, int coorY){
+void explodeSequence(char *image1, char *image2, char *image3, int width, int length, int coorX, int coorY){
   draw(image1, width, length, coorX, coorY);
   waitStage(0.15);
   draw(image2, width+1, length, coorX, coorY);

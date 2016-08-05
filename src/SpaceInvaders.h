@@ -1,6 +1,10 @@
 #ifndef SpaceInvaders_H
 #define SpaceInvaders_H
 
-//void spaceInvader();
+#include "FSM.h"
+#include "linkList.h"
+#include "BlockDiagram.h"
+
+void spaceInvader();
 
 #endif // SpaceInvaders_H
