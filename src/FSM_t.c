@@ -1,13 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "FSM.h"
 #include "BlockDiagram.h"
+#include "FSM_t.h"
 
 keyboardPressed *initiateKeyboardState(){
   keyboardPressed *thisKey = malloc(sizeof(keyboardPressed));
   thisKey->buttonState = BUTTONNOHIT;
-  thisKey->kbPressed = 0;
   thisKey->escCode = 0;
   return thisKey;
 }
@@ -41,20 +40,11 @@ SpaceShip *initiateSpaceShip(){
 movementShip *initiateMovementState(){
   movementShip *pThis = malloc(sizeof(movementShip));
   pThis->moveShipState = START;
-  pThis->moveAmmoState = STARTBULLET;
   pThis->keyboard = initiateKeyboardState();
-  pThis->moveAlienState = MOVELEFT;
   pThis->ship = initiateSpaceShip();
   pThis->bullet = initiateAmmo();
+  pThis->kbPressed = 0;
   return pThis;
-}
-
-int getKbPressed(){
-  return kbhit();
-}
-
-int getKbCode(movementShip *thisCode){
-  return thisCode->keyboard->escCode;
 }
 
 char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage){
@@ -111,12 +101,6 @@ uint32_t getSystemTime(){
   return (st.wSecond * 1000) + st.wMilliseconds;
 }
 
-/*
- *    @brief This is the FSM of keyboard
- *           that reacts with specific key pressed.
- *    @aug   keyboardPressed *thisKey
- *
- */
 
 void keyboardFSM(keyboardPressed *thisKey){
   int ch;
@@ -132,14 +116,13 @@ void keyboardFSM(keyboardPressed *thisKey){
         ch = getch();
       }
       thisKey->escCode = ch;
-      thisKey->kbPressed = 0;
       break;
     default: thisKey->buttonState = BUTTONNOHIT;
   }
 }
 
 void movementShipFSM(movementShip *thisMove){
-  volatile int keyCode;
+  volatile int ch;
   switch (thisMove->moveShipState) {
     case START:
       thisMove->ship->coordinateX = 24;
@@ -147,7 +130,7 @@ void movementShipFSM(movementShip *thisMove){
       thisMove->moveShipState = RELEASE;
       break;
     case RELEASE:
-      if ((thisMove->keyboard->kbPressed = getKbPressed()) == BUTTON_PRESSED) {
+      if (getKbPressed(thisMove->kbPressed) == BUTTON_PRESSED) {
         thisMove->keyboard->buttonState = BUTTONHIT;
         keyboardFSM(thisMove->keyboard);
         thisMove->moveShipState = PRESSED;
@@ -159,10 +142,10 @@ void movementShipFSM(movementShip *thisMove){
       }
       break;
     case PRESSED:
-      if (getKbCode(thisMove) == KEY_LEFT){
+      if (getKbCodeLeft(thisMove->keyboard->escCode) == KEY_LEFT){
         relativeMoveImage(thisMove->ship, -1, 0);
       }
-      else if (getKbCode(thisMove) == KEY_RIGHT){
+      else if (getKbCodeRight(thisMove->keyboard->escCode) == KEY_RIGHT){
         relativeMoveImage(thisMove->ship, 1, 0);
       }
       else{
@@ -175,6 +158,7 @@ void movementShipFSM(movementShip *thisMove){
 }
 
 void movementAmmoFSM(movementShip *thisAmmo){
+  volatile int ch;
   switch (thisAmmo->moveAmmoState) {
     case STARTBULLET:
       thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX;
@@ -184,7 +168,7 @@ void movementAmmoFSM(movementShip *thisAmmo){
       thisAmmo->moveAmmoState = RELEASEBULLET;
       break;
     case RELEASEBULLET:
-      if ((thisAmmo->keyboard->kbPressed = getKbPressed()) == BUTTON_PRESSED) {
+      if (getKbPressed(thisAmmo->kbPressed) == BUTTON_PRESSED) {
         thisAmmo->keyboard->buttonState = BUTTONHIT;
         keyboardFSM(thisAmmo->keyboard);
         thisAmmo->moveAmmoState = PRESSEDBULLET;
@@ -196,7 +180,7 @@ void movementAmmoFSM(movementShip *thisAmmo){
       }
       break;
     case PRESSEDBULLET:
-      if (getKbCode(thisAmmo) == KEY_SPACEBAR){
+      if (getKbCodeSpace(thisAmmo->keyboard->escCode) == KEY_SPACEBAR){
         thisAmmo->bullet->recordedTime = getSystemTime();
         thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
@@ -219,35 +203,3 @@ void movementAmmoFSM(movementShip *thisAmmo){
     default: thisAmmo->moveShipState = STARTBULLET;
   }
 }
-
-void alienFSM(movementShip *enemy){
-  switch (enemy->moveAlienState){
-    case MOVERIGHT:
-      if (enemy->ship->coordinateX<=46){
-        relativeMoveImage(enemy->ship, 1, 0);
-        enemy->moveAlienState = MOVERIGHT;
-      }
-      else
-        enemy->moveAlienState = MOVEDOWN;
-      break;
-    case MOVEDOWN:
-      relativeMoveImage(enemy->ship, 0, 1);
-      if (enemy->ship->coordinateX>=46)
-        enemy->moveAlienState = MOVELEFT;
-      else
-        enemy->moveAlienState = MOVERIGHT;
-      break;
-    case MOVELEFT:
-      if (enemy->ship->coordinateX>=0){
-        relativeMoveImage(enemy->ship, -1, 0);
-        enemy->moveAlienState = MOVELEFT;
-      }
-      else
-        enemy->moveAlienState = MOVEDOWN;
-      break;
-    default: relativeMoveImage(enemy->ship, 0, 0);
-  }
-}
-
-
-

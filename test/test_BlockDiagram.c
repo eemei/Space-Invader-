@@ -63,8 +63,7 @@ void test_explore_sequence_to_buffer(void){
   char explode3[][6] = {{" <  > "},
                         {"<    >"}};
                            
- exploreSequence((char *)explode1, (char *)explode2, (char *)explode3, 4, 2, 13, 16);                          
-  //transferImageToConsole();
+ explodeSequence((char *)explode1, (char *)explode2, (char *)explode3, 4, 2, 13, 16);
 }
 
 void test_waitStage_with_input_150ms(void){

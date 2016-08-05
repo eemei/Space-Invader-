@@ -4,11 +4,16 @@
 #include <windows.h>
 #include "unity.h"
 #include "FSM.h"
-#include "BlockDiagram.h"
+#include "mock_Action.h"
+#include "FSM_t.h"
 
-void setUp(void){}
+void setUp(void)
+{
+}
 
-void tearDown(void){}
+void tearDown(void)
+{
+}
 
 void test_ship_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(void){
   movementShip *pThis = initiateMovementState();
@@ -23,11 +28,10 @@ void test_ship_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(v
 
 void test_keyboard_no_press_should_return_the_direction_zero(void){
   movementShip *pThis = initiateMovementState();
-  int keyHit;
   
   pThis->moveShipState = RELEASE;
-  while((keyHit = getKbPressed()) != 0); 
   pThis->keyboard->buttonState = BUTTONNOHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_RELEASED);
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(BUTTON_RELEASED, pThis->keyboard->escCode);
@@ -37,10 +41,10 @@ void test_keyboard_no_press_should_return_the_direction_zero(void){
 
 void test_keyboard_press_left_should_return_the_direction_seventy_five(void){
   movementShip *pThis = initiateMovementState();
-  int keyHit;
+  
   pThis->moveShipState = RELEASE;
-  while((keyHit = getKbPressed()) != 1); 
   pThis->keyboard->buttonState = BUTTONHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_PRESSED);
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(KEY_LEFT, pThis->keyboard->escCode);
@@ -50,11 +54,10 @@ void test_keyboard_press_left_should_return_the_direction_seventy_five(void){
 
 void test_keyboard_press_right_should_return_the_direction_seventy_seven(void){
   movementShip *pThis = initiateMovementState();
-  int keyHit;
   
   pThis->moveShipState = RELEASE;
   pThis->keyboard->buttonState = BUTTONHIT;
-  while((keyHit = getKbPressed()) != 1); 
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_PRESSED);
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(KEY_RIGHT, pThis->keyboard->escCode);
@@ -81,22 +84,14 @@ void test_move_with_delta_x_positive_five_and_delta_y_negative_ten(void){
   TEST_ASSERT_EQUAL(38, pThis->ship->coordinateY);
 }
 
-void test_getKbCode_should_return_seventy_five_given_escCode_seventy_five(void){
-  movementShip *thisCode = initiateMovementState();
-  int code;
-  
-  thisCode->keyboard->escCode = 75;
-  code = getKbCode(thisCode);
-  TEST_ASSERT_EQUAL(75, code);
-}
-
-void test_keyboard_pressed_left_should_return_the_coordinateX_twenty_three(void){
+void test_keyboard_press_left_should_return_the_coordinateX_twenty_three(void){
   movementShip *pThis = initiateMovementState();
   
   pThis->ship->coordinateX = 24;
   pThis->ship->coordinateY = 47;
-  pThis->keyboard->escCode = KEY_LEFT;
   pThis->moveShipState = PRESSED;
+  pThis->keyboard->buttonState = BUTTONHIT;
+  getKbCodeLeft_ExpectAndReturn(pThis->keyboard->escCode, KEY_LEFT);
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(23, pThis->ship->coordinateX);
@@ -104,13 +99,15 @@ void test_keyboard_pressed_left_should_return_the_coordinateX_twenty_three(void)
   TEST_ASSERT_EQUAL(RELEASE, pThis->moveShipState);
 }
 
-void test_keyboard_pressed_right_should_return_the_coordinateX_twenty_five(void){
+void test_keyboard_press_right_should_return_the_coordinateX_twenty_five(void){
   movementShip *pThis = initiateMovementState();
   
   pThis->ship->coordinateX = 24;
   pThis->ship->coordinateY = 47;
-  pThis->keyboard->escCode = KEY_RIGHT;
   pThis->moveShipState = PRESSED;
+  pThis->keyboard->buttonState = BUTTONHIT;
+  getKbCodeLeft_ExpectAndReturn(pThis->keyboard->escCode, KEY_RIGHT);
+  getKbCodeRight_ExpectAndReturn(pThis->keyboard->escCode, KEY_RIGHT);
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(25, pThis->ship->coordinateX);
@@ -132,11 +129,10 @@ void test_ammo_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(v
 
 void test_keyboard_no_press_should_return_the_direction_zero_in_ammo_state(void){
   movementShip *pThis = initiateMovementState();
-  int keyHit;
   
   pThis->moveAmmoState = RELEASEBULLET;
-  while((keyHit = getKbPressed()) != 0); 
   pThis->keyboard->buttonState = BUTTONNOHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_RELEASED);
   movementAmmoFSM(pThis);
   
   TEST_ASSERT_EQUAL(BUTTON_RELEASED, pThis->keyboard->escCode);
@@ -148,14 +144,38 @@ void test_keyboard_press_space_should_return_the_direction_thirty_two(void){
   movementShip *pThis = initiateMovementState();
   
   pThis->moveAmmoState = RELEASEBULLET;
-  while((getKbPressed()) != 1);
   pThis->keyboard->buttonState = BUTTONHIT;
+  getKbPressed_ExpectAndReturn(pThis->kbPressed, BUTTON_PRESSED);
   movementAmmoFSM(pThis);
 
   TEST_ASSERT_EQUAL(KEY_SPACEBAR, pThis->keyboard->escCode);
   TEST_ASSERT_EQUAL(BUTTONHIT, pThis->keyboard->buttonState);
   TEST_ASSERT_EQUAL(PRESSEDBULLET, pThis->moveAmmoState);
 }
+
+// void test_move_bullet_one_step_with_mock_the_time(void){
+  // char bullet[] = {"|"};
+  
+  // movementShip *pThis = initiateMovementState();
+  // pThis->bullet->image->picture = (char *)bullet;
+  // pThis->bullet->image->height = 1;
+  // pThis->bullet->image->width = 1;
+  // pThis->bullet->coorX = 25;
+  // pThis->bullet->coorY = 46;
+  // pThis->bullet->recordedTime = 0;
+  // pThis->bullet->timeInterval = 250;
+  // pThis->moveAmmoState = MOVEBULLETONESTEP; 
+  
+  // getTIME_ExpectAndReturn(250);
+  // getTIME_ExpectAndReturn(100);
+  
+  // movementAmmoFSM(pThis);
+  
+  // TEST_ASSERT_EQUAL(pThis->moveAmmoState, MOVEBULLETONESTEP);
+  // TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
+  // TEST_ASSERT_EQUAL(25, pThis->bullet->coorX); 
+//}
+
   
 void test_move_bullet_with_delta_x_zero_and_delta_y_negative_one(void){
   char bullet[] = {"|"};
@@ -174,7 +194,20 @@ void test_move_bullet_with_delta_x_zero_and_delta_y_negative_one(void){
   TEST_ASSERT_EQUAL(45, pThis->bullet->coorY);
 }
 
-void test_get_system_time_together_with_FSM(void){
+void test_get_current_time(void){
+
+  uint32_t start, end;
+  char get_char[256];
+  uint32_t diffms;
+
+  start = getSystemTime();
+  gets (get_char);                  /* act as a interrupt to proceed next station*/
+  end = getSystemTime();
+  diffms = end - start;
+  printf ("diffms = %i\n ", diffms);
+}
+
+void test_get_system_time_together_with_FSM_without_mock(void){
   movementShip *pThis = initiateMovementState();
   
   pThis->bullet->coorX = 25;
@@ -188,73 +221,3 @@ void test_get_system_time_together_with_FSM(void){
   TEST_ASSERT_EQUAL(45, pThis->bullet->coorY); 
   TEST_ASSERT_EQUAL(25, pThis->bullet->coorX); 
 }
-
-void test_alien_move_right_return_coorX_plus_one(void){
-  char alien1[][3] = {{" ^ "},
-                      {" @ "},
-                      {"* *"}};
-  movementShip *pEnemy = initiateMovementState();
-  
-  pEnemy->ship->image->picture = (char *)alien1;
-  pEnemy->ship->image->width = 3;
-  pEnemy->ship->image->height = 3;
-  pEnemy->ship->coordinateX = 0;
-  pEnemy->ship->coordinateY = 40;
-  pEnemy->moveAlienState = MOVERIGHT;
-  alienFSM(pEnemy);
-  transferImageToConsole(); 
-  
-  TEST_ASSERT_EQUAL_PTR(alien1, pEnemy->ship->image->picture);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->width);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->height);
-  TEST_ASSERT_EQUAL(1, pEnemy->ship->coordinateX);
-  TEST_ASSERT_EQUAL(40, pEnemy->ship->coordinateY);
-  TEST_ASSERT_EQUAL(MOVERIGHT, pEnemy->moveAlienState);
-}
-
-void test_alien_move_down_return_coorX_same_and_coorY_plus_one(void){
-  char alien1[][3] = {{" ^ "},
-                      {" @ "},
-                      {"^ ^"}};
-  movementShip *pEnemy = initiateMovementState();
-  
-  pEnemy->ship->image->picture = (char *)alien1;
-  pEnemy->ship->image->width = 3;
-  pEnemy->ship->image->height = 3;
-  pEnemy->ship->coordinateX = 4;
-  pEnemy->ship->coordinateY = 40;
-  pEnemy->moveAlienState = MOVEDOWN;
-  alienFSM(pEnemy);
-  transferImageToConsole(); 
-  
-  TEST_ASSERT_EQUAL_PTR(alien1, pEnemy->ship->image->picture);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->width);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->height);
-  TEST_ASSERT_EQUAL(4, pEnemy->ship->coordinateX);
-  TEST_ASSERT_EQUAL(41, pEnemy->ship->coordinateY);
-  TEST_ASSERT_EQUAL(MOVERIGHT, pEnemy->moveAlienState);
-}
-
-void test_alien_move_left_return_coorX_minus_one(void){
-  char alien1[][3] = {{" ^ "},
-                      {" @ "},
-                      {"+ +"}};
-  movementShip *pEnemy = initiateMovementState();
-  
-  pEnemy->ship->image->picture = (char *)alien1;
-  pEnemy->ship->image->width = 3;
-  pEnemy->ship->image->height = 3;
-  pEnemy->ship->coordinateX = 8;
-  pEnemy->ship->coordinateY = 42;
-  pEnemy->moveAlienState = MOVELEFT;
-  alienFSM(pEnemy);
-  transferImageToConsole(); 
-  
-  TEST_ASSERT_EQUAL_PTR(alien1, pEnemy->ship->image->picture);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->width);
-  TEST_ASSERT_EQUAL(3, pEnemy->ship->image->height);
-  TEST_ASSERT_EQUAL(7, pEnemy->ship->coordinateX);
-  TEST_ASSERT_EQUAL(42, pEnemy->ship->coordinateY);
-  TEST_ASSERT_EQUAL(MOVELEFT, pEnemy->moveAlienState);
-}
-

@@ -1,8 +1,9 @@
-#ifndef FSM_H
-#define FSM_H
+#ifndef FSM_t_H
+#define FSM_t_H
 #include <time.h>
 #include <windows.h>
 #include <stdint.h>
+#include "Action.h"
 
 #define BUTTON_PRESSED   1
 #define BUTTON_RELEASED  0
@@ -32,16 +33,10 @@ typedef enum{
   BUTTONHIT
 }keyboardButton;
 
-typedef enum{
-  MOVELEFT,
-  MOVERIGHT,
-  MOVEDOWN
-}moveAlien;
 
 typedef struct keyboardPressed keyboardPressed;
 struct keyboardPressed{
   keyboardButton buttonState;
-  int kbPressed;
   int escCode;
 };
 
@@ -72,9 +67,9 @@ typedef struct {
   moveShip moveShipState;
   moveAmmo moveAmmoState;
   keyboardPressed *keyboard;
-  moveAlien moveAlienState;
   SpaceShip *ship;
   Ammo *bullet;
+  int kbPressed;
 }movementShip;
 
 keyboardPressed *initiateKeyboardState();
@@ -82,16 +77,11 @@ Image *initiateImage();
 Ammo *initiateAmmo();
 SpaceShip *initiateSpaceShip();
 movementShip *initiateMovementState();
-int getKbPressed();
-int getKbCode();
 char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage);
 char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet);
 void keyboardFSM(keyboardPressed *thisKey);
 void movementShipFSM(movementShip *thisMove);
 uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
-void alienFSM(movementShip *enemy);
 
-#endif // FSM_H
-
-
+#endif // FSM_t_H
