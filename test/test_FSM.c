@@ -258,3 +258,38 @@ void test_alien_move_left_return_coorX_minus_one(void){
   TEST_ASSERT_EQUAL(MOVELEFT, pEnemy->moveAlienState);
 }
 
+
+ void test_exploreSequenceFSM(void){
+  movementShip *pThis = initiateMovementState();
+  listElement *element = NULL;
+  pThis->explodeState = INITIALIZE; 
+  explodeSequenceFSM(pThis, element);
+
+  TEST_ASSERT_EQUAL(EXPLODE1, pThis->explodeState);
+  TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));
+ }
+
+/* void test_explore_in_stage_one(void){
+  char explosion1[][4] = {{" {} "},
+                          {"{  }"}}; 
+                          
+  movementShip *pThis = initiateMovementState();
+  listElement *element = createdlistElement((char *)explosion1, 4, 2, 37, 20);
+  
+  pThis->image->picture = (char *)explosion1;
+  pThis->image->width = 4;
+  pThis->image->height = 2;
+  // element->coorX = 37;
+  // element->coorY = 20;
+  pThis->explodeState = EXPLODE1; 
+  explodeSequenceFSM(pThis, element);  
+
+  TEST_ASSERT_EQUAL(pThis->explodeState, EXPLODE2);
+  TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));  
+} */
+
+  // char explode2[][5] = {{" ( ) "},
+                        // {"(   )"}}; 
+                        
+  // char explode3[][6] = {{" <  > "},
+                        // {"<    >"}};
