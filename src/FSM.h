@@ -38,6 +38,14 @@ typedef enum{
   MOVEDOWN
 }moveAlien;
 
+typedef enum{
+  INITIALIZE,
+  EXPLODE1,
+  EXPLODE2,
+  EXPLODE3,
+  RETURNTOAMMO
+}explode;
+
 typedef struct keyboardPressed keyboardPressed;
 struct keyboardPressed{
   keyboardButton buttonState;
@@ -68,13 +76,22 @@ struct SpaceShip{
   int coordinateY;
 };
 
+typedef struct IntTime IntTime;
+struct IntTime{
+  double timeInt;
+  double recordTime;
+};
+
 typedef struct {
   moveShip moveShipState;
   moveAmmo moveAmmoState;
+  explode explodeState;
   keyboardPressed *keyboard;
   moveAlien moveAlienState;
   SpaceShip *ship;
   Ammo *bullet;
+  Image *image;
+  IntTime *timeData;
 }movementShip;
 
 keyboardPressed *initiateKeyboardState();
@@ -91,6 +108,8 @@ void movementShipFSM(movementShip *thisMove);
 uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
 void alienFSM(movementShip *enemy);
+int explodeSequenceFSM(movementShip *thisEnemy, listElement *list);
+IntTime *initialTime();
 
 #endif // FSM_H
 

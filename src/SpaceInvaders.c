@@ -32,7 +32,16 @@ const char shelter[][5] = {{"-----"},
 const char explode[][3] = {{"   "},
                            {"{ }"},
                            {"   "}};
-                         
+
+const char explode1[][4] = {{" {} "},
+                           {"{  }"}};
+                          
+const char explode2[][5] = {{" ( ) "},
+                            {"(   )"}};
+                           
+const char explode3[][6] = {{" <  > "},
+                            {"<    >"}};
+                           
 const char bullet[] = {"|"};
 
 void spaceInvader(){
