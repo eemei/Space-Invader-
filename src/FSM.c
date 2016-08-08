@@ -260,36 +260,6 @@ void alienFSM(movementShip *enemy){
 }
 
 int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
-  switch (thisEnemy->explodeState) {
-    case INITIALIZE:
-      thisEnemy->explodeState = EXPLODE1;
-      return 0;
-      break;
-    case EXPLODE1:
-      draw(thisEnemy->image->picture, thisEnemy->image->width, thisEnemy->image->height, element->coorX, element->coorY);
-      thisEnemy->explodeState = EXPLODE2;
-      return 0;
-      break;
-    case EXPLODE2:
-      draw(thisEnemy->image->picture, thisEnemy->image->width, thisEnemy->image->height, element->coorX, element->coorY);
-      thisEnemy->explodeState = EXPLODE3;
-      return 0;
-      break;
-    case EXPLODE3:
-      draw(thisEnemy->image->picture, thisEnemy->image->width, thisEnemy->image->height, element->coorX, element->coorY);
-      thisEnemy->explodeState = RETURNTOAMMO;
-      printf("done");
-      return 0;
-      break;
-    case RETURNTOAMMO:
-      thisEnemy->explodeState = RETURNTOAMMO;
-      return (1);
-      break;
-    default: thisEnemy->explodeState = INITIALIZE;
-  }
-}
-
-int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
       printf("here");
    switch (thisEnemy->explodeState) {
     case EXPLODE1:
