@@ -39,7 +39,6 @@ typedef enum{
 }moveAlien;
 
 typedef enum{
-  INITIALIZE,
   EXPLODE1,
   EXPLODE2,
   EXPLODE3,
@@ -76,10 +75,11 @@ struct SpaceShip{
   int coordinateY;
 };
 
-typedef struct IntTime IntTime;
-struct IntTime{
-  double timeInt;
-  double recordTime;
+typedef struct Enemy Enemy;
+struct Enemy{
+  Image *explorePicture;
+  int coorX;
+  int coorY;
 };
 
 typedef struct {
@@ -90,14 +90,14 @@ typedef struct {
   moveAlien moveAlienState;
   SpaceShip *ship;
   Ammo *bullet;
-  Image *image;
-  IntTime *timeData;
+  Enemy *alien;
 }movementShip;
 
 keyboardPressed *initiateKeyboardState();
 Image *initiateImage();
 Ammo *initiateAmmo();
 SpaceShip *initiateSpaceShip();
+Enemy *initialEnemy();
 movementShip *initiateMovementState();
 int getKbPressed();
 int getKbCode();
@@ -109,7 +109,6 @@ uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
 void alienFSM(movementShip *enemy);
 int explodeSequenceFSM(movementShip *thisEnemy, listElement *list);
-IntTime *initialTime();
 
 #endif // FSM_H
 
