@@ -1,8 +1,8 @@
+#include "unity.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include <windows.h>
-#include "unity.h"
 #include "FSM.h"
 #include "BlockDiagram.h"
 
@@ -259,37 +259,62 @@ void test_alien_move_left_return_coorX_minus_one(void){
 }
 
 
- void test_exploreSequenceFSM(void){
-  movementShip *pThis = initiateMovementState();
-  listElement *element = NULL;
-  pThis->explodeState = INITIALIZE; 
-  explodeSequenceFSM(pThis, element);
 
-  TEST_ASSERT_EQUAL(EXPLODE1, pThis->explodeState);
-  TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));
- }
-
-/* void test_explore_in_stage_one(void){
+void test_explore_in_stage_one(void){
+  
   char explosion1[][4] = {{" {} "},
                           {"{  }"}}; 
                           
   movementShip *pThis = initiateMovementState();
   listElement *element = createdlistElement((char *)explosion1, 4, 2, 37, 20);
   
-  pThis->image->picture = (char *)explosion1;
-  pThis->image->width = 4;
-  pThis->image->height = 2;
-  // element->coorX = 37;
-  // element->coorY = 20;
+  pThis->alien->explorePicture->picture = (char *)explosion1;
+  pThis->alien->explorePicture->width = 4;
+  pThis->alien->explorePicture->height = 2;
   pThis->explodeState = EXPLODE1; 
   explodeSequenceFSM(pThis, element);  
 
+  TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
+  TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
   TEST_ASSERT_EQUAL(pThis->explodeState, EXPLODE2);
-  TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));  
-} */
+  //TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));  
+} 
 
-  // char explode2[][5] = {{" ( ) "},
-                        // {"(   )"}}; 
-                        
-  // char explode3[][6] = {{" <  > "},
-                        // {"<    >"}};
+
+ void test_explore_in_stage_two(void){
+  char explode2[][5] = {{" ( ) "},
+                       {"(   )"}}; 
+  
+  movementShip *pThis = initiateMovementState();
+  listElement *element = createdlistElement((char *)explode2, 5, 2, 37, 20);
+  
+  pThis->alien->explorePicture->picture = (char *)explode2;
+  pThis->alien->explorePicture->width = 4;
+  pThis->alien->explorePicture->height = 2;
+  pThis->explodeState = EXPLODE2; 
+  explodeSequenceFSM(pThis, element);  
+
+  TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
+  TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
+  TEST_ASSERT_EQUAL(pThis->explodeState, EXPLODE3);
+  }
+
+void test_explore_in_stage_three(void){
+  
+  char explode3[][6] = {{" <  > "},
+                        {"<    >"}};
+                      
+  movementShip *pThis = initiateMovementState();
+  listElement *element = createdlistElement((char *)explode3, 6, 2, 37, 20);
+  
+  pThis->alien->explorePicture->picture = (char *)explode3;
+  pThis->alien->explorePicture->width = 4;
+  pThis->alien->explorePicture->height = 2;
+  pThis->explodeState = EXPLODE3; 
+  explodeSequenceFSM(pThis, element);  
+
+  TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
+  TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
+
+ TEST_ASSERT_EQUAL(1,explodeSequenceFSM(pThis, element)); 
+ }

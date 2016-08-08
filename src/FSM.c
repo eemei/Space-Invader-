@@ -30,13 +30,6 @@ Ammo *initiateAmmo(){
   return pAmmo;
 }
 
-IntTime *initialTime(){
-  IntTime *pIntTime = malloc(sizeof(IntTime));
-  pIntTime->timeInt = 0;
-  pIntTime->recordTime = 0;
-  return pIntTime;
-}
-
 SpaceShip *initiateSpaceShip(){
   SpaceShip *pShip = malloc(sizeof(SpaceShip));
   pShip->image = initiateImage();
@@ -45,11 +38,20 @@ SpaceShip *initiateSpaceShip(){
   return pShip;
 }
 
+Enemy *initialEnemy(){
+  Enemy *pEnemy = malloc(sizeof(Enemy));
+  pEnemy->explorePicture = initiateImage();
+  pEnemy->coorX = 0;
+  pEnemy->coorY = 0;
+  return pEnemy;
+}
+
 movementShip *initiateMovementState(){
   movementShip *pThis = malloc(sizeof(movementShip));
   pThis->moveShipState = START;
   pThis->moveAmmoState = STARTBULLET;
-    pThis->explodeState = INITIALIZE;
+  pThis->explodeState = EXPLODE1;
+  pThis->alien = initialEnemy();
   pThis->keyboard = initiateKeyboardState();
   pThis->moveAlienState = MOVELEFT;
   pThis->ship = initiateSpaceShip();
@@ -287,3 +289,33 @@ int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
   }
 }
 
+int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
+      printf("here");
+   switch (thisEnemy->explodeState) {
+    case EXPLODE1:
+      thisEnemy->alien->coorX = element->coorX;
+      thisEnemy->alien->coorY = element->coorY;
+      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      thisEnemy->explodeState = EXPLODE2;
+      //return 0;
+    break;
+    case EXPLODE2:
+      thisEnemy->alien->coorX = element->coorX;
+      thisEnemy->alien->coorY = element->coorY;
+      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      thisEnemy->explodeState = EXPLODE3;   
+    break;
+    case EXPLODE3:
+      thisEnemy->alien->coorX = element->coorX;
+      thisEnemy->alien->coorY = element->coorY;
+      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      return 1;
+    break;
+      // break;
+    // case RETURNTOAMMO:
+      // thisEnemy->explodeState = RETURNTOAMMO;
+      // //return (1);
+      // break;
+    default: thisEnemy->explodeState = EXPLODE1;
+ }
+}
