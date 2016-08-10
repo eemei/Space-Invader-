@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "FSM.h"
 #include "BlockDiagram.h"
+#include "linkList.h"
 
 void setUp(void){}
 
