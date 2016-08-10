@@ -259,9 +259,7 @@ void test_alien_move_left_return_coorX_minus_one(void){
   TEST_ASSERT_EQUAL(MOVELEFT, pEnemy->moveAlienState);
 }
 
-
-
-void test_explore_in_stage_one(void){
+void test_explode_in_stage_one(void){
   
   char explosion1[][4] = {{" {} "},
                           {"{  }"}}; 
@@ -269,53 +267,111 @@ void test_explore_in_stage_one(void){
   movementShip *pThis = initiateMovementState();
   listElement *element = createdlistElement((char *)explosion1, 4, 2, 37, 20);
   
-  pThis->alien->explorePicture->picture = (char *)explosion1;
-  pThis->alien->explorePicture->width = 4;
-  pThis->alien->explorePicture->height = 2;
+  pThis->alien->explodePicture->picture = (char *)explosion1;
+  pThis->alien->explodePicture->width = 4;
+  pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE1; 
   explodeSequenceFSM(pThis, element);  
 
+  TEST_ASSERT_EQUAL(4, pThis->alien->explodePicture->width);
+  TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
   TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
   TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
   TEST_ASSERT_EQUAL(pThis->explodeState, EXPLODE2);
-  //TEST_ASSERT_EQUAL(0, explodeSequenceFSM(pThis, element));  
 } 
 
 
- void test_explore_in_stage_two(void){
+void test_explode_in_stage_two(void){
   char explode2[][5] = {{" ( ) "},
-                       {"(   )"}}; 
+                        {"(   )"}}; 
   
   movementShip *pThis = initiateMovementState();
   listElement *element = createdlistElement((char *)explode2, 5, 2, 37, 20);
   
-  pThis->alien->explorePicture->picture = (char *)explode2;
-  pThis->alien->explorePicture->width = 4;
-  pThis->alien->explorePicture->height = 2;
+  pThis->alien->explodePicture->picture = (char *)explode2;
+  pThis->alien->explodePicture->width = 5;
+  pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE2; 
   explodeSequenceFSM(pThis, element);  
 
+  TEST_ASSERT_EQUAL(5, pThis->alien->explodePicture->width);
+  TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
   TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
   TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
   TEST_ASSERT_EQUAL(pThis->explodeState, EXPLODE3);
-  }
+}
 
-void test_explore_in_stage_three(void){
-  
+void test_explode_in_stage_three(void){
+  int value;
   char explode3[][6] = {{" <  > "},
                         {"<    >"}};
                       
   movementShip *pThis = initiateMovementState();
   listElement *element = createdlistElement((char *)explode3, 6, 2, 37, 20);
   
-  pThis->alien->explorePicture->picture = (char *)explode3;
-  pThis->alien->explorePicture->width = 4;
-  pThis->alien->explorePicture->height = 2;
+  pThis->alien->explodePicture->picture = (char *)explode3;
+  pThis->alien->explodePicture->width = 6;
+  pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE3; 
-  explodeSequenceFSM(pThis, element);  
+  value = explodeSequenceFSM(pThis, element);  
 
+  TEST_ASSERT_EQUAL(6, pThis->alien->explodePicture->width);
+  TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
   TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
   TEST_ASSERT_EQUAL(20, pThis->alien->coorY);
+  TEST_ASSERT_EQUAL(1, value); 
+}
 
- TEST_ASSERT_EQUAL(1,explodeSequenceFSM(pThis, element)); 
- }
+void test_liveFSM_state_INITLIFE_should_return_life_three(void){
+  movementShip *pLife = initiateMovementState();
+  
+  pLife->lifeState = INITLIFE;
+  liveFSM(pLife);
+  
+  TEST_ASSERT_EQUAL(3, pLife->ship->life);
+  TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
+}
+
+void test_WAITLIFE_state_maintain_given_kbPressed_zero(void){
+  movementShip *pLife = initiateMovementState();
+  
+  pLife->keyboard->kbPressed = 0;
+  pLife->lifeState = WAITLIFE;
+  liveFSM(pLife);
+  
+  TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
+}
+
+void test_WAITLIFE_state_changed_given_kbPressed_one(void){
+  movementShip *pLife = initiateMovementState();
+  
+  pLife->keyboard->kbPressed = 1;
+  pLife->lifeState = WAITLIFE;
+  liveFSM(pLife);
+  
+  TEST_ASSERT_EQUAL(MINUSLIFE, pLife->lifeState);
+}
+
+void test_MINUSLIFE_state_life_reduces(void){
+  movementShip *pLife = initiateMovementState();
+  int i;
+  pLife->ship->life = 3;
+  for (i=3; i>0; i--){
+    pLife->lifeState = MINUSLIFE;
+    liveFSM(pLife);    
+    TEST_ASSERT_EQUAL(i-1, pLife->ship->life);
+  }
+  
+  TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
+}
+
+void test_scoreSystem(void){
+  // movementShip *pScore = initiateMovementState();
+  
+  char asd = 'A';
+  scoreSystem(asd);
+}
+
+
+
+

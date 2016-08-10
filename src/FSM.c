@@ -35,12 +35,13 @@ SpaceShip *initiateSpaceShip(){
   pShip->image = initiateImage();
   pShip->coordinateX = 0;
   pShip->coordinateY = 0;
+  pShip->life = 0;
   return pShip;
 }
 
-Enemy *initialEnemy(){
-  Enemy *pEnemy = malloc(sizeof(Enemy));
-  pEnemy->explorePicture = initiateImage();
+Explosion *initiateExplosion(){
+  Explosion *pEnemy = malloc(sizeof(Explosion));
+  pEnemy->explodePicture = initiateImage();
   pEnemy->coorX = 0;
   pEnemy->coorY = 0;
   return pEnemy;
@@ -51,7 +52,7 @@ movementShip *initiateMovementState(){
   pThis->moveShipState = START;
   pThis->moveAmmoState = STARTBULLET;
   pThis->explodeState = EXPLODE1;
-  pThis->alien = initialEnemy();
+  pThis->alien = initiateExplosion();
   pThis->keyboard = initiateKeyboardState();
   pThis->moveAlienState = MOVELEFT;
   pThis->ship = initiateSpaceShip();
@@ -134,6 +135,7 @@ void keyboardFSM(keyboardPressed *thisKey){
   switch(thisKey->buttonState){
     case BUTTONNOHIT:
       thisKey->escCode = thisKey->escCode;
+      thisKey->kbPressed = 0;
       thisKey->buttonState = BUTTONHIT;
       break;
     case BUTTONHIT:
@@ -142,7 +144,7 @@ void keyboardFSM(keyboardPressed *thisKey){
         ch = getch();
       }
       thisKey->escCode = ch;
-      thisKey->kbPressed = 0;
+      thisKey->kbPressed = 1;
       break;
     default: thisKey->buttonState = BUTTONNOHIT;
   }
@@ -260,32 +262,57 @@ void alienFSM(movementShip *enemy){
 }
 
 int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
-      printf("here");
-   switch (thisEnemy->explodeState) {
+  switch (thisEnemy->explodeState) {
     case EXPLODE1:
       thisEnemy->alien->coorX = element->coorX;
       thisEnemy->alien->coorY = element->coorY;
-      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      draw(thisEnemy->alien->explodePicture->picture, thisEnemy->alien->explodePicture->width, thisEnemy->alien->explodePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
       thisEnemy->explodeState = EXPLODE2;
-      //return 0;
-    break;
+      break;
     case EXPLODE2:
       thisEnemy->alien->coorX = element->coorX;
       thisEnemy->alien->coorY = element->coorY;
-      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      draw(thisEnemy->alien->explodePicture->picture, thisEnemy->alien->explodePicture->width, thisEnemy->alien->explodePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
       thisEnemy->explodeState = EXPLODE3;   
-    break;
+      break;
     case EXPLODE3:
       thisEnemy->alien->coorX = element->coorX;
       thisEnemy->alien->coorY = element->coorY;
-      draw(thisEnemy->alien->explorePicture->picture, thisEnemy->alien->explorePicture->width, thisEnemy->alien->explorePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
+      draw(thisEnemy->alien->explodePicture->picture, thisEnemy->alien->explodePicture->width, thisEnemy->alien->explodePicture->height, thisEnemy->alien->coorX, thisEnemy->alien->coorY);
       return 1;
-    break;
-      // break;
-    // case RETURNTOAMMO:
-      // thisEnemy->explodeState = RETURNTOAMMO;
-      // //return (1);
-      // break;
+      break;
     default: thisEnemy->explodeState = EXPLODE1;
- }
+  }
 }
+
+void liveFSM(movementShip *thisLife){
+  switch(thisLife->lifeState){
+    case INITLIFE:
+      thisLife->ship->life = 3;
+      thisLife->lifeState = WAITLIFE;
+      break;
+    case WAITLIFE: 
+      if (thisLife->keyboard->kbPressed)
+        thisLife->lifeState = MINUSLIFE;
+      else 
+        thisLife->lifeState = WAITLIFE;
+      break;
+    case MINUSLIFE:
+      (thisLife->ship->life)--;
+      thisLife->lifeState = WAITLIFE;
+      break;
+    default: thisLife->lifeState = INITLIFE;
+  }
+}
+
+void scoreSystem(char grade){
+  switch(grade){
+    case 'A':
+      printf("Well done\n");
+      break;
+    default: printf("Very bad\n");
+  }
+}
+
+
+

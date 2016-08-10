@@ -34,7 +34,7 @@ const char explode[][3] = {{"   "},
                            {"   "}};
 
 const char explode1[][4] = {{" {} "},
-                           {"{  }"}};
+                            {"{  }"}};
                           
 const char explode2[][5] = {{" ( ) "},
                             {"(   )"}};
