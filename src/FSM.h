@@ -42,9 +42,14 @@ typedef enum{
 typedef enum{
   EXPLODE1,
   EXPLODE2,
-  EXPLODE3,
-  RETURNTOAMMO
+  EXPLODE3
 }explode;
+
+typedef enum{
+  INITLIFE,
+  WAITLIFE,
+  MINUSLIFE
+}life;
 
 typedef struct keyboardPressed keyboardPressed;
 struct keyboardPressed{
@@ -74,11 +79,12 @@ struct SpaceShip{
   Image *image;
   int coordinateX;
   int coordinateY;
+  int life;
 };
 
-typedef struct Enemy Enemy;
-struct Enemy{
-  Image *explorePicture;
+typedef struct Explosion Explosion;
+struct Explosion{
+  Image *explodePicture;
   int coorX;
   int coorY;
 };
@@ -89,16 +95,17 @@ typedef struct {
   explode explodeState;
   keyboardPressed *keyboard;
   moveAlien moveAlienState;
+  life lifeState;
   SpaceShip *ship;
   Ammo *bullet;
-  Enemy *alien;
+  Explosion *alien;
 }movementShip;
 
 keyboardPressed *initiateKeyboardState();
 Image *initiateImage();
 Ammo *initiateAmmo();
 SpaceShip *initiateSpaceShip();
-Enemy *initialEnemy();
+Explosion *initiateExplosion();
 movementShip *initiateMovementState();
 int getKbPressed();
 int getKbCode();
@@ -110,6 +117,8 @@ uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
 void alienFSM(movementShip *enemy);
 int explodeSequenceFSM(movementShip *thisEnemy, listElement *list);
+void liveFSM(movementShip *thisLife);
+void scoreSystem(char grade);
 
 #endif // FSM_H
 
