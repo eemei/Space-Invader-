@@ -3,6 +3,45 @@
 #include <time.h>
 #include "FSM.h"
 #include "BlockDiagram.h"
+#include "keyboard.h"
+
+const char alien1[][3] = {{" ^ "},
+                          {" @ "},
+                          {"* *"}};
+
+const char alien2[][4] =  {{" ^^ "},
+                           {" @@ "},
+                           {"*  *"}};
+
+const char alien3[][6] = {{" ^^^ "},
+                          {" @@@ "},
+                          {"* * *"}};
+
+const char alien4[][5] = {{" |*| "},
+                          {" @@@ "},
+                          {"*   *"}};
+                           
+const char planet[][4] = {{" -- "},
+                          {"===="},
+                          {" -- "}};     
+
+const char spaceShip[][3] = {{" T "},
+                        {"[+]"}};
+                         
+const char shelter[][5] = {{"-----"},
+                           {"|[+]|"},
+                           {"-----"}};
+
+const char explode1[][4] = {{" {} "},
+                            {"{  }"}};
+                          
+const char explode2[][5] = {{" ( ) "},
+                            {"(   )"}};
+                           
+const char explode3[][6] = {{" <  > "},
+                            {"<    >"}};
+                           
+const char bullet[] = {"|"};
 
 keyboardPressed *initiateKeyboardState(){
   keyboardPressed *thisKey = malloc(sizeof(keyboardPressed));
@@ -33,9 +72,10 @@ Ammo *initiateAmmo(){
 SpaceShip *initiateSpaceShip(){
   SpaceShip *pShip = malloc(sizeof(SpaceShip));
   pShip->image = initiateImage();
-  pShip->coordinateX = 0;
-  pShip->coordinateY = 0;
-  pShip->life = 0;
+  pShip->coordinateX = 24;
+  pShip->coordinateY = 46;
+  pShip->life = 3;
+  pShip->shot = 0;
   return pShip;
 }
 
@@ -58,10 +98,6 @@ movementShip *initiateMovementState(){
   pThis->ship = initiateSpaceShip();
   pThis->bullet = initiateAmmo();
   return pThis;
-}
-
-int getKbPressed(){
-  return kbhit();
 }
 
 int getKbCode(movementShip *thisCode){
@@ -139,9 +175,9 @@ void keyboardFSM(keyboardPressed *thisKey){
       thisKey->buttonState = BUTTONHIT;
       break;
     case BUTTONHIT:
-      ch = getch();
+      ch = _getch();
       if (ch == 0 || ch == 224 ) {
-        ch = getch();
+        ch = _getch();
       }
       thisKey->escCode = ch;
       thisKey->kbPressed = 1;
@@ -156,10 +192,11 @@ void movementShipFSM(movementShip *thisMove){
     case START:
       thisMove->ship->coordinateX = 24;
       thisMove->ship->coordinateY = 47;
+      draw(thisMove->ship->image->picture, thisMove->ship->image->width, thisMove->ship->image->height, thisMove->ship->coordinateX, thisMove->ship->coordinateY);
       thisMove->moveShipState = RELEASE;
       break;
     case RELEASE:
-      if ((thisMove->keyboard->kbPressed = getKbPressed()) == BUTTON_PRESSED) {
+      if ((thisMove->keyboard->kbPressed = _kbhit()) == BUTTON_PRESSED) {
         thisMove->keyboard->buttonState = BUTTONHIT;
         keyboardFSM(thisMove->keyboard);
         thisMove->moveShipState = PRESSED;
@@ -196,7 +233,7 @@ void movementAmmoFSM(movementShip *thisAmmo){
       thisAmmo->moveAmmoState = RELEASEBULLET;
       break;
     case RELEASEBULLET:
-      if ((thisAmmo->keyboard->kbPressed = getKbPressed()) == BUTTON_PRESSED) {
+      if ((thisAmmo->keyboard->kbPressed = _kbhit()) == BUTTON_PRESSED) {
         thisAmmo->keyboard->buttonState = BUTTONHIT;
         keyboardFSM(thisAmmo->keyboard);
         thisAmmo->moveAmmoState = PRESSEDBULLET;
@@ -285,7 +322,7 @@ int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
   }
 }
 
-void liveFSM(movementShip *thisLife){
+void lifeFSM(movementShip *thisLife){
   switch(thisLife->lifeState){
     case INITLIFE:
       thisLife->ship->life = 3;
@@ -298,21 +335,13 @@ void liveFSM(movementShip *thisLife){
         thisLife->lifeState = WAITLIFE;
       break;
     case MINUSLIFE:
-      (thisLife->ship->life)--;
+      if (thisLife->ship->shot){
+        (thisLife->ship->life)--;
+      }
       thisLife->lifeState = WAITLIFE;
       break;
     default: thisLife->lifeState = INITLIFE;
   }
 }
-
-void scoreSystem(char grade){
-  switch(grade){
-    case 'A':
-      printf("Well done\n");
-      break;
-    default: printf("Very bad\n");
-  }
-}
-
 
 

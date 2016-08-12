@@ -6,6 +6,7 @@
 #include "FSM.h"
 #include "BlockDiagram.h"
 #include "linkList.h"
+#include "mock_keyboard.h"
 
 void setUp(void){}
 
@@ -27,7 +28,7 @@ void test_keyboard_no_press_should_return_the_direction_zero(void){
   int keyHit;
   
   pThis->moveShipState = RELEASE;
-  while((keyHit = getKbPressed()) != 0); 
+  _kbhit_ExpectAndReturn(BUTTON_RELEASED); 
   pThis->keyboard->buttonState = BUTTONNOHIT;
   movementShipFSM(pThis);
   
@@ -40,7 +41,8 @@ void test_keyboard_press_left_should_return_the_direction_seventy_five(void){
   movementShip *pThis = initiateMovementState();
   int keyHit;
   pThis->moveShipState = RELEASE;
-  while((keyHit = getKbPressed()) != 1); 
+  _kbhit_ExpectAndReturn(BUTTON_PRESSED);
+  _getch_ExpectAndReturn(KEY_LEFT);
   pThis->keyboard->buttonState = BUTTONHIT;
   movementShipFSM(pThis);
   
@@ -54,8 +56,9 @@ void test_keyboard_press_right_should_return_the_direction_seventy_seven(void){
   int keyHit;
   
   pThis->moveShipState = RELEASE;
+  _kbhit_ExpectAndReturn(BUTTON_PRESSED);
+  _getch_ExpectAndReturn(KEY_RIGHT);
   pThis->keyboard->buttonState = BUTTONHIT;
-  while((keyHit = getKbPressed()) != 1); 
   movementShipFSM(pThis);
   
   TEST_ASSERT_EQUAL(KEY_RIGHT, pThis->keyboard->escCode);
@@ -136,7 +139,7 @@ void test_keyboard_no_press_should_return_the_direction_zero_in_ammo_state(void)
   int keyHit;
   
   pThis->moveAmmoState = RELEASEBULLET;
-  while((keyHit = getKbPressed()) != 0); 
+  _kbhit_ExpectAndReturn(BUTTON_RELEASED);
   pThis->keyboard->buttonState = BUTTONNOHIT;
   movementAmmoFSM(pThis);
   
@@ -149,7 +152,8 @@ void test_keyboard_press_space_should_return_the_direction_thirty_two(void){
   movementShip *pThis = initiateMovementState();
   
   pThis->moveAmmoState = RELEASEBULLET;
-  while((getKbPressed()) != 1);
+  _kbhit_ExpectAndReturn(BUTTON_PRESSED);
+  _getch_ExpectAndReturn(KEY_SPACEBAR);
   pThis->keyboard->buttonState = BUTTONHIT;
   movementAmmoFSM(pThis);
 
@@ -271,7 +275,8 @@ void test_explode_in_stage_one(void){
   pThis->alien->explodePicture->width = 4;
   pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE1; 
-  explodeSequenceFSM(pThis, element);  
+  explodeSequenceFSM(pThis, element);
+  transferImageToConsole();
 
   TEST_ASSERT_EQUAL(4, pThis->alien->explodePicture->width);
   TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
@@ -292,7 +297,8 @@ void test_explode_in_stage_two(void){
   pThis->alien->explodePicture->width = 5;
   pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE2; 
-  explodeSequenceFSM(pThis, element);  
+  explodeSequenceFSM(pThis, element); 
+  transferImageToConsole();
 
   TEST_ASSERT_EQUAL(5, pThis->alien->explodePicture->width);
   TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
@@ -314,7 +320,8 @@ void test_explode_in_stage_three(void){
   pThis->alien->explodePicture->height = 2;
   pThis->explodeState = EXPLODE3; 
   value = explodeSequenceFSM(pThis, element);  
-
+  transferImageToConsole();
+  
   TEST_ASSERT_EQUAL(6, pThis->alien->explodePicture->width);
   TEST_ASSERT_EQUAL(2, pThis->alien->explodePicture->height);
   TEST_ASSERT_EQUAL(37, pThis->alien->coorX);
@@ -326,7 +333,7 @@ void test_liveFSM_state_INITLIFE_should_return_life_three(void){
   movementShip *pLife = initiateMovementState();
   
   pLife->lifeState = INITLIFE;
-  liveFSM(pLife);
+  lifeFSM(pLife);
   
   TEST_ASSERT_EQUAL(3, pLife->ship->life);
   TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
@@ -337,7 +344,7 @@ void test_WAITLIFE_state_maintain_given_kbPressed_zero(void){
   
   pLife->keyboard->kbPressed = 0;
   pLife->lifeState = WAITLIFE;
-  liveFSM(pLife);
+  lifeFSM(pLife);
   
   TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
 }
@@ -347,30 +354,36 @@ void test_WAITLIFE_state_changed_given_kbPressed_one(void){
   
   pLife->keyboard->kbPressed = 1;
   pLife->lifeState = WAITLIFE;
-  liveFSM(pLife);
+  lifeFSM(pLife);
   
   TEST_ASSERT_EQUAL(MINUSLIFE, pLife->lifeState);
+}
+
+void test_MINUSLIFE_state_life_unchanged_when_not_shot(void){
+  movementShip *pLife = initiateMovementState();
+  
+  pLife->ship->life = 3;
+  pLife->ship->shot = 0;
+  pLife->lifeState = MINUSLIFE;
+  lifeFSM(pLife);
+  
+  TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
+  TEST_ASSERT_EQUAL(3, pLife->ship->life);
 }
 
 void test_MINUSLIFE_state_life_reduces(void){
   movementShip *pLife = initiateMovementState();
   int i;
   pLife->ship->life = 3;
+  pLife->ship->shot = 1;
   for (i=3; i>0; i--){
     pLife->lifeState = MINUSLIFE;
-    liveFSM(pLife);    
+    lifeFSM(pLife);    
     TEST_ASSERT_EQUAL(i-1, pLife->ship->life);
   }
   
   TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
-}
-
-void test_scoreSystem(void){
-  // movementShip *pScore = initiateMovementState();
-  
-  char asd = 'A';
-  scoreSystem(asd);
-}
+} 
 
 
 

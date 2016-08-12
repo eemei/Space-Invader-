@@ -53,19 +53,6 @@ void test_mask_out_image(void){
   transferImageToConsole();
 }
 
-void test_explore_sequence_to_buffer(void){
-  char explode1[][4] = {{" {} "},
-                        {"{  }"}};
-                          
-  char explode2[][5] = {{" ( ) "},
-                        {"(   )"}};
-                           
-  char explode3[][6] = {{" <  > "},
-                        {"<    >"}};
-                           
- explodeSequence((char *)explode1, (char *)explode2, (char *)explode3, 4, 2, 13, 16);
-}
-
 void test_waitStage_with_input_150ms(void){
   double sec = 0.7;
   double executionTime;
@@ -73,4 +60,3 @@ void test_waitStage_with_input_150ms(void){
   executionTime = waitStage(sec);
   TEST_ASSERT_FLOAT_WITHIN(3, 0.25, executionTime);
 }
-
