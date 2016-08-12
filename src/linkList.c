@@ -124,4 +124,3 @@ void deleteLastNode(listElement *lastElement, linkList *link){
     free(lastElement);
   }
 }
-
