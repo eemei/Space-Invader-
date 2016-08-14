@@ -3,8 +3,7 @@
 #include "BlockDiagram.h"
 #include <time.h>
 
-
-char buffer[50][50];
+char buffer[BUFFERROW][BUFFERCOL];
 
 void bufferFiller(int row, int col, char symbol){
   int a, b;
@@ -12,9 +11,9 @@ void bufferFiller(int row, int col, char symbol){
   for (a=0; a<row; a++){
     for (b=0; b<col; b++){
       buffer[a][b] = symbol;
-      printf("%c", buffer[a][b]);
+      // printf("%c", buffer[a][b]);
     }
-    printf("\n");
+    // printf("\n");
   }
 }
 
@@ -57,11 +56,11 @@ int jumper(int bufferRange, int coor, int range){
 void draw(char *image, int width, int length, int coorX, int coorY) {
   int i, j, a, b, jumpNumX, jumpNumY, tempX, tempY;
   
-  jumpNumX = jumper(50, coorX, width);
+  jumpNumX = jumper(BUFFERROW, coorX, width);
   // printf("jumping number X = %d\n", jumpNumX);
 
-  if ((width+coorX)>50){
-    width = 50 - coorX;
+  if ((width+coorX)>BUFFERROW){
+    width = BUFFERROW - coorX;
     // printf("new width = %d\n", width);
   }
   else {
@@ -77,22 +76,22 @@ void draw(char *image, int width, int length, int coorX, int coorY) {
       else{
         buffer[coorY+i][coorX+j] = *(image++);                 
       }
-      printf("%c", buffer[coorY+i][coorX+j]);
+      // printf("%c", buffer[coorY+i][coorX+j]);
     }
     image = image + jumpNumX;
-    printf("\n");
+    // printf("\n");
   }
-  printf("\n");
+  // printf("\n");
 }
 
 void transferImageToConsole(){
   int a, b;
   
-  for (a=0; a<50; a++){
-    for (b=0; b<50; b++){
+  for (a=0; a<BUFFERROW; a++){
+    for (b=0; b<BUFFERCOL; b++){
       printf("%c", buffer[a][b]);
     }
-    printf("\n");
+    // printf("\n");
   }
 }
 
@@ -105,23 +104,16 @@ void maskOutImage(int coorX, int coorY, int width, int height){
       buffer[a][b] = symbol;
       // printf("%c", buffer[a][b]);
     }
-    printf("\n");
+    // printf("\n");
   }
 } 
 
-double waitStage(double sec){
-  clock_t start,end;
-  double execution;
-
-  start=clock();
-  clock_t wait = sec*CLOCKS_PER_SEC;
+void refresh(){
+  int row, col;
   
-  while(clock () < wait){}
-
-  end=clock();
-  
-  execution = (double)(end-start)/CLOCKS_PER_SEC;
-  printf("the program take %lf second\n",execution);
-  return execution;
+  for (row=BUFFERROW; row>0; row--){
+    for (col=BUFFERCOL; col>0; col--){
+      printf("\b");
+    }
+  }
 }
-

@@ -26,7 +26,7 @@ const char planet[][4] = {{" -- "},
                           {" -- "}};     
 
 const char spaceShip[][3] = {{" T "},
-                        {"[+]"}};
+                             {"[+]"}};
                          
 const char shelter[][5] = {{"-----"},
                            {"|[+]|"},
@@ -72,9 +72,9 @@ Ammo *initiateAmmo(){
 SpaceShip *initiateSpaceShip(){
   SpaceShip *pShip = malloc(sizeof(SpaceShip));
   pShip->image = initiateImage();
-  pShip->coordinateX = 24;
-  pShip->coordinateY = 46;
-  pShip->life = 3;
+  pShip->coordinateX = 0;
+  pShip->coordinateY = 0;
+  pShip->life = 0;
   pShip->shot = 0;
   return pShip;
 }
@@ -110,8 +110,8 @@ char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage){
   newCoorX = pShip->coordinateX + deltaXImage;
   newCoorY = pShip->coordinateY + deltaYImage;
   
-  if (newCoorX > 47){
-    newCoorX = 47;
+  if (newCoorX > BORDERLIMITRIGHTX){
+    newCoorX = BORDERLIMITRIGHTX;
   }
   else if (newCoorX <= 0){
     newCoorX = 0;
@@ -135,17 +135,23 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   
   if (newCoorY <= 0){
     newCoorY = 0;
+    pBullet->coorX = newCoorX;
+    pBullet->coorY = newCoorY;
+    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
   }
   else{
     newCoorX = newCoorX;
     newCoorY = newCoorY;
+    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+    pBullet->coorX = newCoorX;
+    pBullet->coorY = newCoorY;
+    draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
   }
-  /*hit enemy explosion*/
   
-  maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
-  pBullet->coorX = newCoorX;
-  pBullet->coorY = newCoorY;
-  draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
+  // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+  // pBullet->coorX = newCoorX;
+  // pBullet->coorY = newCoorY;
+  // draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
  
@@ -153,7 +159,7 @@ uint32_t getSystemTime(){
   SYSTEMTIME st;
   
   GetSystemTime(&st);
-  printf("time :%d/%d/%d  %d:%d:%d %d\n",st.wDay,st.wMonth,st.wYear, st.wHour, st.wMinute, st.wSecond , st.wMilliseconds);
+  // printf("time :%d/%d/%d  %d:%d:%d %d\n",st.wDay,st.wMonth,st.wYear, st.wHour, st.wMinute, st.wSecond , st.wMilliseconds);
  
   return (st.wSecond * 1000) + st.wMilliseconds;
 }
@@ -190,8 +196,12 @@ void movementShipFSM(movementShip *thisMove){
   volatile int keyCode;
   switch (thisMove->moveShipState) {
     case START:
-      thisMove->ship->coordinateX = 24;
-      thisMove->ship->coordinateY = 47;
+      thisMove->ship->image->picture = (char *)spaceShip;
+      thisMove->ship->image->width = 3;
+      thisMove->ship->image->height = 2;
+      thisMove->ship->coordinateX = SHIPCOORX;
+      thisMove->ship->coordinateY = SHIPCOORY;
+      thisMove->ship->life = 3;
       draw(thisMove->ship->image->picture, thisMove->ship->image->width, thisMove->ship->image->height, thisMove->ship->coordinateX, thisMove->ship->coordinateY);
       thisMove->moveShipState = RELEASE;
       break;
@@ -226,6 +236,9 @@ void movementShipFSM(movementShip *thisMove){
 void movementAmmoFSM(movementShip *thisAmmo){
   switch (thisAmmo->moveAmmoState) {
     case STARTBULLET:
+      thisAmmo->bullet->image->picture = (char *)bullet;
+      thisAmmo->bullet->image->width = 1;
+      thisAmmo->bullet->image->height = 1;
       thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX;
       thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY;
       thisAmmo->bullet->timeInterval = 250; // 250ms 
@@ -272,7 +285,7 @@ void movementAmmoFSM(movementShip *thisAmmo){
 void alienFSM(movementShip *enemy){
   switch (enemy->moveAlienState){
     case MOVERIGHT:
-      if (enemy->ship->coordinateX<=46){
+      if (enemy->ship->coordinateX<=BORDERLIMITRIGHTX){
         relativeMoveImage(enemy->ship, 1, 0);
         enemy->moveAlienState = MOVERIGHT;
       }
@@ -281,7 +294,7 @@ void alienFSM(movementShip *enemy){
       break;
     case MOVEDOWN:
       relativeMoveImage(enemy->ship, 0, 1);
-      if (enemy->ship->coordinateX>=46)
+      if (enemy->ship->coordinateX>=BORDERLIMITRIGHTX)
         enemy->moveAlienState = MOVELEFT;
       else
         enemy->moveAlienState = MOVERIGHT;
