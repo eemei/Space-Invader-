@@ -11,6 +11,7 @@ int main(void){
   while (1){
     movementShipFSM(pShip);
     transferImageToConsole();
+    // refresh(6400);
   }
   return 1;
 }
