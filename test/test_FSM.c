@@ -17,9 +17,10 @@ void test_ship_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(v
   
   pThis->moveShipState = START;
   movementShipFSM(pThis);
+  transferImageToConsole();
   
-  TEST_ASSERT_EQUAL(24, pThis->ship->coordinateX);
-  TEST_ASSERT_EQUAL(47, pThis->ship->coordinateY);
+  TEST_ASSERT_EQUAL(SHIPCOORX, pThis->ship->coordinateX);
+  TEST_ASSERT_EQUAL(SHIPCOORY, pThis->ship->coordinateY);
   TEST_ASSERT_EQUAL(RELEASE, pThis->moveShipState);
 }
 
@@ -75,14 +76,14 @@ void test_move_with_delta_x_positive_five_and_delta_y_negative_ten(void){
   pThis->ship->image->height = 2;
   pThis->ship->image->width = 3;
   pThis->ship->coordinateX = 24;
-  pThis->ship->coordinateY = 48;
+  pThis->ship->coordinateY = 47;
   relativeMoveImage(pThis->ship, 0, 0);
   transferImageToConsole();
   relativeMoveImage(pThis->ship, 5, -10);
   transferImageToConsole();
   
   TEST_ASSERT_EQUAL(29, pThis->ship->coordinateX);
-  TEST_ASSERT_EQUAL(38, pThis->ship->coordinateY);
+  TEST_ASSERT_EQUAL(37, pThis->ship->coordinateY);
 }
 
 void test_getKbCode_should_return_seventy_five_given_escCode_seventy_five(void){
@@ -174,9 +175,28 @@ void test_move_bullet_with_delta_x_zero_and_delta_y_negative_one(void){
 
   relativeMoveBullet(pThis->bullet, 0, -1);
   transferImageToConsole();
+  printf("\n");
 
   TEST_ASSERT_EQUAL(25, pThis->bullet->coorX);
   TEST_ASSERT_EQUAL(45, pThis->bullet->coorY);
+}
+
+void test_move_bullet_to_top_will_mask_out(void){
+  char bullet[] = {"|"};
+  
+  movementShip *pThis = initiateMovementState();
+  pThis->bullet->image->picture = (char *)bullet;
+  pThis->bullet->image->height = 1;
+  pThis->bullet->image->width = 1;
+  pThis->bullet->coorX = 15;
+  pThis->bullet->coorY = 40;
+
+  relativeMoveBullet(pThis->bullet, 0, -40);
+  transferImageToConsole();
+  printf("\n");
+
+  TEST_ASSERT_EQUAL(15, pThis->bullet->coorX);
+  TEST_ASSERT_EQUAL(0, pThis->bullet->coorY);
 }
 
 void test_get_system_time_together_with_FSM(void){

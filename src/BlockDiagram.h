@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <time.h>
 
+#define BUFFERROW 80
+#define BUFFERCOL 80
+
 char displayAlien1();
 void displayAlien2();
 void displayAlien3();
@@ -15,7 +18,6 @@ int jumper(int bufferRange, int coor, int range);
 void draw (char *image, int width, int length, int coorX, int coorY);
 void transferImageToConsole();
 void maskOutImage(int coorX, int coorY, int width, int height);
-double waitStage(double sec);
-void explodeSequence(char *image1, char *image2, char *image3, int width, int length, int coorX, int coorY);
+void refresh(int num);
 
 #endif // BlockDiagram_H

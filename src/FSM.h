@@ -17,6 +17,15 @@
 #define KEY_DOWN  80
 #define KEY_SPACEBAR 32
 
+#define SHIPCOORX 44
+#define SHIPCOORY 77
+
+#define BORDERLIMITLEFTX   0
+#define BORDERLIMITRIGHTX  77
+
+#define BORDERLIMITTOPY    0   
+#define BORDERLIMITBOTTOMY 77   
+
 typedef enum {
   START,
   RELEASE,
