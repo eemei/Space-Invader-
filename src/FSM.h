@@ -67,6 +67,7 @@ typedef enum{
   TARGETSHOT
 }mark;
 
+
 typedef struct keyboardPressed keyboardPressed;
 struct keyboardPressed{
   keyboardButton buttonState;

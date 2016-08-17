@@ -87,8 +87,8 @@ void transferImageToConsole(){
     }
   }
   
-  area = BUFFERROW * BUFFERCOL;
-  refresh(area);
+  //area = BUFFERROW * BUFFERCOL;
+  //refresh(area);
 }
 
 void maskOutImage(int coorX, int coorY, int width, int height){

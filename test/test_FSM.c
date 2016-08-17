@@ -130,8 +130,8 @@ void test_ammo_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(v
   pThis->moveAmmoState = STARTBULLET;
   movementAmmoFSM(pThis);
   
-  TEST_ASSERT_EQUAL(24, pThis->bullet->coorX);
-  TEST_ASSERT_EQUAL(47, pThis->bullet->coorY);
+  TEST_ASSERT_EQUAL(25, pThis->bullet->coorX);
+  TEST_ASSERT_EQUAL(46, pThis->bullet->coorY);
   TEST_ASSERT_EQUAL(RELEASEBULLET, pThis->moveAmmoState);
 }
 
