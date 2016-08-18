@@ -4,6 +4,7 @@
 #include "FSM.h"
 #include "BlockDiagram.h"
 #include "keyboard.h"
+#include "AddElement.h"
 
 const char alien1[][3] = {{" ^ "},
                           {" @ "},
@@ -135,23 +136,23 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   
   if (newCoorY <= 0){
     newCoorY = 0;
-    pBullet->coorX = newCoorX;
-    pBullet->coorY = newCoorY;
-    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+    // pBullet->coorX = newCoorX;
+    // pBullet->coorY = newCoorY;
+    // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
   }
   else{
     newCoorX = newCoorX;
     newCoorY = newCoorY;
-    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
-    pBullet->coorX = newCoorX;
-    pBullet->coorY = newCoorY;
-    draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
+    // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+    // pBullet->coorX = newCoorX;
+    // pBullet->coorY = newCoorY;
+    // draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
   }
   
-  // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
-  // pBullet->coorX = newCoorX;
-  // pBullet->coorY = newCoorY;
-  // draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
+  maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+  pBullet->coorX = newCoorX;
+  pBullet->coorY = newCoorY;
+  draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
  
@@ -239,8 +240,8 @@ void movementAmmoFSM(movementShip *thisAmmo){
       thisAmmo->bullet->image->picture = (char *)bullet;
       thisAmmo->bullet->image->width = 1;
       thisAmmo->bullet->image->height = 1;
-      thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX;
-      thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY;
+      thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX+1;
+      thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY-1;
       thisAmmo->bullet->timeInterval = 250; // 250ms 
       thisAmmo->bullet->recordedTime = 0;
       thisAmmo->moveAmmoState = RELEASEBULLET;
@@ -357,4 +358,9 @@ void lifeFSM(movementShip *thisLife){
   }
 }
 
-
+void getHit(movementShip * thisHit){
+  switch(thisHit->markState){
+    case TARGETSHOT:
+    if (thisHit->bullet->coorX = )
+  }
+}

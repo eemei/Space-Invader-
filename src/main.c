@@ -9,6 +9,7 @@ int main(void){
   movementShip *pShip = initiateMovementState();
   pShip->moveShipState = START;
   while (1){
+    movementAmmoFSM(pShip);
     movementShipFSM(pShip);
     transferImageToConsole();
     // refresh(6400);
