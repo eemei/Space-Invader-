@@ -5,6 +5,7 @@
 #include "BlockDiagram.h"
 #include "keyboard.h"
 #include "AddElement.h"
+#include "linkList.h"
 
 const char alien1[][3] = {{" ^ "},
                           {" @ "},
@@ -312,7 +313,7 @@ void alienFSM(movementShip *enemy){
   }
 }
 
-int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
+int explodeSequenceFSM(movementShip *thisEnemy, enemyElement *element){
   switch (thisEnemy->explodeState) {
     case EXPLODE1:
       thisEnemy->alien->coorX = element->coorX;
@@ -336,6 +337,7 @@ int explodeSequenceFSM(movementShip *thisEnemy, listElement *element){
   }
 }
 
+
 void lifeFSM(movementShip *thisLife){
   switch(thisLife->lifeState){
     case INITLIFE:
@@ -358,9 +360,29 @@ void lifeFSM(movementShip *thisLife){
   }
 }
 
-void getHit(movementShip * thisHit){
+void getHitFSM(movementShip * thisHit, linkList *thisLink){
+  enemyElement *pKill;
+  enemyElement* thisEnemy = (enemyElement*)thisLink->head;
   switch(thisHit->markState){
     case TARGETSHOT:
-    if (thisHit->bullet->coorX = )
+      pKill = search(thisLink, thisHit->bullet->coorX, thisHit->bullet->coorY);
+       if (pKill != 0)
+        thisHit->markState = EXPLODEALIEN;
+       else 
+         thisHit->markState = MISSSHOT;
+      break;
+     
+    case EXPLODEALIEN:
+      if (explodeSequenceFSM(thisHit, pKill) == 1)
+        deleteOneNode((listElement *)pKill, thisLink);
+      else
+        thisHit->markState = TARGETSHOT;
+      break;
+    
+    case MISSSHOT:
+      printf ("miss\n");
+      break;
+    default: thisHit->markState = MISSSHOT;
   }
 }
+ 

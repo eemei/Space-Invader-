@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "linkList.h"
 
-
 linkList *createdLinkList(){
   linkList *plinkList = malloc(sizeof(linkList));
   plinkList->head = NULL;
@@ -74,7 +73,7 @@ void deleteOneNode(listElement *element, linkList *link){
       return;
     }
     
-    tempNode->next->indexNum = tempNode->next->next->indexNum;
+    // tempNode->next->indexNum = tempNode->next->next->indexNum;
     tempNode->next = tempNode->next->next;
     
     free(element);
@@ -106,4 +105,5 @@ void deleteLastNode(listElement *lastElement, linkList *link){
     free(lastElement);
   }
 }
+
 

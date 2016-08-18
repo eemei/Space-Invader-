@@ -17,7 +17,6 @@ enemyElement *createEnemy(char *image, int width, int height, int coorX, int coo
 
 linkList *createEnemyList(char *image, int width, int height, int coorX, int coorY){
   linkList *pLink = createdLinkList();
-  printf ("start head = %d \n", pLink->head);
   int i;
   
   for (i = 1; i<11; i++){
@@ -26,4 +25,18 @@ linkList *createEnemyList(char *image, int width, int height, int coorX, int coo
   }
 
   return pLink;
+}
+
+
+enemyElement *search(linkList *pLink, int coorX, int coorY){
+  enemyElement* pEnemy = (enemyElement*)pLink->head; 
+  while(pEnemy != NULL){
+    if (pEnemy->coorX == coorX && pEnemy->coorY == coorY){
+      printf("key found\n");
+      return pEnemy;
+    }
+    pEnemy = pEnemy->next;
+  }
+   printf("Key not found\n");
+   return 0;
 }
