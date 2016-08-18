@@ -28,6 +28,7 @@ typedef struct enemyElement enemyElement;
 
 enemyElement *createEnemy(char *image, int width, int height, int coorX, int coorY);
 linkList *createEnemyList(char *image, int width, int height, int coorX, int coorY);
+enemyElement *search(linkList *pLink, int coorX, int coorY);
 
 #endif // AddElement_H
 

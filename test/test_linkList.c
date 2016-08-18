@@ -153,6 +153,3 @@ void test_delete_last_node_from_a_link_list_of_four_nodes(void){
   TEST_ASSERT_EQUAL(3, pLink->tail->indexNum);
 }
 
-
-
-

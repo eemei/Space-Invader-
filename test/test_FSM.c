@@ -6,6 +6,7 @@
 #include "FSM.h"
 #include "BlockDiagram.h"
 #include "linkList.h"
+#include "AddElement.h"
 #include "mock_keyboard.h"
 
 void setUp(void){}
@@ -289,8 +290,7 @@ void test_explode_in_stage_one(void){
                           {"{  }"}}; 
                           
   movementShip *pThis = initiateMovementState();
-  listElement *element = createdlistElement((char *)explosion1, 4, 2, 37, 20);
-  
+  enemyElement *element = createEnemy((char *)explosion1, 4, 2, 37, 20);
   pThis->alien->explodePicture->picture = (char *)explosion1;
   pThis->alien->explodePicture->width = 4;
   pThis->alien->explodePicture->height = 2;
@@ -311,7 +311,7 @@ void test_explode_in_stage_two(void){
                         {"(   )"}}; 
   
   movementShip *pThis = initiateMovementState();
-  listElement *element = createdlistElement((char *)explode2, 5, 2, 37, 20);
+  enemyElement *element = createEnemy((char *)explode2, 5, 2, 37, 20);
   
   pThis->alien->explodePicture->picture = (char *)explode2;
   pThis->alien->explodePicture->width = 5;
@@ -333,7 +333,7 @@ void test_explode_in_stage_three(void){
                         {"<    >"}};
                       
   movementShip *pThis = initiateMovementState();
-  listElement *element = createdlistElement((char *)explode3, 6, 2, 37, 20);
+  enemyElement *element = createEnemy((char *)explode3, 6, 2, 37, 20);
   
   pThis->alien->explodePicture->picture = (char *)explode3;
   pThis->alien->explodePicture->width = 6;
@@ -405,6 +405,51 @@ void test_MINUSLIFE_state_life_reduces(void){
   TEST_ASSERT_EQUAL(WAITLIFE, pLife->lifeState);
 } 
 
+void test_getHitFSM_from_TARGETSHOT_to_MISSSHOT_STAGE(void){
+  movementShip *pHit = initiateMovementState();
+  linkList *pLink;
+  
+  enemyElement *pThis, *pThisSecond;
+  enemyElement *pFound;
 
+  char alien1[][3] = {{" ^ "},
+                      {" @ "},
+                      {"* *"}};
+                      
+  int width = 3, height = 3;
+  int x = -2, y = 16; 
+  pLink = createEnemyList((char *)alien1, width, height, x, y);
+  
+  enemyElement* pEnemy = (enemyElement*)pLink->head; 
+  pHit->markState = TARGETSHOT;
+  pHit->bullet->coorX = 8;
+  pHit->bullet->coorY = 17;
+  getHitFSM(pHit, pLink);
+  
+  TEST_ASSERT_EQUAL(MISSSHOT, pHit->markState);
+}
 
+void test_getHitFSM_from_TARGETSHOT_to_EXPLODEALIEN_STAGE(void){
+  movementShip *pHit = initiateMovementState();
+  linkList *pLink;
+  
+  enemyElement *pThis, *pThisSecond;
+  enemyElement *pFound;
+
+  char alien1[][3] = {{" ^ "},
+                      {" @ "},
+                      {"* *"}};
+                      
+  int width = 3, height = 3;
+  int x = -2, y = 16; 
+  pLink = createEnemyList((char *)alien1, width, height, x, y);
+  
+  enemyElement* pEnemy = (enemyElement*)pLink->head; 
+  pHit->markState = TARGETSHOT;
+  pHit->bullet->coorX = 8;
+  pHit->bullet->coorY = y;
+  getHitFSM(pHit, pLink);
+  
+  TEST_ASSERT_EQUAL(EXPLODEALIEN, pHit->markState);
+}
 

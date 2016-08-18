@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <stdint.h>
 #include "linkList.h"
+#include "AddElement.h"
 #include "BlockDiagram.h"
 #include "keyboard.h"
 
@@ -64,6 +65,7 @@ typedef enum{
 
 typedef enum{
   MISSSHOT,
+  EXPLODEALIEN,
   TARGETSHOT
 }mark;
 
@@ -134,9 +136,10 @@ void movementShipFSM(movementShip *thisMove);
 uint32_t getSystemTime();
 void movementAmmoFSM(movementShip *thisState);
 void alienFSM(movementShip *enemy);
-int explodeSequenceFSM(movementShip *thisEnemy, listElement *list);
+int explodeSequenceFSM(movementShip *thisEnemy, enemyElement *element);
 void lifeFSM(movementShip *thisLife);
 void scoreSystem(char grade);
+void getHitFSM(movementShip * thisHit, linkList *thisLink);
 
 #endif // FSM_H
 

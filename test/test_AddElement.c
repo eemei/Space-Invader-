@@ -118,5 +118,25 @@ void test_createEnemy_ElementList_fuction(void){
   TEST_ASSERT_EQUAL(40, pElementEnemy->next->next->next->next->next->next->next->next->next->coorX);
 }
 
+void test_found_list_enemy(void){
+  enemyElement *pThis, *pThisSecond;
+  enemyElement *pFound;
+  linkList *pLink;
+  char alien1[][3] = {{" ^ "},
+                      {" @ "},
+                      {"* *"}};
+                        
+  pLink = createdLinkList();
+  pThis = createEnemy((char *)alien1, 3, 3, 8, 51);
+  addList((listElement *)pThis, pLink); 
+  pThisSecond = createEnemy((char *)alien1, 5, 4, 37, 10);
+  addList((listElement *)pThisSecond, pLink); 
+  enemyElement* pEnemy = (enemyElement*)pLink->head; 
+  int coorX = 8;
+  int coorY = 51;
+  pFound  = search(pLink, coorX, coorY);
 
-
+  TEST_ASSERT_EQUAL(coorX,pEnemy->coorX);
+  TEST_ASSERT_EQUAL(coorY,pEnemy->coorY);
+  TEST_ASSERT_EQUAL(pThis, pFound);
+}
