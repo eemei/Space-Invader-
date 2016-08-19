@@ -18,6 +18,6 @@ int jumper(int bufferRange, int coor, int range);
 void draw (char *image, int width, int length, int coorX, int coorY);
 void transferImageToConsole();
 void maskOutImage(int coorX, int coorY, int width, int height);
-void refresh(int num);
+void refreshCursor(int num);
 
 #endif // BlockDiagram_H

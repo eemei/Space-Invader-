@@ -45,6 +45,13 @@ const char explode3[][6] = {{" <  > "},
                            
 const char bullet[] = {"|"};
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of KeyboardPressed.
+ *
+ *  @return *thisKey
+ */
+
 keyboardPressed *initiateKeyboardState(){
   keyboardPressed *thisKey = malloc(sizeof(keyboardPressed));
   thisKey->buttonState = BUTTONNOHIT;
@@ -53,6 +60,12 @@ keyboardPressed *initiateKeyboardState(){
   return thisKey;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of Image.
+ *
+ *  @return *pImage
+ */
 Image *initiateImage(){
   Image *pImage = malloc(sizeof(Image));
   pImage->picture = NULL;
@@ -61,6 +74,12 @@ Image *initiateImage(){
   return pImage;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of Ammo.
+ *
+ *  @return *pAmmo
+ */
 Ammo *initiateAmmo(){
   Ammo *pAmmo = malloc(sizeof(Ammo));
   pAmmo->image = initiateImage();
@@ -71,6 +90,12 @@ Ammo *initiateAmmo(){
   return pAmmo;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of SpaceShip.
+ *
+ *  @return *pShip
+ */
 SpaceShip *initiateSpaceShip(){
   SpaceShip *pShip = malloc(sizeof(SpaceShip));
   pShip->image = initiateImage();
@@ -81,6 +106,12 @@ SpaceShip *initiateSpaceShip(){
   return pShip;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of Explosion.
+ *
+ *  @return *pEnemy
+ */
 Explosion *initiateExplosion(){
   Explosion *pEnemy = malloc(sizeof(Explosion));
   pEnemy->explodePicture = initiateImage();
@@ -89,6 +120,12 @@ Explosion *initiateExplosion(){
   return pEnemy;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of KeyboardPressed.
+ *
+ *  @return *pThis
+ */
 movementShip *initiateMovementState(){
   movementShip *pThis = malloc(sizeof(movementShip));
   pThis->moveShipState = START;
@@ -102,10 +139,22 @@ movementShip *initiateMovementState(){
   return pThis;
 }
 
+/*
+ *  @brief This function is to get the escape sequence 
+ *         of a key when pressed which this escape sequence
+ *         is stored at the keyboard structure.
+ *
+ *  @return thisCode->keyboard->escCode
+ */
 int getKbCode(movementShip *thisCode){
   return thisCode->keyboard->escCode;
 }
 
+/*
+ *  @brief This function is to move the alien or ship image by 1 step; 
+ *         either moving down, left or right.
+ *
+ */
 char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage){
   int newCoorX, newCoorY;
   
@@ -129,6 +178,11 @@ char relativeMoveImage(SpaceShip *pShip, int deltaXImage, int deltaYImage){
   draw(pShip->image->picture, pShip->image->width, pShip->image->height, pShip->coordinateX, pShip->coordinateY);
 }
 
+/*
+ *  @brief This function is to move the bullet image by 1 step; 
+ *         either moving down or up.
+ *
+ */
 char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   int newCoorX, newCoorY;
   
@@ -156,7 +210,12 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
- 
+/*
+ *  @brief This function is to get the current system time
+ *         so that the time can be used to calculate the time interval
+ *         for the bullet to move.
+ *
+ */
 uint32_t getSystemTime(){
   SYSTEMTIME st;
   
@@ -169,10 +228,8 @@ uint32_t getSystemTime(){
 /*
  *    @brief This is the FSM of keyboard
  *           that reacts with specific key pressed.
- *    @aug   keyboardPressed *thisKey
  *
  */
-
 void keyboardFSM(keyboardPressed *thisKey){
   int ch;
   
@@ -194,6 +251,12 @@ void keyboardFSM(keyboardPressed *thisKey){
   }
 }
 
+/*
+ *  @brief This FSM is responsible in moving the space ship
+ *         in either left or right when key left or right
+ *         is pressed.
+ *
+ */
 void movementShipFSM(movementShip *thisMove){
   volatile int keyCode;
   switch (thisMove->moveShipState) {
@@ -235,8 +298,15 @@ void movementShipFSM(movementShip *thisMove){
   }
 }
 
+/*
+ *  @brief This FSM is responsible for moving the bullet
+ *         either up or down.
+ *
+ */
 void movementAmmoFSM(movementShip *thisAmmo){
   switch (thisAmmo->moveAmmoState) {
+    // In this mean while, the FSM is used for space ship.
+    // Will be developed further until this FSM is suitable for alien too.
     case STARTBULLET:
       thisAmmo->bullet->image->picture = (char *)bullet;
       thisAmmo->bullet->image->width = 1;
@@ -284,6 +354,26 @@ void movementAmmoFSM(movementShip *thisAmmo){
   }
 }
 
+/*
+ *  @brief This FSM is reponsible for moving the alien towards the space ship.
+ *  
+ *  @direc --------------------    
+ *         |->->->->->->->->->|     
+ *         |<-<-<-<-<-<-<-<-<-|     
+ *         |->->->->->->->->->|    
+ *         |<-<-<-<-<-<-<-<-<-|    
+ *         |->->->->->->->->->|    
+ *         |<-<-<-<-<-<-<-<-<-|     
+ *         |->->->->->->->->->|     
+ *         |<-<-<-<-<-<-<-<-<-|    
+ *         |->->->->->->->->->|     
+ *         |<-<-<-<-<-<-<-<-<-|     
+ *         |->->->->->->->->->|     
+ *         |<-<-<-<-<-<-<-<-<-|   
+ *         --------------------
+ *         
+ *
+ */
 void alienFSM(movementShip *enemy){
   switch (enemy->moveAlienState){
     case MOVERIGHT:
@@ -313,6 +403,11 @@ void alienFSM(movementShip *enemy){
   }
 }
 
+/*
+ *  @brief This FSM will perform several explode sequence when 
+ *         either alien or space ship is hit.
+ *
+ */
 int explodeSequenceFSM(movementShip *thisEnemy, enemyElement *element){
   switch (thisEnemy->explodeState) {
     case EXPLODE1:
@@ -337,7 +432,11 @@ int explodeSequenceFSM(movementShip *thisEnemy, enemyElement *element){
   }
 }
 
-
+/*
+ *  @brief This FSM is responsible for the life of the space ship.
+ *         The life of the ship will be reduced when space ship is hit.
+ *
+ */
 void lifeFSM(movementShip *thisLife){
   switch(thisLife->lifeState){
     case INITLIFE:
@@ -360,6 +459,11 @@ void lifeFSM(movementShip *thisLife){
   }
 }
 
+/*
+ *  @brief This FSM is responsible for enemy that gets hit.
+ *         Enemy will explode and free from link list when hit.
+ *
+ */
 void getHitFSM(movementShip * thisHit, linkList *thisLink){
   enemyElement *pKill;
   enemyElement* thisEnemy = (enemyElement*)thisLink->head;

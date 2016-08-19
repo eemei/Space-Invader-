@@ -68,7 +68,7 @@ void test_buffer_refresh_filled_with_symbol_underscore_with_initial_symbol_dot(v
     }
   }
     
-  refresh(20);
+  refreshCursor(20);
 
   for (a=0; a<5; a++){
     for (b=0; b<5; b++){
