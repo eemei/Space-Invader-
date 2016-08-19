@@ -3,24 +3,29 @@
 #include "BlockDiagram.h"
 #include <time.h>
 
+// Global buffer acts as a virtual console.
 char buffer[BUFFERROW][BUFFERCOL];
 
+// Filled buffer with blank space.
+// To clean the buffer.
+// Otherwise, buffer is filled with junk and will affect the result.
 void bufferFiller(int row, int col, char symbol){
   int a, b;
   
   for (a=0; a<row; a++){
     for (b=0; b<col; b++){
       buffer[a][b] = symbol;
-      // printf("%c", buffer[a][b]);
     }
-    // printf("\n");
   }
 }
 
-/*
-  coor = coorX or coorY;
-  range = width or length;
-*/
+/* 
+ *  @brief To jump the pointer cursor.
+ *
+ *  @aug   coor = coorX or coorY;
+ *         range = width or length;
+ *
+ */
 int jumper(int bufferRange, int coor, int range){
   int jump, newRange;
   if ((range + coor) > bufferRange){
@@ -36,10 +41,10 @@ int jumper(int bufferRange, int coor, int range){
  *
  *        --------------------    __
  *        |                  |     |
+ *        |    yeah          |     |
+ *        |                ye|     |
  *        |                  |     |
- *        |                  |     |
- *        |                  |     |
- *        |                  |     |
+ *        |yeah              |     |
  *        |                  |     |- Y / length
  *        |                  |     |
  *        |                  |     |
@@ -51,6 +56,11 @@ int jumper(int bufferRange, int coor, int range){
  *        |__________________|
  *                 |
  *              X / width 
+ *
+ *
+ *  @brief This function is to draw the images into buffer.
+ *         (Assume "yeah" in above Figure as images drawn into the buffer.)
+ *
  *
  **/
 void draw(char *image, int width, int length, int coorX, int coorY) {
@@ -78,6 +88,12 @@ void draw(char *image, int width, int length, int coorX, int coorY) {
   }
 }
 
+/*
+ *  @brief This function is to transfer the images
+ *         inside the buffer into real console by 
+ *         printing on it.
+ *
+ */
 void transferImageToConsole(){
   int a, b, area;
   
@@ -91,6 +107,10 @@ void transferImageToConsole(){
   //refresh(area);
 }
 
+/*
+ *  @brief This function is to blank out the unwanted image.
+ *
+ */
 void maskOutImage(int coorX, int coorY, int width, int height){
     int a = 0, b = 0;
     char symbol = 32;
@@ -102,7 +122,12 @@ void maskOutImage(int coorX, int coorY, int width, int height){
   }
 } 
 
-void refresh(int num){
+/*
+ *  @brief This function is to originate the cursor
+ *         from the end point to (0,0) of the buffer. 
+ *
+ */
+void refreshCursor(int num){
   int x;
   for (x=num; x>0; x--){
     printf("\b");

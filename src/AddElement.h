@@ -4,25 +4,16 @@
 #include <malloc.h>
 #include "BlockDiagram.h"
 
-typedef struct Enemy Enemy;
-struct Enemy{
+typedef struct enemyElement enemyElement;
+struct enemyElement{
+  int indexNum;
+  enemyElement *next;
   char *diagram;
   int width;
   int height;
   int coorX;
   int coorY; 
 };
-
-typedef struct enemyElement enemyElement;
-  struct enemyElement{
-    int indexNum;
-    enemyElement *next;
-    char *diagram;
-    int width;
-    int height;
-    int coorX;
-    int coorY; 
-  };
 
 
 

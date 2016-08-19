@@ -5,6 +5,7 @@
 #include "linkList.h"
 #include "main.h"
 
+// This is the real main program for Space Invaders.
 int main(void){
   movementShip *pShip = initiateMovementState();
   pShip->moveShipState = START;
@@ -12,7 +13,7 @@ int main(void){
     movementAmmoFSM(pShip);
     movementShipFSM(pShip);
     transferImageToConsole();
-    // refresh(6400);
+    refreshCursor(6400);
   }
   return 1;
 }

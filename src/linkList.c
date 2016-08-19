@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include "linkList.h"
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of linkList.
+ *
+ *  @return *plinkList
+ */
 linkList *createdLinkList(){
   linkList *plinkList = malloc(sizeof(linkList));
   plinkList->head = NULL;
@@ -10,6 +16,12 @@ linkList *createdLinkList(){
   return plinkList;
 }
 
+/*
+ *  @brief This function is to initialize 
+ *         the structure of listElement.
+ *
+ *  @return *thisElement
+ */
 listElement *createdElement(){
   listElement *thisElement = malloc(sizeof(listElement));
   thisElement->indexNum = 0;
@@ -17,6 +29,11 @@ listElement *createdElement(){
   return thisElement;
 }
 
+/*
+ *  @brief This function is to link the linklist and listElement
+ *         and form a list whenever a new element added to the list.
+ *
+ */
 void addList(listElement *newElement, linkList *newlinkElement){
   
   if (newElement == NULL){
@@ -36,6 +53,10 @@ void addList(listElement *newElement, linkList *newlinkElement){
   newElement->indexNum = newlinkElement->length;
 }
 
+/*
+ *  @brief This function is to delete the first 
+ *         node of the linked list and free it.
+ */
 void deleteFirstNode(listElement *firstElement, linkList *link){
   if (link->head == NULL && link->tail == NULL){
     firstElement = NULL;
@@ -55,6 +76,12 @@ void deleteFirstNode(listElement *firstElement, linkList *link){
   }
 }
 
+/*
+ *  @brief This function is to delete a node 
+ *         of the linked list and free it.
+ *
+ *  @except first and last node
+ */
 void deleteOneNode(listElement *element, linkList *link){
   listElement *tempNode;
   tempNode = link->head;
@@ -73,13 +100,16 @@ void deleteOneNode(listElement *element, linkList *link){
       return;
     }
     
-    // tempNode->next->indexNum = tempNode->next->next->indexNum;
     tempNode->next = tempNode->next->next;
     
     free(element);
   }
 }
 
+/*
+ *  @brief This function is to delete the last 
+ *         node of the linked list and free it.
+ */
 void deleteLastNode(listElement *lastElement, linkList *link){
   listElement *tempNode;
   tempNode = link->head;
