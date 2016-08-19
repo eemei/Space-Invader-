@@ -311,8 +311,8 @@ void movementAmmoFSM(movementShip *thisAmmo){
       thisAmmo->bullet->image->picture = (char *)bullet;
       thisAmmo->bullet->image->width = 1;
       thisAmmo->bullet->image->height = 1;
-      thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX+1;
-      thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY-1;
+      thisAmmo->bullet->coorX = BULLETCOORX;
+      thisAmmo->bullet->coorY = BULLETCOORY;
       thisAmmo->bullet->timeInterval = 250; // 250ms 
       thisAmmo->bullet->recordedTime = 0;
       thisAmmo->moveAmmoState = RELEASEBULLET;
@@ -332,6 +332,9 @@ void movementAmmoFSM(movementShip *thisAmmo){
     case PRESSEDBULLET:
       if (getKbCode(thisAmmo) == KEY_SPACEBAR){
         thisAmmo->bullet->recordedTime = getSystemTime();
+        thisAmmo->bullet->coorX = thisAmmo->ship->coordinateX+1;
+        thisAmmo->bullet->coorY = thisAmmo->ship->coordinateY-1;
+        draw(thisAmmo->bullet->image->picture, thisAmmo->bullet->image->width, thisAmmo->bullet->image->height, thisAmmo->bullet->coorX, thisAmmo->bullet->coorY);
         thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
       else{
@@ -343,7 +346,10 @@ void movementAmmoFSM(movementShip *thisAmmo){
       if (getSystemTime() - (thisAmmo->bullet->recordedTime) >= thisAmmo->bullet->timeInterval){
         thisAmmo->bullet->recordedTime = getSystemTime();
         relativeMoveBullet(thisAmmo->bullet, 0, -1);
-        thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
+        if (thisAmmo->bullet->coorY <= 0)
+          thisAmmo->moveShipState = RELEASEBULLET;
+        else
+          thisAmmo->moveAmmoState = MOVEBULLETONESTEP;
       }
       else {
         relativeMoveBullet(thisAmmo->bullet, 0, 0);

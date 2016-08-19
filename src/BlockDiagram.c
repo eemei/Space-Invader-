@@ -129,7 +129,7 @@ void maskOutImage(int coorX, int coorY, int width, int height){
  */
 void refreshCursor(int num){
   int x;
-  for (x=num; x>0; x--){
+  for (x=num; x>=0; x--){
     printf("\b");
   }
 }
