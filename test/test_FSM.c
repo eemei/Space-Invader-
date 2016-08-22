@@ -132,9 +132,7 @@ void test_ammo_initialized_coordination_return_X_forty_five_and_Y_seventy_eight(
   
   TEST_ASSERT_EQUAL(1, pThis->bullet->image->width);
   TEST_ASSERT_EQUAL(1, pThis->bullet->image->height);
-  TEST_ASSERT_EQUAL(BULLETCOORX, pThis->bullet->coorX);
-  TEST_ASSERT_EQUAL(BULLETCOORY, pThis->bullet->coorY);
-  TEST_ASSERT_EQUAL(250, pThis->bullet->timeInterval);
+  TEST_ASSERT_EQUAL(BULLETTIMEINTERVAL, pThis->bullet->timeInterval);
   TEST_ASSERT_EQUAL(0, pThis->bullet->recordedTime);
   TEST_ASSERT_EQUAL(RELEASEBULLET, pThis->moveAmmoState);
 }

@@ -13,12 +13,12 @@ int main(void){
   pShip->moveShipState = START;
   pAmmo->moveAmmoState = STARTBULLET;
   while (1){
+    cursorGotoXY(0, 0);
     pAmmo->ship->coordinateX = pShip->ship->coordinateX;
     pAmmo->ship->coordinateY = pShip->ship->coordinateY;
     movementShipFSM(pShip);
     movementAmmoFSM(pAmmo);
     transferImageToConsole();
-    refreshCursor(6400);
   }
   return 1;
 }

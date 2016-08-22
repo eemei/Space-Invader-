@@ -189,25 +189,17 @@ char relativeMoveBullet(Ammo *pBullet, int deltaXBullet, int deltaYBullet){
   newCoorX = pBullet->coorX + deltaXBullet;
   newCoorY = pBullet->coorY + deltaYBullet;
   
-  if (newCoorY <= 0){
-    newCoorY = 0;
-    // pBullet->coorX = newCoorX;
-    // pBullet->coorY = newCoorY;
-    // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+  if (newCoorY < 0){
+    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
   }
   else{
-    newCoorX = newCoorX;
-    newCoorY = newCoorY;
-    // maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
-    // pBullet->coorX = newCoorX;
-    // pBullet->coorY = newCoorY;
-    // draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
+    // newCoorX = newCoorX;
+    // newCoorY = newCoorY;
+    maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
+    pBullet->coorX = newCoorX;
+    pBullet->coorY = newCoorY;
+    draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
   }
-  
-  maskOutImage(pBullet->coorX, pBullet->coorY, pBullet->image->width, pBullet->image->height);
-  pBullet->coorX = newCoorX;
-  pBullet->coorY = newCoorY;
-  draw(pBullet->image->picture, pBullet->image->width, pBullet->image->height, pBullet->coorX, pBullet->coorY);
 }
 
 /*
@@ -311,9 +303,7 @@ void movementAmmoFSM(movementShip *thisAmmo){
       thisAmmo->bullet->image->picture = (char *)bullet;
       thisAmmo->bullet->image->width = 1;
       thisAmmo->bullet->image->height = 1;
-      thisAmmo->bullet->coorX = BULLETCOORX;
-      thisAmmo->bullet->coorY = BULLETCOORY;
-      thisAmmo->bullet->timeInterval = 250; // 250ms 
+      thisAmmo->bullet->timeInterval = BULLETTIMEINTERVAL; // 250ms 
       thisAmmo->bullet->recordedTime = 0;
       thisAmmo->moveAmmoState = RELEASEBULLET;
       break;

@@ -54,33 +54,3 @@ void test_mask_out_image(void){
   maskOutImage(5, 6, 5, 3);
   transferImageToConsole();
 }
-
-void test_buffer_refresh_filled_with_symbol_underscore_with_initial_symbol_dot(void){
-  int i, j;
-  int a, b;
-  char bufferTest[5][5];
-  printf("\n");
-  
-  for (a=0; a<5; a++){
-    for (b=0; b<5; b++){
-      bufferTest[a][b] = 0x2e;
-      printf("%c", bufferTest[a][b]);
-    }
-  }
-    
-  refreshCursor(20);
-
-  for (a=0; a<5; a++){
-    for (b=0; b<5; b++){
-      bufferTest[a][b] = 95;
-      printf("%c", bufferTest[a][b]);
-    }
-  }
-  
-  for (i=0; i<5; i++){
-    for (j=0; j<5; j++){
-      TEST_ASSERT_EQUAL(95, bufferTest[i][j]);
-    }
-  }
-}
-
