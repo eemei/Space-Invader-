@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "BlockDiagram.h"
-#include <time.h>
+#include <windows.h>
 
 // Global buffer acts as a virtual console.
 char buffer[BUFFERROW][BUFFERCOL];
@@ -102,9 +102,6 @@ void transferImageToConsole(){
       printf("%c", buffer[a][b]);
     }
   }
-  
-  //area = BUFFERROW * BUFFERCOL;
-  //refresh(area);
 }
 
 /*
@@ -125,11 +122,22 @@ void maskOutImage(int coorX, int coorY, int width, int height){
 /*
  *  @brief This function is to originate the cursor
  *         from the end point to (0,0) of the buffer. 
+ *         The cursor will be hidden as well from the console
+ *         as to make the console clean and nice to be seen.
  *
+ *  @PS    This function can only be tested in bash/console.
  */
-void refreshCursor(int num){
-  int x;
-  for (x=num; x>0; x--){
-    printf("\b");
-  }
+void cursorGotoXY(int x, int y){
+
+  COORD coord;
+  CONSOLE_CURSOR_INFO ConCurInf;
+  
+  coord.X = x;
+  coord.Y = y;
+
+  ConCurInf.dwSize = 10;
+  ConCurInf.bVisible = FALSE;
+ 
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+  SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &ConCurInf);
 }

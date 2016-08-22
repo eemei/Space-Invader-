@@ -124,15 +124,16 @@ void test_keyboard_pressed_right_should_return_the_coordinateX_twenty_five(void)
   TEST_ASSERT_EQUAL(RELEASE, pThis->moveShipState);
 }
 
-void test_ammo_initialized_coordination_return_X_twenty_four_and_Y_forty_seven(void){
+void test_ammo_initialized_coordination_return_X_forty_five_and_Y_seventy_eight(void){
   movementShip *pThis = initiateMovementState();
-  pThis->ship->coordinateX = 24;
-  pThis->ship->coordinateY = 47;
+  
   pThis->moveAmmoState = STARTBULLET;
   movementAmmoFSM(pThis);
   
-  TEST_ASSERT_EQUAL(25, pThis->bullet->coorX);
-  TEST_ASSERT_EQUAL(46, pThis->bullet->coorY);
+  TEST_ASSERT_EQUAL(1, pThis->bullet->image->width);
+  TEST_ASSERT_EQUAL(1, pThis->bullet->image->height);
+  TEST_ASSERT_EQUAL(BULLETTIMEINTERVAL, pThis->bullet->timeInterval);
+  TEST_ASSERT_EQUAL(0, pThis->bullet->recordedTime);
   TEST_ASSERT_EQUAL(RELEASEBULLET, pThis->moveAmmoState);
 }
 

@@ -18,14 +18,19 @@
 #define KEY_DOWN  80
 #define KEY_SPACEBAR 32
 
+#define BULLETTIMEINTERVAL 25
+
 #define SHIPCOORX 44
-#define SHIPCOORY 77
+#define SHIPCOORY 47
+
+#define BULLETCOORX 45
+#define BULLETCOORY 46
 
 #define BORDERLIMITLEFTX   0
 #define BORDERLIMITRIGHTX  77
 
 #define BORDERLIMITTOPY    0   
-#define BORDERLIMITBOTTOMY 77   
+#define BORDERLIMITBOTTOMY 47   
 
 typedef enum {
   START,
